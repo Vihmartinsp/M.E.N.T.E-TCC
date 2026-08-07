@@ -25,8 +25,8 @@ a {
 
 .site-header {
   display: flex;
-  height: 40px;
-  padding: 4px max(14px, calc((100% - 900px) / 2));
+  min-height: 54px;
+  padding: 7px max(18px, calc((100% - 1100px) / 2));
   align-items: center;
   justify-content: space-between;
   gap: 20px;
@@ -40,17 +40,17 @@ a {
 
 .brand__logo {
   display: block;
-  width: 40px;
+  width: 46px;
   height: auto;
-  max-height: 31px;
+  max-height: 38px;
   object-fit: contain;
 }
 
 .main-nav {
   display: flex;
   align-items: center;
-  gap: 15px;
-  font-size: 11px;
+  gap: 18px;
+  font-size: 13px;
 }
 
 .main-nav__link {
@@ -70,9 +70,9 @@ a {
 }
 
 .main-nav__button {
-  min-width: 42px;
-  padding: 4px 8px;
-  border-radius: 3px;
+  min-width: 72px;
+  padding: 9px 14px;
+  border-radius: 5px;
   color: #ffffff;
   background: #526b9d;
   text-align: center;
@@ -80,16 +80,82 @@ a {
 }
 
 .main-nav__button--wide {
-  min-width: 70px;
+  min-width: 118px;
 }
 
 .hero {
   display: grid;
-  min-height: calc(100vh - 40px);
+  min-height: calc(100vh - 54px);
   padding: clamp(17px, 3vh, 30px) 12px;
   place-items: start center;
   overflow: hidden;
   background: linear-gradient(105deg, #00284c 0%, #064fc9 100%);
+}
+
+.information-section {
+  padding: 80px 24px;
+  scroll-margin-top: 54px;
+  color: #13294b;
+  background: #ffffff;
+}
+
+.information-section--features {
+  background: #edf1f5;
+}
+
+.information-section__content {
+  width: min(100%, 980px);
+  margin: 0 auto;
+}
+
+.section-label {
+  margin: 0 0 10px;
+  color: #526b9d;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.information-section h2 {
+  max-width: 680px;
+  margin: 0;
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.1;
+}
+
+.information-section__content > p:last-child {
+  max-width: 720px;
+  margin: 22px 0 0;
+  color: #52627a;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.feature-list {
+  display: grid;
+  margin-top: 34px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.feature-list article {
+  padding: 24px;
+  border: 1px solid #d9e2ee;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.feature-list strong {
+  color: #526b9d;
+  font-size: 18px;
+}
+
+.feature-list p {
+  margin: 10px 0 0;
+  color: #52627a;
+  font-size: 14px;
+  line-height: 1.55;
 }
 
 .prototype-window {
@@ -402,13 +468,13 @@ h1 span {
   }
 
   .main-nav {
-    gap: 6px;
-    font-size: 7px;
+    gap: 7px;
+    font-size: 9px;
   }
 
   .main-nav__button {
     min-width: auto;
-    padding-inline: 6px;
+    padding: 7px 8px;
   }
 
   .hero {
@@ -456,6 +522,14 @@ h1 span {
 
   .question-stage {
     min-height: 220px;
+  }
+
+  .information-section {
+    padding: 56px 20px;
+  }
+
+  .feature-list {
+    grid-template-columns: 1fr;
   }
 }
 
