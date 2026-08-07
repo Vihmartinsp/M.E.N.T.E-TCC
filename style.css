@@ -50,7 +50,7 @@ a {
   display: flex;
   align-items: center;
   gap: 15px;
-  font-size: 9px;
+  font-size: 11px;
 }
 
 .main-nav__link {
@@ -123,14 +123,14 @@ a {
   padding: 4px 8px;
   color: #526b9d;
   background: #dfe8f4;
-  font-size: 7px;
+  font-size: 9px;
   line-height: 1.25;
   text-align: center;
 }
 
 .prototype-content {
   display: grid;
-  min-height: 340px;
+  min-height: 380px;
   padding: 25px clamp(28px, 6vw, 68px) 24px;
   grid-template-columns: minmax(0, 55fr) minmax(180px, 45fr);
   align-items: start;
@@ -158,7 +158,7 @@ h1 span {
 .hero-description {
   margin: 13px 0 0;
   color: #13294b;
-  font-size: clamp(8px, 0.95vw, 11px);
+  font-size: clamp(10px, 1vw, 12px);
   line-height: 1.4;
 }
 
@@ -169,11 +169,11 @@ h1 span {
 }
 
 .hero-actions a {
-  padding: 5px 9px;
+  padding: 7px 11px;
   border-radius: 4px;
   color: #ffffff;
   background: #526b9d;
-  font-size: 7px;
+  font-size: 9px;
   line-height: 1;
   text-decoration: none;
   transition: background-color 160ms ease;
@@ -215,12 +215,12 @@ h1 span {
 .hero-stats dd {
   margin: 3px 0 0;
   color: #526b9d;
-  font-size: 6px;
+  font-size: 8px;
   white-space: nowrap;
 }
 
 .question-frame {
-  width: min(100%, 230px);
+  width: min(100%, 260px);
   padding: 8px;
   justify-self: end;
   border-radius: 9px;
@@ -230,7 +230,7 @@ h1 span {
 }
 
 .question-card {
-  padding: 11px;
+  padding: 14px;
   border: 1px solid #d5deea;
   border-radius: 6px;
   background: #ffffff;
@@ -254,19 +254,19 @@ h1 span {
   border-radius: 3px;
   color: #526b9d;
   background: #dfe8f4;
-  font-size: 5px;
+  font-size: 7px;
 }
 
 .question-meta strong {
   flex: 0 0 auto;
   color: #526b9d;
-  font-size: 6px;
+  font-size: 8px;
 }
 
 .question-text {
   margin: 11px 0 9px;
   color: #13294b;
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 600;
   line-height: 1.4;
 }
@@ -275,18 +275,18 @@ h1 span {
   display: block;
   margin: 5px 0;
   color: #526b9d;
-  font-size: 9px;
+  font-size: 12px;
 }
 
 .hint-toggle {
   margin: 0 0 7px;
-  padding: 4px 7px;
+  padding: 6px 9px;
   border: 0;
   border-radius: 4px;
   color: #ffffff;
   background: #526b9d;
   font: inherit;
-  font-size: 6px;
+  font-size: 8px;
   cursor: pointer;
 }
 
@@ -301,7 +301,7 @@ h1 span {
   border-radius: 4px;
   color: #5d5227;
   background: #f7e6a8;
-  font-size: 6px;
+  font-size: 8px;
   line-height: 1.4;
 }
 
@@ -315,20 +315,21 @@ h1 span {
 
 .answer {
   display: flex;
-  padding: 6px 7px;
+  min-height: 30px;
+  padding: 7px 8px;
   align-items: center;
   gap: 5px;
   border: 1px solid #dfe4eb;
   border-radius: 4px;
   color: #13294b;
   background: #ffffff;
-  font-size: 7px;
+  font-size: 9px;
   cursor: pointer;
 }
 
 .answer input {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   margin: 0;
   accent-color: #526b9d;
 }
@@ -354,13 +355,14 @@ h1 span {
 .confirm-answer {
   width: 100%;
   margin-top: 7px;
-  padding: 6px 8px;
+  min-height: 32px;
+  padding: 7px 9px;
   border: 0;
   border-radius: 4px;
   color: #ffffff;
   background: #526b9d;
   font: inherit;
-  font-size: 7px;
+  font-size: 9px;
   font-weight: 700;
   cursor: pointer;
 }
@@ -370,7 +372,7 @@ h1 span {
   margin: 8px 0 0;
   padding: 5px;
   border-radius: 4px;
-  font-size: 7px;
+  font-size: 9px;
   font-weight: 700;
   text-align: center;
 }

@@ -4,6 +4,17 @@ const questionForm = document.querySelector(".question-form");
 const hintButton = document.querySelector(".hint-toggle");
 const hint = document.querySelector("#question-tip");
 const feedback = document.querySelector(".answer-feedback");
+const answerInputs = questionForm.querySelectorAll('input[name="answer"]');
+
+answerInputs.forEach((input) => {
+  input.addEventListener("change", () => {
+    questionForm.querySelectorAll(".answer").forEach((answer) => {
+      answer.classList.remove("answer--correct", "answer--incorrect");
+    });
+    feedback.className = "answer-feedback";
+    feedback.textContent = "";
+  });
+});
 
 hintButton.addEventListener("click", () => {
   const shouldShowHint = hint.hidden;
