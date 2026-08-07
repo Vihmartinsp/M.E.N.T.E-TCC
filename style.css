@@ -25,8 +25,8 @@ a {
 
 .site-header {
   display: flex;
-  min-height: 54px;
-  padding: 7px max(18px, calc((100% - 1100px) / 2));
+  min-height: 92px;
+  padding: 8px max(18px, calc((100% - 1100px) / 2));
   align-items: center;
   justify-content: space-between;
   gap: 20px;
@@ -40,10 +40,11 @@ a {
 
 .brand__logo {
   display: block;
-  width: 46px;
+  width: 112px;
   height: auto;
-  max-height: 38px;
+  max-height: 76px;
   object-fit: contain;
+  mix-blend-mode: multiply;
 }
 
 .main-nav {
@@ -90,7 +91,7 @@ a {
 
 .hero {
   display: grid;
-  min-height: calc(100vh - 54px);
+  min-height: calc(100vh - 92px);
   padding: clamp(17px, 3vh, 30px) 12px;
   place-items: start center;
   overflow: hidden;
@@ -99,7 +100,7 @@ a {
 
 .information-section {
   padding: 80px 24px;
-  scroll-margin-top: 54px;
+  scroll-margin-top: 92px;
   color: #13294b;
   background: #edf1f5;
 }
@@ -493,12 +494,14 @@ h1 span {
 
 @media (max-width: 540px) {
   .site-header {
+    min-height: 70px;
     padding-inline: 10px;
     gap: 8px;
   }
 
   .brand__logo {
-    width: 36px;
+    width: 76px;
+    max-height: 54px;
   }
 
   .main-nav {
@@ -517,6 +520,7 @@ h1 span {
   }
 
   .hero {
+    min-height: calc(100vh - 70px);
     padding: 16px 8px 26px;
   }
 
@@ -565,6 +569,7 @@ h1 span {
 
   .information-section {
     padding: 56px 20px;
+    scroll-margin-top: 70px;
   }
 
   .about-introduction br,
@@ -614,7 +619,7 @@ h1 span {
 
 .login-main {
   display: grid;
-  min-height: calc(100vh - 54px);
+  min-height: calc(100vh - 92px);
   padding: 32px 20px;
   place-items: center;
 }
@@ -692,4 +697,10 @@ h1 span {
   font-size: 13px;
   font-weight: 700;
   text-align: center;
+}
+
+@media (max-width: 540px) {
+  .login-main {
+    min-height: calc(100vh - 70px);
+  }
 }
