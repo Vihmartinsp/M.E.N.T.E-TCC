@@ -15,10 +15,10 @@
       </a>
 
       <nav class="main-nav" aria-label="Navegação principal">
-        <a class="main-nav__link" href="#">Sobre</a>
-        <a class="main-nav__link" href="#">Funcionalidades</a>
-        <a class="main-nav__button" href="#">Entrar</a>
-        <a class="main-nav__button main-nav__button--wide" href="#">Começar agora</a>
+        <a class="main-nav__link" href="#sobre">Sobre</a>
+        <a class="main-nav__link" href="#funcionalidades">Funcionalidades</a>
+        <a class="main-nav__button" href="./login.html">Entrar</a>
+        <a class="main-nav__button main-nav__button--wide" href="./questoes.html">Começar agora</a>
       </nav>
     </header>
 
@@ -33,7 +33,7 @@
         <p class="prototype-label">Protótipo Educacional • M.E.N.T.E - Matemática ENEM Traduzida e Explicada</p>
 
         <div class="prototype-content">
-          <div class="hero-copy">
+          <div class="hero-copy" id="sobre">
             <h1 id="hero-title">
               Matemática do<br>
               ENEM<br>
@@ -49,8 +49,8 @@
             </p>
 
             <div class="hero-actions">
-              <a href="#">Quero aprender agora →</a>
-              <a href="#">Saiba mais</a>
+              <a href="./questoes.html">Quero aprender agora →</a>
+              <a href="#sobre">Saiba mais</a>
             </div>
 
             <dl class="hero-stats" aria-label="Destaques da plataforma">
@@ -69,7 +69,7 @@
             </dl>
           </div>
 
-          <div class="question-frame" aria-label="Exemplo de questão do ENEM">
+          <div class="question-frame" id="funcionalidades" aria-label="Exemplo interativo de questão do ENEM">
             <article class="question-card">
               <header class="question-meta">
                 <div class="question-tags">
@@ -80,21 +80,40 @@
               </header>
 
               <p class="question-text">
-                Uma bola é lançada<br>
-                verticalmente para cima. Sua<br>
-                altura é dada por h(t) = -5t² +<br>
-                20t. Qual a altura máxima<br>
-                atingida?
+                Uma bola é lançada verticalmente para cima. Sua altura é dada por:
+                <strong>h(t) = -5t² + 20t</strong>
+                Qual a altura máxima atingida?
               </p>
 
-              <p class="question-tip">💡 Dica: o vértice da parábola<br>nos dá a altura máxima!</p>
+              <button class="hint-toggle" type="button" aria-expanded="false" aria-controls="question-tip">
+                Ver dica
+              </button>
+              <p class="question-tip" id="question-tip" hidden>💡 Dica: o vértice da parábola nos dá a altura máxima.</p>
 
-              <div class="answers" aria-label="Alternativas">
-                <div class="answer">A) 15 m</div>
-                <div class="answer answer--correct">B) 20 m <span>✓</span></div>
-              </div>
+              <form class="question-form" novalidate>
+                <fieldset class="answers">
+                  <legend class="visually-hidden">Escolha uma alternativa</legend>
+                  <label class="answer">
+                    <input type="radio" name="answer" value="A">
+                    <span>A) 15 m</span>
+                  </label>
+                  <label class="answer">
+                    <input type="radio" name="answer" value="B">
+                    <span>B) 20 m</span>
+                  </label>
+                  <label class="answer">
+                    <input type="radio" name="answer" value="C">
+                    <span>C) 25 m</span>
+                  </label>
+                  <label class="answer">
+                    <input type="radio" name="answer" value="D">
+                    <span>D) 30 m</span>
+                  </label>
+                </fieldset>
 
-              <p class="success-message">Ótimo! 🎉</p>
+                <button class="confirm-answer" type="submit">Confirmar resposta</button>
+                <p class="answer-feedback" aria-live="polite"></p>
+              </form>
             </article>
           </div>
         </div>
