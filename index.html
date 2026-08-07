@@ -3,15 +3,92 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M.E.N.T.E</title>
+    <meta name="description" content="Aprenda Matemática para o ENEM de forma simples, visual e passo a passo.">
+    <title>M.E.N.T.E | Matemática do ENEM sem mistério</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
   </head>
   <body>
-    <main class="reconstruction">
-      <h1>M.E.N.T.E</h1>
-      <p>Matemática ENEM Traduzida e Explicada</p>
-      <p>Site em reconstrução</p>
+    <header class="site-header">
+      <a class="brand" href="./index.html" aria-label="M.E.N.T.E - Página inicial">
+        <img src="./assets/logo-mente-original.png" alt="M.E.N.T.E" class="brand__logo">
+      </a>
+
+      <nav class="main-nav" aria-label="Navegação principal">
+        <a href="#" class="main-nav__link">Sobre</a>
+        <a href="#" class="main-nav__link">Funcionalidades</a>
+        <a href="#" class="main-nav__link main-nav__link--login">Entrar</a>
+        <a href="#" class="button button--header">Começar agora</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="browser-window">
+          <div class="browser-window__bar" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
+          <div class="hero__content">
+            <div class="hero__message">
+              <p class="eyebrow">Sua preparação começa aqui</p>
+              <h1 id="hero-title">Matemática do ENEM<br><span>sem mistério</span></h1>
+              <p class="hero__description">
+                Aprenda a interpretar e resolver questões de Matemática do ENEM de forma simples,
+                visual e passo a passo.
+              </p>
+
+              <div class="hero__actions">
+                <a href="#" class="button button--primary">Começar agora</a>
+                <a href="#" class="button button--secondary">Ver como funciona</a>
+              </div>
+
+              <dl class="hero__stats" aria-label="Destaques da plataforma">
+                <div>
+                  <dt>10+</dt>
+                  <dd>Questões ENEM</dd>
+                </div>
+                <div>
+                  <dt>5</dt>
+                  <dd>Tópicos</dd>
+                </div>
+                <div>
+                  <dt>100%</dt>
+                  <dd>Gratuito</dd>
+                </div>
+              </dl>
+            </div>
+
+            <div class="question-preview" aria-label="Exemplo visual de uma questão da plataforma">
+              <div class="question-card">
+                <div class="question-card__heading">
+                  <span class="question-card__icon" aria-hidden="true">∑</span>
+                  <div>
+                    <p>Questão ENEM</p>
+                    <span>Matemática · Geometria</span>
+                  </div>
+                </div>
+
+                <p class="question-card__text">
+                  Uma praça circular possui raio de 10 metros. Qual é a área aproximada dessa praça?
+                </p>
+
+                <div class="answers" aria-label="Alternativas da questão">
+                  <div class="answer"><span>A</span>31,4 m²</div>
+                  <div class="answer"><span>B</span>62,8 m²</div>
+                  <div class="answer answer--selected"><span>C</span>314 m²</div>
+                  <div class="answer"><span>D</span>628 m²</div>
+                  <div class="answer"><span>E</span>1.000 m²</div>
+                </div>
+
+                <button class="question-card__button" type="button">Confirmar resposta</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   </body>
 </html>
