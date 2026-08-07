@@ -144,17 +144,17 @@ a {
 }
 
 .about-introduction {
-  max-width: 760px;
-  margin: 12px 0 0;
+  max-width: 860px;
+  margin: 18px 0 0;
   color: #294678;
-  font-size: 15px;
-  line-height: 1.2;
+  font-size: 18px;
+  line-height: 1.45;
 }
 
 .main-objective {
-  max-width: 920px;
-  margin-top: 48px;
-  padding: 22px 24px;
+  max-width: 980px;
+  margin-top: 52px;
+  padding: 30px 32px;
   border-radius: 16px;
   background: #dfe6ee;
 }
@@ -162,14 +162,51 @@ a {
 .main-objective h3 {
   margin: 0;
   color: #294678;
-  font-size: 18px;
+  font-size: 23px;
 }
 
 .main-objective p {
-  margin: 12px 0 0 32px;
+  margin: 16px 0 0 36px;
   color: #294678;
-  font-size: 13px;
-  line-height: 1.25;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.objective-benefits {
+  display: grid;
+  margin-top: 24px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.objective-benefits article {
+  min-height: 170px;
+  padding: 26px 28px;
+  border: 1px solid #e1e7ef;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(19, 41, 75, 0.06);
+}
+
+.objective-benefits__icon {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.objective-benefits h3 {
+  margin: 0;
+  color: #294678;
+  font-size: 22px;
+  line-height: 1.15;
+}
+
+.objective-benefits p {
+  margin: 10px 0 0;
+  color: #294678;
+  font-size: 16px;
+  line-height: 1.4;
 }
 
 .feature-list {
@@ -595,6 +632,15 @@ h1 span {
 
   .main-objective p {
     margin-left: 0;
+  }
+
+  .objective-benefits {
+    grid-template-columns: 1fr;
+  }
+
+  .objective-benefits article {
+    min-height: auto;
+    padding: 24px;
   }
 
   .feature-list {
