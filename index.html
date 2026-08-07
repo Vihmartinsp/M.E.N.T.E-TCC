@@ -3,89 +3,99 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Aprenda Matemática para o ENEM de forma simples, visual e passo a passo.">
-    <title>M.E.N.T.E | Matemática do ENEM sem mistério</title>
+    <meta name="description" content="M.E.N.T.E - Matemática ENEM Traduzida e Explicada">
+    <title>M.E.N.T.E | Matemática ENEM Traduzida e Explicada</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
   </head>
   <body>
     <header class="site-header">
       <a class="brand" href="./index.html" aria-label="M.E.N.T.E - Página inicial">
-        <img src="./assets/logo-mente-original.png" alt="M.E.N.T.E" class="brand__logo">
+        <img class="brand__logo" src="./assets/logo-mente-original.png" alt="M.E.N.T.E">
       </a>
 
       <nav class="main-nav" aria-label="Navegação principal">
-        <a href="#" class="main-nav__link">Sobre</a>
-        <a href="#" class="main-nav__link">Funcionalidades</a>
-        <a href="#" class="main-nav__link main-nav__link--login">Entrar</a>
-        <a href="#" class="button button--header">Começar agora</a>
+        <a class="main-nav__link" href="#">Sobre</a>
+        <a class="main-nav__link" href="#">Funcionalidades</a>
+        <a class="main-nav__button" href="#">Entrar</a>
+        <a class="main-nav__button main-nav__button--wide" href="#">Começar agora</a>
       </nav>
     </header>
 
-    <main>
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="browser-window">
-          <div class="browser-window__bar" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
+    <main class="hero">
+      <section class="prototype-window" aria-labelledby="hero-title">
+        <div class="window-bar" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <p class="prototype-label">Protótipo Educacional • M.E.N.T.E - Matemática ENEM Traduzida e Explicada</p>
+
+        <div class="prototype-content">
+          <div class="hero-copy">
+            <h1 id="hero-title">
+              Matemática do<br>
+              ENEM<br>
+              <span>sem mistério</span>
+            </h1>
+
+            <p class="hero-description">
+              Chega de decorar fórmula sem entender.<br>
+              Aqui você resolve questões reais do<br>
+              ENEM com explicações passo a passo,<br>
+              em uma linguagem que faz sentido de<br>
+              verdade.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#">Quero aprender agora →</a>
+              <a href="#">Saiba mais</a>
+            </div>
+
+            <dl class="hero-stats" aria-label="Destaques da plataforma">
+              <div>
+                <dt>10+</dt>
+                <dd>Questões ENEM</dd>
+              </div>
+              <div>
+                <dt>5</dt>
+                <dd>Tópicos</dd>
+              </div>
+              <div>
+                <dt>100%</dt>
+                <dd>Gratuito</dd>
+              </div>
+            </dl>
           </div>
 
-          <div class="hero__content">
-            <div class="hero__message">
-              <p class="eyebrow">Sua preparação começa aqui</p>
-              <h1 id="hero-title">Matemática do ENEM<br><span>sem mistério</span></h1>
-              <p class="hero__description">
-                Aprenda a interpretar e resolver questões de Matemática do ENEM de forma simples,
-                visual e passo a passo.
+          <div class="question-frame" aria-label="Exemplo de questão do ENEM">
+            <article class="question-card">
+              <header class="question-meta">
+                <div class="question-tags">
+                  <span>ENEM 2023</span>
+                  <span>Função Quadrática</span>
+                </div>
+                <strong>+10 pts</strong>
+              </header>
+
+              <p class="question-text">
+                Uma bola é lançada<br>
+                verticalmente para cima. Sua<br>
+                altura é dada por h(t) = -5t² +<br>
+                20t. Qual a altura máxima<br>
+                atingida?
               </p>
 
-              <div class="hero__actions">
-                <a href="#" class="button button--primary">Começar agora</a>
-                <a href="#" class="button button--secondary">Ver como funciona</a>
+              <p class="question-tip">💡 Dica: o vértice da parábola<br>nos dá a altura máxima!</p>
+
+              <div class="answers" aria-label="Alternativas">
+                <div class="answer">A) 15 m</div>
+                <div class="answer answer--correct">B) 20 m <span>✓</span></div>
               </div>
 
-              <dl class="hero__stats" aria-label="Destaques da plataforma">
-                <div>
-                  <dt>10+</dt>
-                  <dd>Questões ENEM</dd>
-                </div>
-                <div>
-                  <dt>5</dt>
-                  <dd>Tópicos</dd>
-                </div>
-                <div>
-                  <dt>100%</dt>
-                  <dd>Gratuito</dd>
-                </div>
-              </dl>
-            </div>
-
-            <div class="question-preview" aria-label="Exemplo visual de uma questão da plataforma">
-              <div class="question-card">
-                <div class="question-card__heading">
-                  <span class="question-card__icon" aria-hidden="true">∑</span>
-                  <div>
-                    <p>Questão ENEM</p>
-                    <span>Matemática · Geometria</span>
-                  </div>
-                </div>
-
-                <p class="question-card__text">
-                  Uma praça circular possui raio de 10 metros. Qual é a área aproximada dessa praça?
-                </p>
-
-                <div class="answers" aria-label="Alternativas da questão">
-                  <div class="answer"><span>A</span>31,4 m²</div>
-                  <div class="answer"><span>B</span>62,8 m²</div>
-                  <div class="answer answer--selected"><span>C</span>314 m²</div>
-                  <div class="answer"><span>D</span>628 m²</div>
-                  <div class="answer"><span>E</span>1.000 m²</div>
-                </div>
-
-                <button class="question-card__button" type="button">Confirmar resposta</button>
-              </div>
-            </div>
+              <p class="success-message">Ótimo! 🎉</p>
+            </article>
           </div>
         </div>
       </section>
