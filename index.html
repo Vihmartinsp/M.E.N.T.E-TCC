@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="M.E.N.T.E - Matemática ENEM Traduzida e Explicada">
     <title>M.E.N.T.E | Matemática ENEM Traduzida e Explicada</title>
-    <link rel="stylesheet" href="style.css?v=2">
-    <script src="script.js?v=2" defer></script>
+    <link rel="stylesheet" href="style.css?v=3">
+    <script src="script.js?v=3" defer></script>
   </head>
   <body>
     <header class="site-header">
@@ -69,7 +69,7 @@
             </dl>
           </div>
 
-          <div class="question-frame" id="funcionalidades" aria-label="Exemplo interativo de questão do ENEM">
+          <div class="question-frame" id="funcionalidades" aria-label="Ilustração de uma questão do ENEM">
             <article class="question-card">
               <header class="question-meta">
                 <div class="question-tags">
@@ -85,35 +85,16 @@
                 Qual a altura máxima atingida?
               </p>
 
-              <button class="hint-toggle" type="button" aria-expanded="false" aria-controls="question-tip">
-                Ver dica
-              </button>
-              <p class="question-tip" id="question-tip" hidden>💡 Dica: o vértice da parábola nos dá a altura máxima.</p>
+              <p class="question-tip">💡 Dica: o vértice da parábola nos dá a altura máxima.</p>
 
-              <form class="question-form" novalidate>
-                <fieldset class="answers">
-                  <legend class="visually-hidden">Escolha uma alternativa</legend>
-                  <label class="answer">
-                    <input type="radio" name="answer" value="A">
-                    <span>A) 15 m</span>
-                  </label>
-                  <label class="answer">
-                    <input type="radio" name="answer" value="B">
-                    <span>B) 20 m</span>
-                  </label>
-                  <label class="answer">
-                    <input type="radio" name="answer" value="C">
-                    <span>C) 25 m</span>
-                  </label>
-                  <label class="answer">
-                    <input type="radio" name="answer" value="D">
-                    <span>D) 30 m</span>
-                  </label>
-                </fieldset>
+              <div class="answers" aria-hidden="true">
+                <div class="answer"><span>A</span>15 m</div>
+                <div class="answer answer--selected"><span>B</span>20 m</div>
+                <div class="answer"><span>C</span>25 m</div>
+                <div class="answer"><span>D</span>30 m</div>
+              </div>
 
-                <button class="confirm-answer" type="submit">Confirmar resposta</button>
-                <p class="answer-feedback" role="status" aria-live="polite"></p>
-              </form>
+              <div class="illustration-button" aria-hidden="true">Confirmar resposta</div>
             </article>
           </div>
         </div>
