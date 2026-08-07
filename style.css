@@ -86,21 +86,19 @@ a {
 .hero {
   display: grid;
   min-height: calc(100vh - 40px);
-  padding: clamp(24px, 5vh, 52px) 16px;
+  padding: clamp(17px, 3vh, 30px) 12px;
   place-items: start center;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 82% 30%, rgba(81, 157, 255, 0.4), transparent 26%),
-    linear-gradient(105deg, #00284c 0%, #064fc9 100%);
+  background: linear-gradient(105deg, #00284c 0%, #064fc9 100%);
 }
 
 .prototype-window {
-  width: min(75%, 900px);
+  width: min(82%, 900px);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 12px;
+  border-radius: 9px;
   background: #ffffff;
-  box-shadow: 0 22px 55px rgba(0, 20, 55, 0.3);
+  box-shadow: 0 8px 20px rgba(0, 20, 55, 0.22);
 }
 
 .window-bar {
@@ -131,11 +129,11 @@ a {
 
 .prototype-content {
   display: grid;
-  min-height: 380px;
-  padding: 25px clamp(28px, 6vw, 68px) 24px;
-  grid-template-columns: minmax(0, 55fr) minmax(180px, 45fr);
-  align-items: start;
-  gap: clamp(28px, 6vw, 70px);
+  min-height: 225px;
+  padding: 10px clamp(16px, 3vw, 32px) 12px;
+  grid-template-columns: minmax(0, 58fr) minmax(150px, 42fr);
+  align-items: center;
+  gap: clamp(18px, 3vw, 34px);
 }
 
 .hero-copy {
@@ -146,7 +144,7 @@ a {
 h1 {
   margin: 0;
   color: #13294b;
-  font-size: clamp(25px, 3.15vw, 38px);
+  font-size: clamp(25px, 3vw, 34px);
   font-weight: 700;
   line-height: 0.98;
   letter-spacing: -0.035em;
@@ -161,24 +159,24 @@ h1 span {
 }
 
 .hero-description {
-  margin: 13px 0 0;
+  margin: 6px 0 0;
   color: #13294b;
   font-size: clamp(10px, 1vw, 12px);
-  line-height: 1.4;
+  line-height: 1.18;
 }
 
 .hero-actions {
   display: flex;
-  margin-top: 13px;
+  margin-top: 7px;
   gap: 6px;
 }
 
 .hero-actions a {
-  padding: 7px 11px;
+  padding: 4px 7px;
   border-radius: 4px;
   color: #ffffff;
   background: #526b9d;
-  font-size: 9px;
+  font-size: 8px;
   line-height: 1;
   text-decoration: none;
   transition: background-color 160ms ease;
@@ -191,7 +189,7 @@ h1 span {
 .hero-stats {
   display: grid;
   max-width: 260px;
-  margin: 17px 0 0;
+  margin: 7px 0 0;
   grid-template-columns: repeat(3, 1fr);
 }
 
@@ -227,65 +225,28 @@ h1 span {
 .question-stage {
   position: relative;
   display: grid;
-  min-height: 330px;
+  min-height: 205px;
   place-items: center;
-  isolation: isolate;
-  perspective: 900px;
-}
-
-.question-stage::before {
-  position: absolute;
-  z-index: -2;
-  width: 265px;
-  height: 265px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(55, 127, 221, 0.22), rgba(55, 127, 221, 0));
-  content: "";
-}
-
-.question-orbit {
-  position: absolute;
-  z-index: -1;
-  border: 1px solid rgba(82, 107, 157, 0.18);
-  border-radius: 50%;
-}
-
-.question-orbit--one {
-  width: 285px;
-  height: 210px;
-  transform: rotate(-18deg);
-}
-
-.question-orbit--two {
-  width: 225px;
-  height: 280px;
-  transform: rotate(28deg);
 }
 
 .question-frame {
   position: relative;
-  width: min(100%, 260px);
-  padding: 8px;
+  width: min(100%, 205px);
+  padding: 5px;
   border: 1px solid rgba(82, 107, 157, 0.15);
-  border-radius: 16px;
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.92), #d9e5f3);
-  box-shadow: 0 22px 38px rgba(19, 41, 75, 0.24);
+  border-radius: 9px;
+  background: #dfe8f4;
+  box-shadow: 0 5px 12px rgba(19, 41, 75, 0.18);
   scroll-margin-top: 50px;
-  transform: rotateY(-5deg) rotateX(2deg);
   animation: question-float 7s ease-in-out infinite;
 }
 
 .question-frame::before {
-  position: absolute;
-  z-index: -1;
-  inset: 12px -9px -11px 15px;
-  border-radius: 16px;
-  background: rgba(172, 205, 245, 0.28);
-  content: "";
+  content: none;
 }
 
 .question-card {
-  padding: 14px;
+  padding: 9px;
   border: 1px solid #d5deea;
   border-radius: 6px;
   background: #ffffff;
@@ -319,27 +280,27 @@ h1 span {
 }
 
 .question-text {
-  margin: 11px 0 9px;
+  margin: 7px 0 6px;
   color: #13294b;
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 600;
   line-height: 1.4;
 }
 
 .question-text strong {
   display: block;
-  margin: 5px 0;
+  margin: 3px 0;
   color: #526b9d;
-  font-size: 12px;
+  font-size: 9px;
 }
 
 .question-tip {
   margin: 0 0 8px;
-  padding: 6px;
+  padding: 4px;
   border-radius: 4px;
   color: #5d5227;
   background: #f7e6a8;
-  font-size: 8px;
+  font-size: 6px;
   line-height: 1.4;
 }
 
@@ -348,27 +309,27 @@ h1 span {
   margin: 0;
   padding: 0;
   border: 0;
-  gap: 5px;
+  gap: 3px;
 }
 
 .answer {
   display: flex;
-  min-height: 30px;
-  padding: 7px 8px;
+  min-height: 20px;
+  padding: 3px 5px;
   align-items: center;
   gap: 5px;
   border: 1px solid #dfe4eb;
   border-radius: 4px;
   color: #13294b;
   background: #ffffff;
-  font-size: 9px;
+  font-size: 7px;
   user-select: none;
 }
 
 .answer span {
   display: grid;
-  width: 17px;
-  height: 17px;
+  width: 13px;
+  height: 13px;
   place-items: center;
   border-radius: 50%;
   color: #526b9d;
@@ -390,14 +351,14 @@ h1 span {
 .illustration-button {
   width: 100%;
   margin-top: 7px;
-  min-height: 32px;
-  padding: 7px 9px;
+  min-height: 22px;
+  padding: 5px 7px;
   border: 0;
   border-radius: 4px;
   color: #ffffff;
   background: #526b9d;
   font: inherit;
-  font-size: 9px;
+  font-size: 7px;
   font-weight: 700;
   text-align: center;
 }
@@ -405,29 +366,23 @@ h1 span {
 @keyframes question-float {
   0%,
   100% {
-    transform: translateY(5px) rotateY(-5deg) rotateX(2deg);
+    transform: translateY(3px);
   }
 
   50% {
-    transform: translateY(-10px) rotateY(2deg) rotateX(-1deg);
-  }
-}
-
-@media (min-width: 1200px) {
-  .prototype-content {
-    min-height: 390px;
+    transform: translateY(-5px);
   }
 }
 
 @media (max-width: 760px) {
   .prototype-window {
-    width: min(90%, 620px);
+    width: min(92%, 620px);
   }
 
   .prototype-content {
-    padding-inline: 30px;
+    padding-inline: 18px;
     grid-template-columns: minmax(0, 1fr) minmax(170px, 0.8fr);
-    gap: 24px;
+    gap: 18px;
   }
 
   h1 {
@@ -456,7 +411,7 @@ h1 span {
   }
 
   .hero {
-    padding: 20px 10px 32px;
+    padding: 16px 8px 26px;
   }
 
   .prototype-window {
@@ -499,7 +454,7 @@ h1 span {
   }
 
   .question-stage {
-    min-height: 315px;
+    min-height: 220px;
   }
 }
 
