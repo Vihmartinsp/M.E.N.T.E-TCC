@@ -93,7 +93,7 @@ a {
 }
 
 .prototype-window {
-  width: min(82%, 900px);
+  width: min(92%, 1100px);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 9px;
@@ -129,11 +129,11 @@ a {
 
 .prototype-content {
   display: grid;
-  min-height: 225px;
-  padding: 10px clamp(16px, 3vw, 32px) 12px;
+  min-height: 410px;
+  padding: 28px clamp(34px, 6vw, 78px) 30px;
   grid-template-columns: minmax(0, 58fr) minmax(150px, 42fr);
   align-items: center;
-  gap: clamp(18px, 3vw, 34px);
+  gap: clamp(34px, 6vw, 72px);
 }
 
 .hero-copy {
@@ -144,7 +144,7 @@ a {
 h1 {
   margin: 0;
   color: #13294b;
-  font-size: clamp(25px, 3vw, 34px);
+  font-size: clamp(38px, 4.5vw, 54px);
   font-weight: 700;
   line-height: 0.98;
   letter-spacing: -0.035em;
@@ -159,24 +159,24 @@ h1 span {
 }
 
 .hero-description {
-  margin: 6px 0 0;
+  margin: 14px 0 0;
   color: #13294b;
-  font-size: clamp(10px, 1vw, 12px);
-  line-height: 1.18;
+  font-size: clamp(13px, 1.25vw, 16px);
+  line-height: 1.28;
 }
 
 .hero-actions {
   display: flex;
-  margin-top: 7px;
-  gap: 6px;
+  margin-top: 16px;
+  gap: 9px;
 }
 
 .hero-actions a {
-  padding: 4px 7px;
-  border-radius: 4px;
+  padding: 8px 13px;
+  border-radius: 5px;
   color: #ffffff;
   background: #526b9d;
-  font-size: 8px;
+  font-size: 11px;
   line-height: 1;
   text-decoration: none;
   transition: background-color 160ms ease;
@@ -189,7 +189,7 @@ h1 span {
 .hero-stats {
   display: grid;
   max-width: 260px;
-  margin: 7px 0 0;
+  margin: 20px 0 0;
   grid-template-columns: repeat(3, 1fr);
 }
 
@@ -210,7 +210,7 @@ h1 span {
 
 .hero-stats dt {
   color: #526b9d;
-  font-size: clamp(15px, 1.8vw, 21px);
+  font-size: clamp(22px, 2.4vw, 30px);
   font-weight: 700;
   line-height: 1;
 }
@@ -218,21 +218,21 @@ h1 span {
 .hero-stats dd {
   margin: 3px 0 0;
   color: #526b9d;
-  font-size: 8px;
+  font-size: 10px;
   white-space: nowrap;
 }
 
 .question-stage {
   position: relative;
   display: grid;
-  min-height: 205px;
+  min-height: 350px;
   place-items: center;
 }
 
 .question-frame {
   position: relative;
-  width: min(100%, 205px);
-  padding: 5px;
+  width: min(100%, 300px);
+  padding: 8px;
   border: 1px solid rgba(82, 107, 157, 0.15);
   border-radius: 9px;
   background: #dfe8f4;
@@ -246,7 +246,7 @@ h1 span {
 }
 
 .question-card {
-  padding: 9px;
+  padding: 15px;
   border: 1px solid #d5deea;
   border-radius: 6px;
   background: #ffffff;
@@ -270,37 +270,37 @@ h1 span {
   border-radius: 3px;
   color: #526b9d;
   background: #dfe8f4;
-  font-size: 7px;
+  font-size: 9px;
 }
 
 .question-meta strong {
   flex: 0 0 auto;
   color: #526b9d;
-  font-size: 8px;
+  font-size: 10px;
 }
 
 .question-text {
-  margin: 7px 0 6px;
+  margin: 13px 0 10px;
   color: #13294b;
-  font-size: 8px;
+  font-size: 12px;
   font-weight: 600;
   line-height: 1.4;
 }
 
 .question-text strong {
   display: block;
-  margin: 3px 0;
+  margin: 7px 0;
   color: #526b9d;
-  font-size: 9px;
+  font-size: 14px;
 }
 
 .question-tip {
   margin: 0 0 8px;
-  padding: 4px;
+  padding: 8px;
   border-radius: 4px;
   color: #5d5227;
   background: #f7e6a8;
-  font-size: 6px;
+  font-size: 9px;
   line-height: 1.4;
 }
 
@@ -309,32 +309,32 @@ h1 span {
   margin: 0;
   padding: 0;
   border: 0;
-  gap: 3px;
+  gap: 6px;
 }
 
 .answer {
   display: flex;
-  min-height: 20px;
-  padding: 3px 5px;
+  min-height: 34px;
+  padding: 7px 9px;
   align-items: center;
   gap: 5px;
   border: 1px solid #dfe4eb;
   border-radius: 4px;
   color: #13294b;
   background: #ffffff;
-  font-size: 7px;
+  font-size: 10px;
   user-select: none;
 }
 
 .answer span {
   display: grid;
-  width: 13px;
-  height: 13px;
+  width: 19px;
+  height: 19px;
   place-items: center;
   border-radius: 50%;
   color: #526b9d;
   background: #edf1f5;
-  font-size: 7px;
+  font-size: 9px;
   font-weight: 700;
 }
 
@@ -351,14 +351,14 @@ h1 span {
 .illustration-button {
   width: 100%;
   margin-top: 7px;
-  min-height: 22px;
-  padding: 5px 7px;
+  min-height: 38px;
+  padding: 10px 12px;
   border: 0;
   border-radius: 4px;
   color: #ffffff;
   background: #526b9d;
   font: inherit;
-  font-size: 7px;
+  font-size: 10px;
   font-weight: 700;
   text-align: center;
 }
@@ -380,13 +380,14 @@ h1 span {
   }
 
   .prototype-content {
-    padding-inline: 18px;
+    min-height: 330px;
+    padding: 20px 24px;
     grid-template-columns: minmax(0, 1fr) minmax(170px, 0.8fr);
     gap: 18px;
   }
 
   h1 {
-    font-size: 27px;
+    font-size: 34px;
   }
 }
 
@@ -450,7 +451,7 @@ h1 span {
   }
 
   .question-frame {
-    width: min(100%, 220px);
+    width: min(100%, 260px);
   }
 
   .question-stage {
