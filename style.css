@@ -50,7 +50,7 @@ a {
   display: flex;
   align-items: center;
   gap: 18px;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .main-nav__link {
@@ -71,7 +71,7 @@ a {
 
 .main-nav__button {
   min-width: 72px;
-  padding: 9px 14px;
+  padding: 11px 17px;
   border-radius: 5px;
   color: #ffffff;
   background: #526b9d;
@@ -79,8 +79,13 @@ a {
   text-decoration: none;
 }
 
+.main-nav__button--account {
+  min-width: 128px;
+}
+
 .main-nav__button--wide {
-  min-width: 118px;
+  min-width: 138px;
+  padding-inline: 20px;
 }
 
 .hero {
@@ -96,7 +101,7 @@ a {
   padding: 80px 24px;
   scroll-margin-top: 54px;
   color: #13294b;
-  background: #ffffff;
+  background: #edf1f5;
 }
 
 .information-section--features {
@@ -130,6 +135,35 @@ a {
   color: #52627a;
   font-size: 17px;
   line-height: 1.65;
+}
+
+.about-introduction {
+  max-width: 760px;
+  margin: 12px 0 0;
+  color: #294678;
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.main-objective {
+  max-width: 920px;
+  margin-top: 48px;
+  padding: 22px 24px;
+  border-radius: 16px;
+  background: #dfe6ee;
+}
+
+.main-objective h3 {
+  margin: 0;
+  color: #294678;
+  font-size: 18px;
+}
+
+.main-objective p {
+  margin: 12px 0 0 32px;
+  color: #294678;
+  font-size: 13px;
+  line-height: 1.25;
 }
 
 .feature-list {
@@ -469,12 +503,17 @@ h1 span {
 
   .main-nav {
     gap: 7px;
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .main-nav__button {
     min-width: auto;
     padding: 7px 8px;
+  }
+
+  .main-nav__button--account,
+  .main-nav__button--wide {
+    min-width: auto;
   }
 
   .hero {
@@ -526,6 +565,20 @@ h1 span {
 
   .information-section {
     padding: 56px 20px;
+  }
+
+  .about-introduction br,
+  .main-objective p br {
+    display: none;
+  }
+
+  .main-objective {
+    margin-top: 30px;
+    padding: 20px;
+  }
+
+  .main-objective p {
+    margin-left: 0;
   }
 
   .feature-list {
