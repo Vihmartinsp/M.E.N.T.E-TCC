@@ -1,6 +1,21 @@
 # M.E.N.T.E-TCC
 
-## Firebase
+## Supabase
+
+A página de login usa o Supabase Authentication para entrada e criação de contas.
+No cadastro, `name` e `phone` são enviados como metadados do usuário e copiados,
+junto com o e-mail, para `public.profiles` por um trigger do banco de dados.
+
+Para configurar os perfis, execute o conteúdo de
+[`supabase/profiles.sql`](./supabase/profiles.sql) no SQL Editor do Supabase. O
+script cria a tabela, ativa Row Level Security, restringe leitura e atualização
+ao dono do perfil e instala a função e o trigger de criação automática.
+
+Se a confirmação de e-mail estiver habilitada, o usuário recebe a orientação
+para confirmar o cadastro. Caso ela esteja desabilitada e o cadastro já retorne
+uma sessão, a aplicação redireciona para a página inicial.
+
+## Configuração anterior do Firebase
 
 A página de login usa o Firebase Authentication para entrada e criação de contas. No cadastro, os dados do perfil (`name`, `phone`, `email` e `createdAt`) são gravados no documento `users/{uid}` do Cloud Firestore.
 

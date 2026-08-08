@@ -136,7 +136,7 @@ loginForm.addEventListener("submit", async (event) => {
       throw error;
     }
 
-    window.location.href = "./index.html";
+    window.location.href = "./questoes.html";
   } catch (error) {
     console.error("Erro no login Supabase:", error);
     showStatus(loginForm, getLoginErrorMessage(error));
@@ -157,7 +157,7 @@ registerForm.addEventListener("submit", async (event) => {
   const password = data.get("password");
 
   try {
-    const { error } = await supabaseClient.auth.signUp({
+    const { data: signUpData, error } = await supabaseClient.auth.signUp({
       email,
       password,
       options: {
@@ -169,7 +169,14 @@ registerForm.addEventListener("submit", async (event) => {
     });
 
     if (error) {
-      throw error;
+      console.error("Erro no cadastro Supabase:", error);
+      showStatus(registerForm, error.message);
+      return;
+    }
+
+    if (signUpData.session) {
+      window.location.href = "./index.html";
+      return;
     }
 
     registerForm.reset();
