@@ -105,7 +105,7 @@ registerForm.addEventListener("submit", async (event) => {
   const password = data.get("password");
 
   try {
-    const { error } = await supabaseClient.auth.signUp({
+    const { data: signUpData, error } = await supabaseClient.auth.signUp({
       email,
       password,
       options: {
@@ -117,7 +117,14 @@ registerForm.addEventListener("submit", async (event) => {
     });
 
     if (error) {
-      throw error;
+      console.error("Erro no cadastro Supabase:", error);
+      showStatus(registerForm, error.message);
+      return;
+    }
+
+    if (signUpData.session) {
+      window.location.href = "./index.html";
+      return;
     }
 
     showStatus(
@@ -126,7 +133,7 @@ registerForm.addEventListener("submit", async (event) => {
       "success",
     );
   } catch (error) {
-    console.error("Erro no cadastro Supabase:", error);
+    console.error("Erro inesperado no cadastro:", error);
     showStatus(registerForm, error.message);
   } finally {
     setSubmitting(registerForm, false);
