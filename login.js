@@ -56,8 +56,13 @@ const authErrorMessages = {
   "auth/invalid-email": "Digite um endereço de e-mail válido.",
   "auth/missing-password": "Digite sua senha.",
   "auth/network-request-failed": "Não foi possível conectar. Verifique sua internet.",
+  "auth/operation-not-allowed": "Cadastro por e-mail e senha não está ativado no Firebase.",
   "auth/too-many-requests": "Muitas tentativas. Aguarde um pouco e tente novamente.",
   "auth/weak-password": "A senha deve ter pelo menos 6 caracteres.",
+  "permission-denied":
+    "A conta foi autenticada, mas o Firestore recusou o salvamento do perfil.",
+  "failed-precondition": "O Firestore ainda não está configurado corretamente.",
+  "unavailable": "O Firestore está temporariamente indisponível.",
 };
 
 function showStatus(form, message, type = "error") {
@@ -122,26 +127,55 @@ registerForm.addEventListener("submit", async (event) => {
   setSubmitting(registerForm, true);
 
   const data = new FormData(registerForm);
+  const email = data.get("email");
+  const password = data.get("password");
+  const name = data.get("name");
+  let isFirestoreProfileSaveError = false;
 
   try {
-    const credential = await createUserWithEmailAndPassword(
-      auth,
-      data.get("email"),
-      data.get("password"),
-    );
+    let credential;
 
-    await updateProfile(credential.user, { displayName: data.get("name") });
-    await setDoc(doc(database, "users", credential.user.uid), {
-      name: data.get("name"),
-      phone: data.get("phone"),
-      email: credential.user.email,
-      createdAt: serverTimestamp(),
-    });
+    try {
+      credential = await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.error("Erro no Authentication:", error);
+      throw error;
+    }
+
+    try {
+      await updateProfile(credential.user, { displayName: name });
+    } catch (error) {
+      console.error("Erro ao atualizar perfil no Authentication:", error);
+      throw error;
+    }
+
+    try {
+      await setDoc(doc(database, "users", credential.user.uid), {
+        name,
+        phone: data.get("phone"),
+        email: credential.user.email,
+        createdAt: serverTimestamp(),
+      });
+    } catch (error) {
+      console.error("Erro ao gravar usuário no Firestore:", error);
+      isFirestoreProfileSaveError = true;
+      throw error;
+    }
 
     showStatus(registerForm, "Conta criada! Redirecionando...", "success");
     window.location.href = "./index.html";
   } catch (error) {
-    showStatus(registerForm, getErrorMessage(error));
+    console.error(
+      "Erro ao criar conta:",
+      error.code,
+      error.message,
+      error,
+    );
+
+    const message = isFirestoreProfileSaveError
+      ? "Seu usuário foi criado no Firebase Authentication, mas não foi possível salvar o perfil no Firestore. Verifique as regras do banco."
+      : getErrorMessage(error);
+    showStatus(registerForm, message);
   } finally {
     setSubmitting(registerForm, false);
   }
