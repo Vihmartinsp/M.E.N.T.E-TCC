@@ -1007,6 +1007,7 @@ h1 span {
   color: #111111;
   font-size: 16px;
   font-weight: 700;
+  cursor: pointer;
 }
 
 .access-form input {
@@ -1049,9 +1050,28 @@ h1 span {
   background: #003f9f;
 }
 
+.access-form > button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
 .access-form > button:focus-visible {
   outline: 3px solid #f7e6a8;
   outline-offset: 3px;
+}
+
+.access-form__status {
+  min-height: 20px;
+  margin: 14px 0 0;
+  color: #a52222;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.access-form__status[data-type="success"] {
+  color: #16713b;
 }
 
 @media (max-width: 820px) {

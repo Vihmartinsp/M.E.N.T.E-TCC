@@ -6,7 +6,8 @@
     <meta name="description" content="Entre na plataforma M.E.N.T.E">
     <title>Entrar | M.E.N.T.E</title>
     <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="style.css?v=15">
+    <link rel="stylesheet" href="style.css?v=17">
+    <script src="login.js?v=2" type="module"></script>
   </head>
   <body class="login-page">
     <header class="site-header login-header">
@@ -39,6 +40,7 @@
             <input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="************" required>
 
             <button type="submit">Entrar</button>
+            <p class="access-form__status" role="status" aria-live="polite"></p>
           </form>
 
           <form id="register-form" class="access-form" action="#" method="post" role="tabpanel" aria-labelledby="register-tab" hidden>
@@ -55,6 +57,7 @@
             <input id="register-password" name="password" type="password" autocomplete="new-password" placeholder="************" minlength="6" required>
 
             <button type="submit">Criar conta</button>
+            <p class="access-form__status" role="status" aria-live="polite"></p>
           </form>
         </div>
       </section>
