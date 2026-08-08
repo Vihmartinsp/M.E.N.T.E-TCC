@@ -84,7 +84,7 @@ loginForm.addEventListener("submit", async (event) => {
       throw error;
     }
 
-    window.location.href = "./index.html";
+    window.location.href = "./questoes.html";
   } catch (error) {
     console.error("Erro no login Supabase:", error);
     showStatus(loginForm, getLoginErrorMessage(error));
