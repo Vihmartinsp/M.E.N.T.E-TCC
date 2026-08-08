@@ -43,6 +43,58 @@ function getLoginErrorMessage(error) {
   return "Não foi possível entrar. Tente novamente.";
 }
 
+function getRegisterErrorMessage(error) {
+  const code = error?.code?.toLowerCase() || "";
+  const message = error?.message?.toLowerCase() || "";
+  const status = error?.status;
+
+  if (
+    code === "user_already_exists" ||
+    code === "email_exists" ||
+    message.includes("user already registered") ||
+    message.includes("already been registered")
+  ) {
+    return "Este e-mail já está cadastrado.";
+  }
+
+  if (
+    code === "email_address_invalid" ||
+    code === "validation_failed" ||
+    message.includes("invalid email") ||
+    message.includes("invalid format")
+  ) {
+    return "Digite um endereço de e-mail válido.";
+  }
+
+  if (code === "weak_password" || message.includes("password should be")) {
+    return "A senha deve ter pelo menos 6 caracteres.";
+  }
+
+  if (
+    code === "over_email_send_rate_limit" ||
+    code === "over_request_rate_limit" ||
+    code === "too_many_requests" ||
+    status === 429 ||
+    message.includes("rate limit") ||
+    message.includes("too many requests")
+  ) {
+    return "Muitas tentativas. Aguarde um pouco e tente novamente.";
+  }
+
+  if (
+    code === "request_timeout" ||
+    code === "network_error" ||
+    code === "network_request_failed" ||
+    message.includes("failed to fetch") ||
+    message.includes("networkerror") ||
+    message.includes("network error")
+  ) {
+    return "Não foi possível conectar. Verifique sua internet.";
+  }
+
+  return "Não foi possível criar sua conta. Tente novamente.";
+}
+
 function activateTab(selectedTab) {
   tabs.forEach((tab) => {
     const isSelected = tab === selectedTab;
@@ -127,14 +179,15 @@ registerForm.addEventListener("submit", async (event) => {
       return;
     }
 
+    registerForm.reset();
     showStatus(
       registerForm,
       "Conta criada com sucesso! Verifique seu e-mail para confirmar o cadastro.",
       "success",
     );
   } catch (error) {
-    console.error("Erro inesperado no cadastro:", error);
-    showStatus(registerForm, error.message);
+    console.error("Erro no cadastro Supabase:", error);
+    showStatus(registerForm, getRegisterErrorMessage(error));
   } finally {
     setSubmitting(registerForm, false);
   }
