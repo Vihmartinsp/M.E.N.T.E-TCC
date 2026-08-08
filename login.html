@@ -13,26 +13,50 @@
       <a class="brand" href="./index.html" aria-label="Voltar para a página inicial">
         <img class="brand__logo" src="./assets/logo-mente-original.png" alt="M.E.N.T.E">
       </a>
-      <a class="login-header__back" href="./index.html">← Voltar para o início</a>
     </header>
 
     <main class="login-main">
-      <section class="login-card" aria-labelledby="login-title">
-        <p class="section-label">Área do aluno</p>
-        <h1 id="login-title">Entre no M.E.N.T.E</h1>
-        <p class="login-card__description">Continue seus estudos de Matemática para o ENEM.</p>
+      <section class="login-presentation" aria-labelledby="login-presentation-title">
+        <div>
+          <p class="login-presentation__badge">M.E.N.T.E</p>
+          <h1 id="login-presentation-title">Aprenda Matemática do<br>ENEM de um jeito que faz<br>sentido</h1>
+          <p>Crie sua conta gratuita e acompanhe seu<br>progresso, pontuação e evolução a cada tópico.</p>
+        </div>
+      </section>
 
-        <form class="login-form" action="#" method="post">
-          <label for="email">E-mail</label>
-          <input id="email" name="email" type="email" autocomplete="email" placeholder="seuemail@exemplo.com" required>
+      <section class="access-panel" aria-label="Acesso à plataforma">
+        <div class="access-panel__content">
+          <div class="access-tabs" role="tablist" aria-label="Entrar ou criar conta">
+            <button id="login-tab" class="access-tabs__button is-active" type="button" role="tab" aria-selected="true" aria-controls="login-form">Entrar</button>
+            <button id="register-tab" class="access-tabs__button" type="button" role="tab" aria-selected="false" aria-controls="register-form">Criar conta</button>
+          </div>
 
-          <label for="password">Senha</label>
-          <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Digite sua senha" required>
+          <form id="login-form" class="access-form" action="#" method="post" role="tabpanel" aria-labelledby="login-tab">
+            <label for="login-email">E-mail</label>
+            <input id="login-email" name="email" type="email" autocomplete="email" placeholder="seu@gmail.com" required>
 
-          <button type="submit">Entrar</button>
-        </form>
+            <label for="login-password">Senha</label>
+            <input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="************" required>
 
-        <a class="login-card__home" href="./index.html#sobre">Conheça melhor o projeto</a>
+            <button type="submit">Entrar</button>
+          </form>
+
+          <form id="register-form" class="access-form" action="#" method="post" role="tabpanel" aria-labelledby="register-tab" hidden>
+            <label for="register-name">Nome</label>
+            <input id="register-name" name="name" type="text" autocomplete="name" placeholder="Ex: José" required>
+
+            <label for="register-phone">Telefone</label>
+            <input id="register-phone" name="phone" type="tel" autocomplete="tel" placeholder="Ex: 4002-8922" required>
+
+            <label for="register-email">E-mail</label>
+            <input id="register-email" name="email" type="email" autocomplete="email" placeholder="seu@gmail.com" required>
+
+            <label for="register-password">Senha</label>
+            <input id="register-password" name="password" type="password" autocomplete="new-password" placeholder="************" minlength="6" required>
+
+            <button type="submit">Criar conta</button>
+          </form>
+        </div>
       </section>
     </main>
   </body>
