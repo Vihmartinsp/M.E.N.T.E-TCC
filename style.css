@@ -227,6 +227,7 @@ a {
   padding: 96px 24px;
   color: #13294b;
   background: #ffffff;
+  box-shadow: 0 6px 18px rgba(19, 41, 75, 0.06);
 }
 
 .how-it-works {
