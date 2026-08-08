@@ -1,6 +1,6 @@
 "use strict";
 
-const SUPABASE_URL = "sidnlsdsnpgsyrddndof";
+const SUPABASE_URL = "https://sidnlsdsnpgsyrddndof.supabase.co";
 const SUPABASE_KEY = "sb_publishable_ti_u7RKlGnis3Yq7eE3Yrw_H3NuSP2f";
 
 const supabaseClient = supabase.createClient(
