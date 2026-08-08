@@ -3,12 +3,14 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 import { getAnalytics, isSupported } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-analytics.js";
 import {
+  connectAuthEmulator,
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
   updateProfile,
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 import {
+  connectFirestoreEmulator,
   doc,
   getFirestore,
   serverTimestamp,
@@ -28,6 +30,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getFirestore(app);
+
+const isLocalEnvironment =
+  window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+
+if (isLocalEnvironment) {
+  connectAuthEmulator(auth, "http://127.0.0.1:9099");
+  connectFirestoreEmulator(database, "127.0.0.1", 8080);
+}
 
 isSupported().then((supported) => {
   if (supported) {

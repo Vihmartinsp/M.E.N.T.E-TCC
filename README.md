@@ -29,3 +29,19 @@ Para publicar apenas as regras do banco de dados:
 ```bash
 firebase deploy --only firestore:rules
 ```
+
+### Emuladores locais
+
+Inicie os emuladores de Authentication, Firestore e Hosting, junto com a Emulator UI, com:
+
+```bash
+firebase emulators:start
+```
+
+Para preservar os dados locais entre execuções, importe os dados existentes e exporte as alterações ao encerrar:
+
+```bash
+firebase emulators:start --import=./firebase-data --export-on-exit=./firebase-data
+```
+
+O aplicativo se conecta aos emuladores somente quando é acessado por `localhost` ou `127.0.0.1`. No Firebase Hosting publicado, o hostname não corresponde a nenhum desses valores e, portanto, as conexões continuam usando os serviços Firebase de produção.
