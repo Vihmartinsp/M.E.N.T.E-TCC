@@ -1,6 +1,13 @@
 "use strict";
 
-const DEMO_USER_KEY = "mente-demo-user";
+const SUPABASE_URL = "https://sidnlsdsnpgsyrddndof.supabase.co";
+const SUPABASE_KEY = "sb_publishable_ti_u7RKlGnis3Yq7eE3Yrw_H3NuSP2f";
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY,
+);
+
 const tabs = document.querySelectorAll(".access-tabs__button");
 const forms = document.querySelectorAll(".access-form");
 const loginForm = document.querySelector("#login-form");
