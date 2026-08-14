@@ -17,7 +17,7 @@ const questions = [
   { id: 2, category: "Geometria", topic: "Perímetro e área", year: 2013, stars: 2, text: "Um terreno retangular mede 30 m por 20 m. Uma cerca deve contorná-lo, deixando uma abertura de 4 m para o portão. Quantos metros de cerca serão usados?" },
   { id: 3, category: "Geometria", topic: "Volume", year: 2015, stars: 3, text: "Uma caixa-d'água em forma de paralelepípedo mede 2 m de comprimento, 1,5 m de largura e 1 m de altura. Qual é sua capacidade em litros?" },
   { id: 4, category: "Geometria", topic: "Geometria espacial", year: 2017, stars: 4, text: "Um reservatório cilíndrico tem raio interno de 2 m e altura de 5 m. Usando π = 3, qual é o volume máximo armazenado?", visual: "cylinder" },
-  { id: 5, category: "Geometria", topic: "Geometria espacial contextualizada", year: 2020, stars: 5, text: "Uma embalagem é formada por um cilindro e uma semiesfera de mesmo raio. Com raio 3 cm e parte cilíndrica de 8 cm, determine o volume total usando π = 3." },
+  { id: 5, examNumber: 139, category: "Geometria", topic: "Geometria plana contextualizada", year: 2025, stars: 4, text: "Uma ciclovia circular de raio 1 km deve ser protegida por policiais posicionados de modo que nenhum ponto fique a mais de 200 m de um deles. Qual é a quantidade mínima necessária?", detail: "No entorno de uma lagoa circular, cujo raio mede 1 km, há uma ciclovia. Devido aos frequentes roubos de bicicleta, a prefeitura planeja alocar policiais em posições estratégicas para patrulhar essa ciclovia, de forma a torná-la totalmente protegida. Um ponto da ciclovia é considerado protegido se houver pelo menos um policial a, no máximo, 200 m de distância daquele ponto, posicionado sobre a ciclovia. A figura ilustra um ponto P sobre a ciclovia, que estará protegido se houver pelo menos um policial posicionado sobre a região de cor cinza-escuro. Desconsidere a largura da pista da ciclovia e utilize 3 como aproximação para π. Nessas condições, qual é a quantidade mínima necessária de policiais a serem alocados ao longo dessa ciclovia para torná-la protegida?", options: ["4", "8", "15", "30", "60"], correct: 2, visual: "bikeCircle" },
 
   { id: 6, category: "Funções", topic: "Função afim I", year: 2010, stars: 1, text: "Um táxi cobra bandeirada de R$ 5,00 e R$ 2,00 por quilômetro rodado. Qual função representa o preço P de uma corrida de x quilômetros?" },
   { id: 7, category: "Funções", topic: "Função afim II", year: 2012, stars: 2, text: "A temperatura de um forno aumenta linearmente de 20 °C para 200 °C em 30 minutos. Qual será a temperatura após 10 minutos?", visual: "line" },
@@ -58,6 +58,7 @@ const visualTemplates = {
   scale: '<div class="mini-scale"><span>0</span><i></i><span>7 cm</span></div>',
   bars: '<div class="mini-bars"><i style="height:40%"></i><i style="height:65%"></i><i style="height:52%"></i><i style="height:88%"></i></div>',
   table: '<table class="mini-table" aria-label="Usuários por dia"><tr><th>Seg.</th><th>Ter.</th><th>Qua.</th></tr><tr><td>120</td><td>150</td><td>180</td></tr></table>',
+  bikeCircle: '<div class="mini-bike-circle"><i></i><span>P</span></div>',
 };
 
 const grid = document.querySelector("#questions-grid");
