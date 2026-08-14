@@ -110,10 +110,34 @@ function renderQuestions() {
         <p class="question-card__text">${question.text}</p>
         <div class="question-card__footer">
           <a href="${INEP_SOURCE_URL}" target="_blank" rel="noopener">Provas do INEP</a>
-          <button type="button">Resolver <span aria-hidden="true">→</span></button>
+          <button type="button" data-question-id="${question.id}">Resolver <span aria-hidden="true">→</span></button>
         </div>
       </article>`;
   }).join("");
+}
+
+grid.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-question-id]");
+  if (!button) return;
+  const question = questions.find((item) => item.id === Number(button.dataset.questionId));
+  localStorage.setItem("mente-selected-question", JSON.stringify(question));
+  window.location.href = `./questao.html?id=${question.id}`;
+});
+
+const tutorialSteps = [
+  ["Bem-vindo à M.E.N.T.E!", "Aqui você aprende Matemática entendendo cada decisão, e não apenas decorando fórmulas."],
+  ["Encontre o conteúdo certo", "Use os filtros de matéria, conteúdo e ano. As estrelas mostram a dificuldade de 1 a 5."],
+  ["Resolva e destrinche", "Abra uma questão, registre seu raciocínio e depois marque-a como concluída para ganhar pontos."],
+  ["Acompanhe sua jornada", "Use o roteiro, módulos, explicações, simulados, vídeo aulas e desempenho no menu lateral."],
+];
+function startTutorial() {
+  if (localStorage.getItem("mente-tutorial-seen")) return;
+  const modal = document.querySelector("#tutorial"); let step = 0;
+  const draw = () => { document.querySelector("#tutorial-title").textContent = tutorialSteps[step][0]; document.querySelector("#tutorial-copy").textContent = tutorialSteps[step][1]; document.querySelector("#tutorial-progress").textContent = `${step + 1} / ${tutorialSteps.length}`; document.querySelector("#tutorial-next").textContent = step === tutorialSteps.length - 1 ? "Começar" : "Próximo"; };
+  const close = () => { localStorage.setItem("mente-tutorial-seen", "true"); modal.hidden = true; };
+  document.querySelector("#tutorial-skip").onclick = close;
+  document.querySelector("#tutorial-next").onclick = () => { if (++step >= tutorialSteps.length) close(); else draw(); };
+  draw(); modal.hidden = false;
 }
 
 function loadDemoUser() {
@@ -164,3 +188,4 @@ document.querySelector("#sidebar-backdrop").addEventListener("click", () => togg
 
 renderQuestions();
 loadDemoUser();
+startTutorial();
