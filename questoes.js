@@ -1,8 +1,6 @@
 "use strict";
 
-const SUPABASE_URL = "sidnlsdsnpgsyrddndof";
-const SUPABASE_KEY = "sb_publishable_ti_u7RKlGnis3Yq7eE3Yrw_H3NuSP2f";
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const DEMO_USER_KEY = "mente-demo-user";
 
 const questions = [
   { id: 1, area: "Matemática", topic: "Geometria", year: 2023, status: "Não respondida", difficulty: "Média", title: "Área de figuras planas", text: "Uma praça retangular receberá um jardim circular em seu centro. Qual expressão representa a área restante?" },
@@ -46,21 +44,20 @@ function renderQuestions() {
     </article>`).join("");
 }
 
-async function loadAuthenticatedUser() {
-  const { data: { session }, error } = await supabaseClient.auth.getSession();
-  if (error || !session) {
+function loadDemoUser() {
+  let user;
+  try {
+    user = JSON.parse(localStorage.getItem(DEMO_USER_KEY));
+  } catch (error) {
+    localStorage.removeItem(DEMO_USER_KEY);
+  }
+
+  if (!user?.email) {
     window.location.replace("./login.html");
     return;
   }
 
-  const fallbackName = session.user.user_metadata?.name || session.user.email?.split("@")[0] || "Aluno";
-  const { data: profile, error: profileError } = await supabaseClient
-    .from("profiles")
-    .select("name")
-    .eq("id", session.user.id)
-    .maybeSingle();
-  if (profileError) console.error("Não foi possível carregar o perfil:", profileError);
-  const name = profile?.name || fallbackName;
+  const name = user.name || user.email.split("@")[0] || "Visitante";
   document.querySelector("#user-name").textContent = name;
   document.querySelector("#user-avatar").textContent = name.charAt(0).toUpperCase();
 }
@@ -85,8 +82,8 @@ document.querySelector("#clear-filters").addEventListener("click", () => {
   renderQuestions();
 });
 
-document.querySelector("#logout-button").addEventListener("click", async () => {
-  await supabaseClient.auth.signOut();
+document.querySelector("#logout-button").addEventListener("click", () => {
+  localStorage.removeItem(DEMO_USER_KEY);
   window.location.replace("./login.html");
 });
 
@@ -99,4 +96,4 @@ toggle.addEventListener("click", () => toggleSidebar(!document.body.classList.co
 document.querySelector("#sidebar-backdrop").addEventListener("click", () => toggleSidebar(false));
 
 renderQuestions();
-loadAuthenticatedUser();
+loadDemoUser();
