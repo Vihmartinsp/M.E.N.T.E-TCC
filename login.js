@@ -1,194 +1,151 @@
 "use strict";
 
-const SUPABASE_URL = "sidnlsdsnpgsyrddndof";
-const SUPABASE_KEY = "sb_publishable_ti_u7RKlGnis3Yq7eE3Yrw_H3NuSP2f";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile,
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
-const supabaseClient = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY,
-);
-
+const USER_STORAGE_KEY = "mente-demo-user";
 const tabs = document.querySelectorAll(".access-tabs__button");
 const forms = document.querySelectorAll(".access-form");
 const loginForm = document.querySelector("#login-form");
 const registerForm = document.querySelector("#register-form");
+const googleButton = document.querySelector("#google-login");
+const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: "select_account" });
 
-function showStatus(form, message, type = "error") {
-  const status = form.querySelector(".access-form__status");
+function showStatus(target, message, type = "error") {
+  const status = target.matches?.(".access-form")
+    ? target.querySelector(".access-form__status")
+    : document.querySelector("#google-status");
   status.textContent = message;
   status.dataset.type = type;
 }
 
-function setSubmitting(form, isSubmitting) {
-  const button = form.querySelector('button[type="submit"]');
-  button.disabled = isSubmitting;
-  button.textContent = isSubmitting ? "Aguarde..." : button.dataset.defaultText;
+function setBusy(button, busy, busyText = "Aguarde...") {
+  if (!button.dataset.defaultText) button.dataset.defaultText = button.textContent.trim();
+  button.disabled = busy;
+  button.textContent = busy ? busyText : button.dataset.defaultText;
 }
 
-function getLoginErrorMessage(error) {
-  const message = error.message.toLowerCase();
-
-  if (message.includes("invalid login credentials")) {
-    return "E-mail ou senha incorretos.";
-  }
-
-  if (message.includes("email not confirmed")) {
-    return "Confirme seu e-mail antes de entrar.";
-  }
-
-  if (message.includes("too many requests")) {
-    return "Muitas tentativas. Aguarde um pouco e tente novamente.";
-  }
-
-  return "Não foi possível entrar. Tente novamente.";
+function firebaseMessage(error) {
+  const messages = {
+    "auth/email-already-in-use": "Este e-mail já está cadastrado.",
+    "auth/invalid-credential": "E-mail ou senha incorretos.",
+    "auth/invalid-email": "Digite um endereço de e-mail válido.",
+    "auth/popup-closed-by-user": "A janela do Google foi fechada antes da conclusão.",
+    "auth/popup-blocked": "O navegador bloqueou a janela do Google. Libere pop-ups e tente novamente.",
+    "auth/too-many-requests": "Muitas tentativas. Aguarde um pouco e tente novamente.",
+    "auth/weak-password": "A senha deve ter pelo menos 6 caracteres.",
+  };
+  return messages[error.code] || "Não foi possível autenticar. Tente novamente.";
 }
 
-function getRegisterErrorMessage(error) {
-  const code = error?.code?.toLowerCase() || "";
-  const message = error?.message?.toLowerCase() || "";
-  const status = error?.status;
+async function syncUser(firebaseUser, name) {
+  const idToken = await firebaseUser.getIdToken(true);
+  const response = await fetch("/api/auth/firebase", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${idToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name: name || firebaseUser.displayName }),
+  });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.error || "Não foi possível carregar seus dados.");
 
-  if (
-    code === "user_already_exists" ||
-    code === "email_exists" ||
-    message.includes("user already registered") ||
-    message.includes("already been registered")
-  ) {
-    return "Este e-mail já está cadastrado.";
-  }
-
-  if (
-    code === "email_address_invalid" ||
-    code === "validation_failed" ||
-    message.includes("invalid email") ||
-    message.includes("invalid format")
-  ) {
-    return "Digite um endereço de e-mail válido.";
-  }
-
-  if (code === "weak_password" || message.includes("password should be")) {
-    return "A senha deve ter pelo menos 6 caracteres.";
-  }
-
-  if (
-    code === "over_email_send_rate_limit" ||
-    code === "over_request_rate_limit" ||
-    code === "too_many_requests" ||
-    status === 429 ||
-    message.includes("rate limit") ||
-    message.includes("too many requests")
-  ) {
-    return "Muitas tentativas. Aguarde um pouco e tente novamente.";
-  }
-
-  if (
-    code === "request_timeout" ||
-    code === "network_error" ||
-    code === "network_request_failed" ||
-    message.includes("failed to fetch") ||
-    message.includes("networkerror") ||
-    message.includes("network error")
-  ) {
-    return "Não foi possível conectar. Verifique sua internet.";
-  }
-
-  return "Não foi possível criar sua conta. Tente novamente.";
+  localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(result.user));
+  localStorage.setItem("mente-points", String(result.user.points || 0));
+  window.location.replace("./questoes.html");
 }
 
 function activateTab(selectedTab) {
   tabs.forEach((tab) => {
-    const isSelected = tab === selectedTab;
-    tab.classList.toggle("is-active", isSelected);
-    tab.setAttribute("aria-selected", String(isSelected));
+    const selected = tab === selectedTab;
+    tab.classList.toggle("is-active", selected);
+    tab.setAttribute("aria-selected", String(selected));
+    tab.tabIndex = selected ? 0 : -1;
   });
-
   forms.forEach((form) => {
     form.hidden = form.id !== selectedTab.getAttribute("aria-controls");
     showStatus(form, "", "");
   });
 }
 
-tabs.forEach((tab) => {
-  tab.addEventListener("click", () => activateTab(tab));
-});
+tabs.forEach((tab) => tab.addEventListener("click", () => activateTab(tab)));
 
-forms.forEach((form) => {
-  const button = form.querySelector('button[type="submit"]');
-  button.dataset.defaultText = button.textContent;
-});
-
-loginForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  showStatus(loginForm, "", "");
-  setSubmitting(loginForm, true);
-
-  const data = new FormData(loginForm);
-  const email = data.get("email");
-  const password = data.get("password");
-
-  try {
-    const { error } = await supabaseClient.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      throw error;
-    }
-
-    window.location.href = "./questoes.html";
-  } catch (error) {
-    console.error("Erro no login Supabase:", error);
-    showStatus(loginForm, getLoginErrorMessage(error));
-  } finally {
-    setSubmitting(loginForm, false);
+async function configureFirebase() {
+  const response = await fetch("/api/config/firebase");
+  if (!response.ok) throw new Error("Não foi possível carregar a configuração do Firebase.");
+  const config = await response.json();
+  if (!config.apiKey || !config.projectId || !config.appId) {
+    throw new Error("Configuração do Firebase incompleta no servidor.");
   }
-});
+  return getAuth(initializeApp(config));
+}
 
-registerForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  showStatus(registerForm, "", "");
-  setSubmitting(registerForm, true);
-
-  const data = new FormData(registerForm);
-  const nome = data.get("name");
-  const telefone = data.get("phone");
-  const email = data.get("email");
-  const password = data.get("password");
-
-  try {
-    const { data: signUpData, error } = await supabaseClient.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          name: nome,
-          phone: telefone,
-        },
-      },
-    });
-
-    if (error) {
-      console.error("Erro no cadastro Supabase:", error);
-      showStatus(registerForm, error.message);
-      return;
-    }
-
-    if (signUpData.session) {
-      window.location.href = "./index.html";
-      return;
-    }
-
-    registerForm.reset();
-    showStatus(
-      registerForm,
-      "Conta criada com sucesso! Verifique seu e-mail para confirmar o cadastro.",
-      "success",
-    );
-  } catch (error) {
-    console.error("Erro no cadastro Supabase:", error);
-    showStatus(registerForm, getRegisterErrorMessage(error));
-  } finally {
-    setSubmitting(registerForm, false);
+try {
+  const auth = await configureFirebase();
+  if (new URLSearchParams(window.location.search).has("logout")) {
+    await signOut(auth);
+    localStorage.removeItem(USER_STORAGE_KEY);
+    history.replaceState({}, "", "./login.html");
   }
-});
+
+  googleButton.addEventListener("click", async () => {
+    showStatus(googleButton, "", "");
+    setBusy(googleButton, true, "Abrindo Google...");
+    try {
+      const credential = await signInWithPopup(auth, provider);
+      await syncUser(credential.user);
+    } catch (error) {
+      console.error("Falha no login com Google:", error);
+      showStatus(googleButton, firebaseMessage(error));
+      setBusy(googleButton, false);
+    }
+  });
+
+  loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!loginForm.reportValidity()) return;
+    const button = loginForm.querySelector('button[type="submit"]');
+    const data = new FormData(loginForm);
+    setBusy(button, true);
+    try {
+      const credential = await signInWithEmailAndPassword(auth, data.get("email"), data.get("password"));
+      await syncUser(credential.user);
+    } catch (error) {
+      console.error("Falha no login:", error);
+      showStatus(loginForm, firebaseMessage(error));
+      setBusy(button, false);
+    }
+  });
+
+  registerForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!registerForm.reportValidity()) return;
+    const button = registerForm.querySelector('button[type="submit"]');
+    const data = new FormData(registerForm);
+    setBusy(button, true);
+    try {
+      const credential = await createUserWithEmailAndPassword(auth, data.get("email"), data.get("password"));
+      await updateProfile(credential.user, { displayName: data.get("name").trim() });
+      await syncUser(credential.user, data.get("name"));
+    } catch (error) {
+      console.error("Falha no cadastro:", error);
+      showStatus(registerForm, firebaseMessage(error));
+      setBusy(button, false);
+    }
+  });
+
+} catch (error) {
+  console.error(error);
+  showStatus(googleButton, error.message);
+  googleButton.disabled = true;
+}
