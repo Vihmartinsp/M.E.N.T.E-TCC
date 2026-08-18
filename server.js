@@ -9,6 +9,7 @@ const {
   databaseStatus,
   disconnectDatabase,
 } = require("./config/database");
+const authRouter = require("./routes/auth");
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;
@@ -24,8 +25,26 @@ app.get("/api/health", (_request, response) => {
   });
 });
 
+app.get("/api/config/firebase", (_request, response) => {
+  response.json({
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.FIREBASE_APP_ID,
+  });
+});
+
+app.use("/api/auth", authRouter);
+
+app.use((error, _request, response, _next) => {
+  console.error("Erro na API:", error.message);
+  response.status(500).json({ error: "Não foi possível concluir a solicitação." });
+});
+
 app.use(
-  ["/server.js", "/package.json", "/package-lock.json", "/config", "/models"],
+  ["/server.js", "/package.json", "/package-lock.json", "/config", "/models", "/routes"],
   (_request, response) => response.sendStatus(404),
 );
 

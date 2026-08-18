@@ -180,7 +180,7 @@ document.querySelector("#clear-filters").addEventListener("click", () => {
 
 document.querySelector("#logout-button").addEventListener("click", () => {
   localStorage.removeItem(DEMO_USER_KEY);
-  window.location.replace("./login.html");
+  window.location.replace("./login.html?logout=1");
 });
 
 const toggle = document.querySelector("#menu-toggle");
