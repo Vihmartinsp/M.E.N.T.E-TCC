@@ -1,0 +1,13 @@
+node_modules/
+
+# Segredos e configurações locais
+.env
+.env.*
+!.env.example
+
+# Logs e arquivos do sistema/editor
+*.log
+npm-debug.log*
+.DS_Store
+.vscode/
+.idea/

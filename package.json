@@ -1,0 +1,20 @@
+{
+  "name": "mente-tcc",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Plataforma educacional M.E.N.T.E com API Node.js e MongoDB Atlas",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "check": "node --check server.js && node --check config/database.js && node --check models/User.js && node --check models/Progress.js && node --check models/Question.js && node --check models/Ranking.js && node --check models/Medal.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
+    "mongoose": "^8.18.0"
+  }
+}
