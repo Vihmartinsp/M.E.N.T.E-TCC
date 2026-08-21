@@ -90,11 +90,14 @@ function renderStars(amount) {
 }
 
 function renderQuestions() {
-  const visible = questions.filter((question) =>
-    (!filters.category.value || question.category === filters.category.value) &&
-    (!filters.topic.value || question.topic === filters.topic.value) &&
-    (!filters.year.value || String(question.year) === filters.year.value) &&
-    (selectedStatus === "Todas" || question.status === selectedStatus));
+  const answered = JSON.parse(localStorage.getItem("mente-answers") || "{}");
+  const visible = questions.filter((question) => {
+    const dynamicStatus = answered[question.id] ? "Respondida" : question.status;
+    return (!filters.category.value || question.category === filters.category.value) &&
+      (!filters.topic.value || question.topic === filters.topic.value) &&
+      (!filters.year.value || String(question.year) === filters.year.value) &&
+      (selectedStatus === "Todas" || dynamicStatus === selectedStatus);
+  });
 
   count.textContent = `${visible.length} ${visible.length === 1 ? "questão encontrada" : "questões encontradas"}`;
   emptyState.hidden = visible.length > 0;
@@ -149,6 +152,7 @@ function loadDemoUser() {
   const name = user.name || user.email.split("@")[0] || "Visitante";
   document.querySelector("#user-name").textContent = name;
   document.querySelector("#user-avatar").textContent = name.charAt(0).toUpperCase();
+  document.querySelector(".score strong").textContent = localStorage.getItem("mente-points") || 0;
 }
 
 fillSelect(filters.category, Object.keys(categoryColors));

@@ -7,7 +7,7 @@
     <title>Entrar | M.E.N.T.E</title>
     <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css?v=17">
-    <script src="login.js?v=4" defer></script>
+    <script src="login.js?v=6" defer></script>
   </head>
   <body class="login-page">
     <header class="site-header login-header">
@@ -31,6 +31,13 @@
             <button id="login-tab" class="access-tabs__button is-active" type="button" role="tab" aria-selected="true" aria-controls="login-form">Entrar</button>
             <button id="register-tab" class="access-tabs__button" type="button" role="tab" aria-selected="false" aria-controls="register-form">Criar conta</button>
           </div>
+
+          <button class="google-login" id="google-login" type="button">
+            <span aria-hidden="true">G</span>
+            Entrar com Google
+          </button>
+          <p class="access-form__status google-login__status" id="google-status" role="status" aria-live="polite"></p>
+          <div class="access-divider" aria-hidden="true"><span>ou</span></div>
 
           <form id="login-form" class="access-form" action="#" method="post" role="tabpanel" aria-labelledby="login-tab">
             <label for="login-email">E-mail</label>

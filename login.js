@@ -5,28 +5,32 @@ const tabs = document.querySelectorAll(".access-tabs__button");
 const forms = document.querySelectorAll(".access-form");
 const loginForm = document.querySelector("#login-form");
 const registerForm = document.querySelector("#register-form");
+const googleButton = document.querySelector("#google-login");
+const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: "select_account" });
 
-function showStatus(form, message, type = "error") {
-  const status = form.querySelector(".access-form__status");
+function showStatus(target, message, type = "error") {
+  const status = target.matches?.(".access-form")
+    ? target.querySelector(".access-form__status")
+    : document.querySelector("#google-status");
   status.textContent = message;
   status.dataset.type = type;
 }
 
 function activateTab(selectedTab) {
   tabs.forEach((tab) => {
-    const isSelected = tab === selectedTab;
-    tab.classList.toggle("is-active", isSelected);
-    tab.setAttribute("aria-selected", String(isSelected));
-    tab.tabIndex = isSelected ? 0 : -1;
+    const selected = tab === selectedTab;
+    tab.classList.toggle("is-active", selected);
+    tab.setAttribute("aria-selected", String(selected));
+    tab.tabIndex = selected ? 0 : -1;
   });
-
   forms.forEach((form) => {
     form.hidden = form.id !== selectedTab.getAttribute("aria-controls");
     showStatus(form, "", "");
   });
 }
 
-function saveDemoUser({ email, name }) {
+function enterPlatform({ email, name }) {
   const fallbackName = email.split("@")[0] || "Visitante";
   localStorage.setItem(DEMO_USER_KEY, JSON.stringify({
     email,
@@ -35,25 +39,17 @@ function saveDemoUser({ email, name }) {
   window.location.href = "./questoes.html";
 }
 
-tabs.forEach((tab) => {
-  tab.addEventListener("click", () => activateTab(tab));
-});
+tabs.forEach((tab) => tab.addEventListener("click", () => activateTab(tab)));
 
 loginForm.addEventListener("submit", (event) => {
   event.preventDefault();
   if (!loginForm.reportValidity()) return;
-
-  const email = new FormData(loginForm).get("email").trim();
-  saveDemoUser({ email });
+  enterPlatform({ email: new FormData(loginForm).get("email").trim() });
 });
 
 registerForm.addEventListener("submit", (event) => {
   event.preventDefault();
   if (!registerForm.reportValidity()) return;
-
   const data = new FormData(registerForm);
-  saveDemoUser({
-    email: data.get("email").trim(),
-    name: data.get("name"),
-  });
+  enterPlatform({ email: data.get("email").trim(), name: data.get("name") });
 });
