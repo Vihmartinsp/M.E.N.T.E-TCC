@@ -32,6 +32,13 @@
             <button id="register-tab" class="access-tabs__button" type="button" role="tab" aria-selected="false" aria-controls="register-form">Criar conta</button>
           </div>
 
+          <button class="google-login" id="google-login" type="button">
+            <span aria-hidden="true">G</span>
+            Entrar com Google
+          </button>
+          <p class="access-form__status google-login__status" id="google-status" role="status" aria-live="polite"></p>
+          <div class="access-divider" aria-hidden="true"><span>ou</span></div>
+
           <form id="login-form" class="access-form" action="#" method="post" role="tabpanel" aria-labelledby="login-tab">
             <label for="login-email">E-mail</label>
             <input id="login-email" name="email" type="email" autocomplete="email" placeholder="seu@gmail.com" required>
