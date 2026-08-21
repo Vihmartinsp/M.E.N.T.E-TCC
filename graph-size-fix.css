@@ -1,0 +1,35 @@
+/* Ajuste visual específico da Questão 178 (ENEM 2023).
+   Mantém os gráficos das alternativas grandes e legíveis sem alterar outras páginas. */
+.graph-option {
+  grid-template-columns: 24px 34px minmax(0, 1fr) !important;
+  gap: 14px !important;
+  padding: 16px 18px !important;
+}
+
+.graph-option input {
+  grid-column: 1;
+  align-self: center;
+}
+
+.graph-option__letter {
+  grid-column: 2;
+}
+
+.graph-option svg {
+  grid-column: 3;
+  width: min(680px, 100%) !important;
+  height: auto !important;
+  min-width: 0;
+}
+
+@media (max-width: 700px) {
+  .graph-option {
+    grid-template-columns: 22px 32px minmax(0, 1fr) !important;
+    gap: 10px !important;
+    padding: 13px !important;
+  }
+
+  .graph-option svg {
+    width: 100% !important;
+  }
+}
