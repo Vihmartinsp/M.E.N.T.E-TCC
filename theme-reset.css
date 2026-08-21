@@ -1,9 +1,9 @@
 /*
  * M.E.N.T.E — restauração visual
  *
- * Este arquivo desfaz apenas a aplicação excessiva da paleta por matéria
- * e recupera o visual azul anterior. Ele é carregado por último para não
- * alterar HTML, JavaScript, login, questões ou demais funcionalidades.
+ * A homepage e o login permanecem com o visual já aprovado.
+ * A paleta por matéria e os destaques pedagógicos são aplicados somente
+ * nas páginas internas da plataforma, depois do acesso.
  */
 
 :root {
@@ -25,7 +25,7 @@
   --background: #f4f7fb;
   --white: #ffffff;
 
-  /* Destaques pedagógicos voltam ao visual discreto anterior */
+  /* Mantidos aqui para não alterar homepage/login */
   --questao-conteudo: #526b9d;
   --questao-objetivo: #1769e0;
   --questao-dados-importantes: #526b9d;
@@ -34,7 +34,7 @@
   --questao-resumo: #526b9d;
 }
 
-/* Homepage */
+/* Homepage — NÃO ALTERAR */
 body:not([data-page]) {
   color: #13294b;
 }
@@ -158,7 +158,7 @@ h1 span {
   background: #edf1f5;
 }
 
-/* Login — mantém a correção funcional e só restaura o visual */
+/* Login/Cadastro — NÃO ALTERAR */
 .login-main {
   background: linear-gradient(120deg, #001f4f 0%, #0053bd 100%);
 }
@@ -198,7 +198,31 @@ h1 span {
   background: #003f9f;
 }
 
-/* Plataforma — volta ao azul uniforme anterior */
+/* ==========================================================
+   PLATAFORMA INTERNA — paleta oficial da imagem de referência
+   ========================================================== */
+
+/* Cores pedagógicas: só existem/valem dentro da plataforma. */
+.questions-grid,
+.question-detail,
+body[data-page] {
+  --questao-conteudo: #2563EB;
+  --questao-objetivo: #1D4EDB;
+  --questao-dados-importantes: #0EA5E9;
+  --questao-dica: #F59E0B;
+  --questao-erro: #DC2626;
+  --questao-resumo: #5B21B6;
+
+  --materia-geometria: #FF7A00;
+  --materia-funcoes: #9D4EDD;
+  --materia-estatistica-probabilidade: #004A00;
+  --materia-matematica-financeira: #F2C94C;
+  --materia-grandezas-medidas: #D70101;
+  --materia-analise-graficos: #FF2E9A;
+  --materia-modulo-extra: #FF7A00;
+}
+
+/* A estrutura geral da plataforma continua azul e limpa. */
 .sidebar__link.is-active {
   box-shadow: inset 3px 0 #4d9bff;
 }
@@ -228,10 +252,157 @@ h1 span {
   background: linear-gradient(90deg, #1769e0, #65a6ff);
 }
 
-.question-detail__meta span,
-.question-detail__meta span:first-child {
-  color: #1769e0;
-  background: #edf3ff;
+/* ----------------------------------------------------------
+   CATÁLOGO DE QUESTÕES — cada matéria usa sua cor oficial
+   O JS antigo ainda envia três cores anteriores; elas são
+   corrigidas aqui sem alterar a lógica nem as questões.
+   ---------------------------------------------------------- */
+.question-card[style*="#FF751F"] {
+  --category-color: #FF7A00 !important;
+}
+
+.question-card[style*="#9D4EDD"] {
+  --category-color: #9D4EDD !important;
+}
+
+.question-card[style*="#004A00"] {
+  --category-color: #004A00 !important;
+}
+
+.question-card[style*="#FFEE48"] {
+  --category-color: #F2C94C !important;
+}
+
+.question-card[style*="#D70101"] {
+  --category-color: #D70101 !important;
+}
+
+.question-card[style*="#2A68B2"] {
+  --category-color: #FF2E9A !important;
+}
+
+.question-card {
+  border-top-color: var(--category-color) !important;
+}
+
+.question-card::before {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--category-color) 9%, transparent), transparent) !important;
+}
+
+.question-card__category {
+  color: #ffffff !important;
+  background: var(--category-color) !important;
+}
+
+.question-card__stars,
+.question-card__footer button {
+  color: var(--category-color) !important;
+}
+
+.question-card__tags span {
+  color: var(--questao-conteudo) !important;
+  background: color-mix(in srgb, var(--questao-conteudo) 10%, #ffffff) !important;
+}
+
+.question-card__visual {
+  background: color-mix(in srgb, var(--category-color) 7%, #f8fafc) !important;
+}
+
+/* Matemática Financeira é amarela: mantém contraste legível. */
+.question-card[style*="#FFEE48"] .question-card__category {
+  color: #3f3300 !important;
+}
+
+.question-card[style*="#FFEE48"] .question-card__stars,
+.question-card[style*="#FFEE48"] .question-card__footer button {
+  color: #9a7600 !important;
+}
+
+/* ----------------------------------------------------------
+   MÓDULOS, ROTEIRO E EXPLICAÇÕES — mesma ordem das matérias
+   ---------------------------------------------------------- */
+body[data-page="modulos"] .portal-card:nth-child(1),
+body[data-page="explicacoes"] .portal-card:nth-child(1),
+.roadmap .portal-card:nth-child(1) { --category-color: #FF7A00; }
+
+body[data-page="modulos"] .portal-card:nth-child(2),
+body[data-page="explicacoes"] .portal-card:nth-child(2),
+.roadmap .portal-card:nth-child(2) { --category-color: #9D4EDD; }
+
+body[data-page="modulos"] .portal-card:nth-child(3),
+body[data-page="explicacoes"] .portal-card:nth-child(3),
+.roadmap .portal-card:nth-child(3) { --category-color: #004A00; }
+
+body[data-page="modulos"] .portal-card:nth-child(4),
+body[data-page="explicacoes"] .portal-card:nth-child(4),
+.roadmap .portal-card:nth-child(4) { --category-color: #F2C94C; }
+
+body[data-page="modulos"] .portal-card:nth-child(5),
+body[data-page="explicacoes"] .portal-card:nth-child(5),
+.roadmap .portal-card:nth-child(5) { --category-color: #D70101; }
+
+body[data-page="modulos"] .portal-card:nth-child(6),
+body[data-page="explicacoes"] .portal-card:nth-child(6),
+.roadmap .portal-card:nth-child(6) { --category-color: #FF2E9A; }
+
+body[data-page="modulos"] .portal-card,
+body[data-page="explicacoes"] .portal-card,
+.roadmap .portal-card {
+  border-top: 4px solid var(--category-color);
+}
+
+body[data-page="modulos"] .portal-card__icon,
+body[data-page="explicacoes"] .portal-card__icon {
+  color: var(--category-color);
+  background: color-mix(in srgb, var(--category-color) 10%, #ffffff);
+}
+
+body[data-page="modulos"] .portal-card__tag,
+body[data-page="explicacoes"] .portal-card__tag,
+.roadmap .portal-card__tag {
+  color: color-mix(in srgb, var(--category-color) 80%, #111111);
+  background: color-mix(in srgb, var(--category-color) 11%, #ffffff);
+}
+
+body[data-page="modulos"] .portal-card .portal-button,
+body[data-page="explicacoes"] .portal-card .portal-button,
+.roadmap .portal-card .portal-button,
+.roadmap-step > strong {
+  background: var(--category-color);
+}
+
+body[data-page="modulos"] .portal-card:nth-child(4) .portal-button,
+body[data-page="explicacoes"] .portal-card:nth-child(4) .portal-button,
+.roadmap .portal-card:nth-child(4) .portal-button,
+.roadmap .portal-card:nth-child(4) .roadmap-step > strong {
+  color: #3f3300;
+}
+
+.roadmap .portal-card .progress-track span {
+  background: var(--category-color);
+}
+
+/* ----------------------------------------------------------
+   RESOLUÇÃO DA QUESTÃO — cores pedagógicas da referência
+   ---------------------------------------------------------- */
+.question-detail__meta span {
+  color: var(--questao-conteudo);
+  background: color-mix(in srgb, var(--questao-conteudo) 10%, #ffffff);
+}
+
+.question-detail__meta span:nth-child(2) {
+  color: var(--questao-conteudo);
+  background: color-mix(in srgb, var(--questao-conteudo) 10%, #ffffff);
+}
+
+.question-detail__meta span:nth-child(3) {
+  color: var(--questao-dados-importantes);
+  background: color-mix(in srgb, var(--questao-dados-importantes) 10%, #ffffff);
+}
+
+.question-detail__meta span:nth-child(4) {
+  color: var(--questao-resumo);
+  background: color-mix(in srgb, var(--questao-resumo) 10%, #ffffff);
 }
 
 .question-statement {
@@ -239,90 +410,38 @@ h1 span {
 }
 
 .answer-options label:has(input:checked) {
-  border-color: #1769e0;
-  background: #f0f5ff;
+  border-color: var(--questao-objetivo);
+  background: color-mix(in srgb, var(--questao-objetivo) 7%, #ffffff);
 }
 
-.mini-bike-circle {
-  background: #11add2;
-  box-shadow: 0 0 0 1px #273747;
+.answer-options input {
+  accent-color: var(--questao-objetivo);
 }
 
-.mini-bike-circle span {
-  color: #172535;
+.answer-options strong {
+  color: var(--questao-objetivo);
+  background: color-mix(in srgb, var(--questao-objetivo) 10%, #ffffff);
+}
+
+.question-detail .portal-button {
+  background: var(--questao-objetivo);
 }
 
 .result-box--wrong {
-  border-color: #f5c2bd;
-  color: #7a271a;
+  border-color: color-mix(in srgb, var(--questao-erro) 35%, #ffffff);
+  color: var(--questao-erro);
+  background: color-mix(in srgb, var(--questao-erro) 6%, #ffffff);
 }
 
-.form-error {
-  color: #b42318;
+.form-error,
+.answer-feedback[data-type="error"] {
+  color: var(--questao-erro);
 }
 
-/* Remove o arco-íris dos módulos/roteiro. */
-body[data-page="modulos"] .portal-card,
-body[data-page="explicacoes"] .portal-card,
-.roadmap .portal-card {
-  --module-color: #1769e0 !important;
-}
-
-body[data-page="modulos"] .portal-card__icon,
-body[data-page="explicacoes"] .portal-card__icon {
-  color: inherit;
-  background: #eaf2ff;
-}
-
-body[data-page="modulos"] .portal-card__tag,
-body[data-page="explicacoes"] .portal-card__tag {
-  color: #1769e0;
-  background: #eaf2ff;
-}
-
-.roadmap-step strong {
-  background: #1769e0;
-}
-
-/* Catálogo de questões: todas as matérias voltam a usar o mesmo azul. */
-.question-card {
-  --category-color: #1769e0 !important;
-}
-
-.question-card::before {
-  background: linear-gradient(180deg, rgba(23, 105, 224, 0.08), transparent);
-}
-
-.question-card__category {
-  color: #ffffff !important;
-  background: #1769e0 !important;
-}
-
-.question-card__stars,
-.question-card__footer button {
-  color: #1769e0 !important;
-}
-
-.question-card__tags span {
-  color: #315f9d;
-  background: #eaf2ff;
-}
-
-.question-card__visual {
-  background: #f4f7fb;
-}
-
-.question-card[style] .question-card__category,
-.question-card[style] .question-card__stars,
-.question-card[style] .question-card__footer button {
-  color: revert;
-}
-
-.question-card[style] .question-card__category {
-  color: #ffffff !important;
-}
-
-.question-card[style] .question-card__stars,
-.question-card[style] .question-card__footer button {
-  color: #1769e0 !important;
-}
+/* Cores reservadas para os próximos blocos pedagógicos do projeto. */
+.question-content-highlight { color: var(--questao-conteudo); }
+.question-objective-highlight { color: var(--questao-objetivo); }
+.question-data-highlight { color: var(--questao-dados-importantes); }
+.question-tip-highlight { color: var(--questao-dica); }
+.question-error-highlight { color: var(--questao-erro); }
+.question-summary-highlight { color: var(--questao-resumo); }
