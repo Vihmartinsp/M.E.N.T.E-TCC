@@ -32,17 +32,15 @@ function activateTab(selectedTab) {
 }
 
 function enterPlatform({ email, name }) {
-  const safeEmail = String(email || "").trim();
-  const fallbackName = safeEmail.split("@")[0] || "Visitante";
-
-  localStorage.setItem(
-    DEMO_USER_KEY,
-    JSON.stringify({
-      email: safeEmail,
+  const fallbackName = email.split("@")[0] || "Visitante";
+  try {
+    localStorage.setItem(DEMO_USER_KEY, JSON.stringify({
+      email,
       name: name?.trim() || fallbackName,
-    }),
-  );
-
+    }));
+  } catch (error) {
+    console.warn("O navegador não permitiu salvar a sessão demonstrativa.", error);
+  }
   window.location.href = "./questoes.html";
 }
 
