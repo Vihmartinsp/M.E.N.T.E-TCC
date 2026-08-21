@@ -1,0 +1,328 @@
+/*
+ * M.E.N.T.E — restauração visual
+ *
+ * Este arquivo desfaz apenas a aplicação excessiva da paleta por matéria
+ * e recupera o visual azul anterior. Ele é carregado por último para não
+ * alterar HTML, JavaScript, login, questões ou demais funcionalidades.
+ */
+
+:root {
+  /* Base visual anterior da homepage/login */
+  --mente-azul-escuro: #13294b;
+  --mente-azul: #526b9d;
+  --mente-azul-vivo: #064fc9;
+  --mente-ciano: #377fdd;
+  --mente-fundo: #edf1f5;
+
+  /* Base visual anterior da plataforma */
+  --navy: #0b1e3b;
+  --navy-soft: #142b4e;
+  --blue: #1769e0;
+  --blue-pale: #eaf2ff;
+  --ink: #16243a;
+  --muted: #68758a;
+  --line: #dfe6f0;
+  --background: #f4f7fb;
+  --white: #ffffff;
+
+  /* Destaques pedagógicos voltam ao visual discreto anterior */
+  --questao-conteudo: #526b9d;
+  --questao-objetivo: #1769e0;
+  --questao-dados-importantes: #526b9d;
+  --questao-dica: #f7e6a8;
+  --questao-erro: #b42318;
+  --questao-resumo: #526b9d;
+}
+
+/* Homepage */
+body:not([data-page]) {
+  color: #13294b;
+}
+
+.site-header,
+.information-section,
+.login-page,
+.login-header {
+  background: #edf1f5;
+}
+
+.main-nav__link,
+.hero-description,
+h1 {
+  color: #13294b;
+}
+
+.main-nav__button,
+.hero-actions a,
+.window-bar {
+  background: #526b9d;
+}
+
+.main-nav a:focus-visible,
+.hero-actions a:focus-visible,
+.footer-cta a:focus-visible,
+.footer-information a:focus-visible,
+.access-form > button:focus-visible {
+  outline-color: #f7e6a8;
+}
+
+.hero {
+  background: linear-gradient(105deg, #00284c 0%, #064fc9 100%);
+}
+
+.section-label,
+.about-introduction,
+.main-objective h3,
+.main-objective p,
+.objective-benefits h3,
+.objective-benefits p,
+.how-it-works__steps span,
+.how-it-works__steps h3,
+.how-it-works__steps p,
+.how-it-works__steps li:not(:last-child)::after,
+.prototype-label,
+.hero-stats dt,
+.hero-stats dd,
+.question-meta strong {
+  color: #526b9d;
+}
+
+.main-objective,
+.how-it-works__steps li {
+  background: #dfe6ee;
+}
+
+.workflow-section {
+  color: #13294b;
+}
+
+.how-it-works > .section-label {
+  color: #064fc9;
+}
+
+.footer-cta {
+  background: #3d62b3;
+}
+
+.footer-cta p,
+.footer-information a {
+  color: #c1d2f2;
+}
+
+.footer-cta a {
+  color: #3d62b3;
+}
+
+.footer-cta a:hover {
+  color: #294678;
+}
+
+.footer-information {
+  background: #15294e;
+}
+
+.prototype-label,
+.question-frame {
+  background: #dfe8f4;
+}
+
+h1 span {
+  color: #526b9d;
+  background: linear-gradient(90deg, #526b9d, #377fdd);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.question-tags span {
+  color: #526b9d;
+  background: #dfe8f4;
+}
+
+.question-text strong {
+  color: #526b9d;
+}
+
+.question-tip {
+  color: #5d5227;
+  background: #f7e6a8;
+}
+
+.answer--selected span,
+.illustration-button {
+  background: #526b9d;
+}
+
+.answer span {
+  color: #526b9d;
+  background: #edf1f5;
+}
+
+/* Login — mantém a correção funcional e só restaura o visual */
+.login-main {
+  background: linear-gradient(120deg, #001f4f 0%, #0053bd 100%);
+}
+
+.login-presentation__badge {
+  border-color: #0067c9;
+  color: #d5e5ff;
+}
+
+.login-presentation > div > p:last-child {
+  color: #c8d9f3;
+}
+
+.access-tabs__button.is-active {
+  border-bottom-color: #064fc9;
+  color: #07397f;
+}
+
+.access-tabs__button:focus-visible {
+  outline-color: rgba(6, 79, 201, 0.25);
+}
+
+.access-form input {
+  color: #13294b;
+}
+
+.access-form input:focus {
+  border-color: #064fc9;
+  outline-color: rgba(6, 79, 201, 0.15);
+}
+
+.access-form > button {
+  background: #064fc9;
+}
+
+.access-form > button:hover {
+  background: #003f9f;
+}
+
+/* Plataforma — volta ao azul uniforme anterior */
+.sidebar__link.is-active {
+  box-shadow: inset 3px 0 #4d9bff;
+}
+
+.sidebar__link.is-active span {
+  color: #63a8ff;
+}
+
+.user-menu__avatar {
+  background: linear-gradient(135deg, #1769e0, #50a1ff);
+}
+
+.filters select:focus {
+  border-color: #1769e0;
+  box-shadow: 0 0 0 3px #e8f1ff;
+}
+
+.portal-hero {
+  background: linear-gradient(135deg, #102b55, #245ee8);
+}
+
+.portal-hero p {
+  color: #dce8ff;
+}
+
+.progress-track span {
+  background: linear-gradient(90deg, #1769e0, #65a6ff);
+}
+
+.question-detail__meta span,
+.question-detail__meta span:first-child {
+  color: #1769e0;
+  background: #edf3ff;
+}
+
+.question-statement {
+  color: #263851 !important;
+}
+
+.answer-options label:has(input:checked) {
+  border-color: #1769e0;
+  background: #f0f5ff;
+}
+
+.mini-bike-circle {
+  background: #11add2;
+  box-shadow: 0 0 0 1px #273747;
+}
+
+.mini-bike-circle span {
+  color: #172535;
+}
+
+.result-box--wrong {
+  border-color: #f5c2bd;
+  color: #7a271a;
+}
+
+.form-error {
+  color: #b42318;
+}
+
+/* Remove o arco-íris dos módulos/roteiro. */
+body[data-page="modulos"] .portal-card,
+body[data-page="explicacoes"] .portal-card,
+.roadmap .portal-card {
+  --module-color: #1769e0 !important;
+}
+
+body[data-page="modulos"] .portal-card__icon,
+body[data-page="explicacoes"] .portal-card__icon {
+  color: inherit;
+  background: #eaf2ff;
+}
+
+body[data-page="modulos"] .portal-card__tag,
+body[data-page="explicacoes"] .portal-card__tag {
+  color: #1769e0;
+  background: #eaf2ff;
+}
+
+.roadmap-step strong {
+  background: #1769e0;
+}
+
+/* Catálogo de questões: todas as matérias voltam a usar o mesmo azul. */
+.question-card {
+  --category-color: #1769e0 !important;
+}
+
+.question-card::before {
+  background: linear-gradient(180deg, rgba(23, 105, 224, 0.08), transparent);
+}
+
+.question-card__category {
+  color: #ffffff !important;
+  background: #1769e0 !important;
+}
+
+.question-card__stars,
+.question-card__footer button {
+  color: #1769e0 !important;
+}
+
+.question-card__tags span {
+  color: #315f9d;
+  background: #eaf2ff;
+}
+
+.question-card__visual {
+  background: #f4f7fb;
+}
+
+.question-card[style] .question-card__category,
+.question-card[style] .question-card__stars,
+.question-card[style] .question-card__footer button {
+  color: revert;
+}
+
+.question-card[style] .question-card__category {
+  color: #ffffff !important;
+}
+
+.question-card[style] .question-card__stars,
+.question-card[style] .question-card__footer button {
+  color: #1769e0 !important;
+}
