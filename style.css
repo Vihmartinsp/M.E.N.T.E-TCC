@@ -1095,6 +1095,27 @@ h1 span {
   text-align: center;
 }
 
+.access-form__hint {
+  margin: -4px 0 16px;
+  color: #667085;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.access-form__guest {
+  display: block;
+  margin: 14px 0 12px;
+  color: #3158d9;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+}
+
+.access-form__guest:hover {
+  text-decoration: underline;
+}
+
 .access-form__status[data-type="success"] {
   color: #16713b;
 }
