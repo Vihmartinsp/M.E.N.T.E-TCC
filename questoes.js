@@ -148,8 +148,7 @@ function loadDemoUser() {
   let user;
   try { user = JSON.parse(localStorage.getItem(DEMO_USER_KEY)); }
   catch (error) { localStorage.removeItem(DEMO_USER_KEY); }
-  if (!user?.email) { window.location.replace("./login.html"); return; }
-  const name = user.name || user.email.split("@")[0] || "Visitante";
+  const name = user?.name || user?.email?.split("@")[0] || "Visitante";
   document.querySelector("#user-name").textContent = name;
   document.querySelector("#user-avatar").textContent = name.charAt(0).toUpperCase();
   document.querySelector(".score strong").textContent = localStorage.getItem("mente-points") || 0;
