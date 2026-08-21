@@ -4,7 +4,9 @@ const question = JSON.parse(localStorage.getItem("mente-selected-question") || "
 const root = document.querySelector("#question-content");
 const pointsKey = "mente-points";
 const answersKey = "mente-answers";
+const categoryColors = { "Geometria": "#FF7A00", "Funções": "#9D4EDD", "Estatística e Probabilidade": "#004A00", "Matemática Financeira": "#F2C94C", "Grandezas e Medidas": "#D70101", "Gráficos e Tabelas": "#FF2E9A" };
 document.querySelector("#points").textContent = localStorage.getItem(pointsKey) || 0;
+if (question?.category) document.documentElement.style.setProperty("--question-category-color", categoryColors[question.category]);
 
 const solutions = {
   1: { options: ["384 m²", "396 m²", "400 m²", "416 m²", "800 m²"], correct: 0, explanation: "A praça inteira tem 20 × 20 = 400 m². A parte central, que não recebe grama, tem 4 × 4 = 16 m². Retirando essa parte: 400 − 16 = 384 m²." },
@@ -40,7 +42,7 @@ const solutions = {
 };
 
 function lagoonDiagram() {
-  return `<figure class="lagoon-diagram"><svg viewBox="0 0 430 285" role="img" aria-labelledby="lagoon-title lagoon-desc"><title id="lagoon-title">Ciclovia circular ao redor de uma lagoa</title><desc id="lagoon-desc">Lagoa circular azul, ciclovia cinza e região de alcance de duzentos metros para cada lado do ponto P.</desc><circle cx="190" cy="142" r="103" fill="#10add2"/><circle cx="190" cy="142" r="112" fill="none" stroke="#d8dee5" stroke-width="12"/><circle cx="190" cy="142" r="119" fill="none" stroke="#263747" stroke-width="2"/><path d="M269 58 A112 112 0 0 1 301 103" fill="none" stroke="#4b5563" stroke-width="13" stroke-linecap="round"/><circle cx="287" cy="79" r="5" fill="#172535"/><text x="276" y="99" font-size="16" font-style="italic">P</text><path d="M289 67 L337 30 M299 87 L353 63" stroke="#172535" stroke-width="1.5"/><text x="338" y="29" font-size="14">200 m</text><text x="354" y="67" font-size="14">200 m</text></svg><figcaption>Cada policial protege até 200 m da ciclovia em cada direção a partir de sua posição.</figcaption></figure>`;
+  return `<figure class="lagoon-diagram"><svg viewBox="0 0 430 285" role="img" aria-labelledby="lagoon-title lagoon-desc"><title id="lagoon-title">Ciclovia circular ao redor de uma lagoa</title><desc id="lagoon-desc">Lagoa circular azul, ciclovia cinza e região de alcance de duzentos metros para cada lado do ponto P.</desc><circle cx="190" cy="142" r="103" fill="#02DDED"/><circle cx="190" cy="142" r="112" fill="none" stroke="#d8dee5" stroke-width="12"/><circle cx="190" cy="142" r="119" fill="none" stroke="#01233F" stroke-width="2"/><path d="M269 58 A112 112 0 0 1 301 103" fill="none" stroke="#4b5563" stroke-width="13" stroke-linecap="round"/><circle cx="287" cy="79" r="5" fill="#01233F"/><text x="276" y="99" font-size="16" font-style="italic">P</text><path d="M289 67 L337 30 M299 87 L353 63" stroke="#01233F" stroke-width="1.5"/><text x="338" y="29" font-size="14">200 m</text><text x="354" y="67" font-size="14">200 m</text></svg><figcaption>Cada policial protege até 200 m da ciclovia em cada direção a partir de sua posição.</figcaption></figure>`;
 }
 
 if (!question || !solutions[question.id]) {
