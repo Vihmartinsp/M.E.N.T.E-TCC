@@ -5,9 +5,14 @@ const tabs = document.querySelectorAll(".access-tabs__button");
 const forms = document.querySelectorAll(".access-form");
 const loginForm = document.querySelector("#login-form");
 const registerForm = document.querySelector("#register-form");
+const googleButton = document.querySelector("#google-login");
+const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: "select_account" });
 
-function showStatus(form, message, type = "error") {
-  const status = form.querySelector(".access-form__status");
+function showStatus(target, message, type = "error") {
+  const status = target.matches?.(".access-form")
+    ? target.querySelector(".access-form__status")
+    : document.querySelector("#google-status");
   status.textContent = message;
   status.dataset.type = type;
 }
@@ -19,7 +24,6 @@ function activateTab(selectedTab) {
     tab.setAttribute("aria-selected", String(selected));
     tab.tabIndex = selected ? 0 : -1;
   });
-
   forms.forEach((form) => {
     form.hidden = form.id !== selectedTab.getAttribute("aria-controls");
     showStatus(form, "", "");
