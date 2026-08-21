@@ -6,9 +6,8 @@
     <meta name="description" content="Entre na plataforma M.E.N.T.E">
     <title>Entrar | M.E.N.T.E</title>
     <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="style.css?v=17">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="login.js?v=3" type="module"></script>
+    <link rel="stylesheet" href="style.css?v=18">
+    <script src="login.js?v=8" defer></script>
   </head>
   <body class="login-page">
     <header class="site-header login-header">
@@ -38,9 +37,11 @@
             <input id="login-email" name="email" type="email" autocomplete="email" placeholder="seu@gmail.com" required>
 
             <label for="login-password">Senha</label>
-            <input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="************" required>
+            <input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="************">
 
             <button type="submit">Entrar</button>
+            <a class="access-form__guest" href="./questoes.html">Continuar sem cadastro</a>
+            <p class="access-form__hint">No protótipo, você pode entrar com qualquer e-mail.</p>
             <p class="access-form__status" role="status" aria-live="polite"></p>
           </form>
 
@@ -58,6 +59,7 @@
             <input id="register-password" name="password" type="password" autocomplete="new-password" placeholder="************" minlength="6" required>
 
             <button type="submit">Criar conta</button>
+            <p class="access-form__hint">Cadastro demonstrativo: seus dados ficam somente neste navegador.</p>
             <p class="access-form__status" role="status" aria-live="polite"></p>
           </form>
         </div>
