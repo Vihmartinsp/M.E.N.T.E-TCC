@@ -4,12 +4,12 @@ const DEMO_USER_KEY = "mente-demo-user";
 const INEP_SOURCE_URL = "https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/provas-e-gabaritos";
 
 const categoryColors = {
-  "Geometria": "#FF7A00",
+  "Geometria": "#FF751F",
   "Funções": "#9D4EDD",
   "Estatística e Probabilidade": "#004A00",
-  "Matemática Financeira": "#F2C94C",
+  "Matemática Financeira": "#FFEE48",
   "Grandezas e Medidas": "#D70101",
-  "Gráficos e Tabelas": "#FF2E9A",
+  "Gráficos e Tabelas": "#2A68B2",
 };
 
 const questions = [
