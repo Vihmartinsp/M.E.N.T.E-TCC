@@ -6,8 +6,7 @@ const forms = document.querySelectorAll(".access-form");
 const loginForm = document.querySelector("#login-form");
 const registerForm = document.querySelector("#register-form");
 const googleButton = document.querySelector("#google-login");
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({ prompt: "select_account" });
+
 
 function showStatus(target, message, type = "error") {
   const status = target.matches?.(".access-form")
