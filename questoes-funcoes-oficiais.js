@@ -36,13 +36,28 @@
       explanation: "No instante t1 começa a prática meditativa. A partir daí, a curva do gráfico desce, mostrando que a frequência respiratória diminui. Essa queda continua até t2. Depois de t2, o gráfico fica horizontal no nível f2, indicando que a frequência se estabiliza e passa a permanecer constante. Portanto, a alternativa correta é D.",
       intro: "Leia o formato do gráfico por trechos e observe quando a frequência diminui e quando se estabiliza.",
       graph: true
+    },
+    8: {
+      id: 8,
+      examNumber: 170,
+      category: "Funções",
+      topic: "Função logarítmica e logaritmos",
+      year: 2024,
+      stars: 5,
+      text: "Dois terremotos têm magnitudes relacionadas pela escala Richter. Sabendo que o primeiro teve magnitude 6,9 e liberou um décimo da energia do segundo, qual é a magnitude aproximada do segundo terremoto?",
+      detail: "Em uma região com grande incidência de terremotos, observou-se que dois terremotos ocorridos apresentaram magnitudes M1 e M2, medidas segundo a escala Richter, e liberaram energias iguais a E1 e E2, respectivamente. Entre os estudiosos do assunto, é conhecida a relação M2 − M1 = (2/3)·log(E2/E1). Estudos mais abrangentes observaram que o primeiro terremoto apresentou magnitude M1 = 6,9 e a energia liberada foi um décimo da observada no segundo terremoto. O valor aproximado da magnitude M2 do segundo terremoto, expresso com uma casa decimal, é igual a",
+      options: ["5,4", "6,2", "7,6", "8,2", "8,4"],
+      correct: 2,
+      explanation: "Como a energia do primeiro terremoto foi um décimo da energia do segundo, temos E1 = E2/10. Logo, E2/E1 = 10. Na relação M2 − M1 = (2/3)·log(E2/E1), fica M2 − 6,9 = (2/3)·log(10). Como log(10) = 1, temos M2 − 6,9 = 2/3 ≈ 0,67. Portanto, M2 ≈ 6,9 + 0,67 = 7,57, que com uma casa decimal resulta em 7,6. Alternativa C.",
+      intro: "Identifique a razão entre as energias e use a propriedade básica do logaritmo decimal para encontrar a nova magnitude."
     }
   };
 
   function resetOldPlaceholderAnswers() {
     const migrations = [
       ["mente-q146-2024-v1", 6],
-      ["mente-q145-2025-v1", 7]
+      ["mente-q145-2025-v1", 7],
+      ["mente-q170-2024-v1", 8]
     ];
     migrations.forEach(([migrationKey, id]) => {
       if (localStorage.getItem(migrationKey)) return;
