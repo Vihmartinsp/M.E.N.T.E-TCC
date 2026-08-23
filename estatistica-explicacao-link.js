@@ -1,0 +1,53 @@
+"use strict";
+
+(() => {
+  const href = "explicacoes.html#estatistica";
+
+  function addCatalogLinks() {
+    document.querySelectorAll(".question-card").forEach((card) => {
+      const category = card.querySelector(".question-card__category")?.textContent?.trim();
+      if (category !== "Estatística e Probabilidade" || card.querySelector(".statistics-study-link")) return;
+
+      const link = document.createElement("a");
+      link.className = "statistics-study-link";
+      link.href = href;
+      link.textContent = "📘 Revisar Estatística e Probabilidade";
+      link.setAttribute("aria-label", "Revisar Estatística e Probabilidade");
+
+      const footer = card.querySelector(".question-card__footer");
+      if (footer) footer.insertAdjacentElement("beforebegin", link);
+      else card.appendChild(link);
+    });
+  }
+
+  function addDetailLink() {
+    const root = document.querySelector("#question-content");
+    if (!root || root.querySelector(".statistics-study-link")) return;
+
+    let selected = null;
+    try { selected = JSON.parse(localStorage.getItem("mente-selected-question") || "null"); } catch { selected = null; }
+    if (selected?.category !== "Estatística e Probabilidade") return;
+
+    const card = root.querySelector(".portal-card");
+    if (!card) return;
+
+    const link = document.createElement("a");
+    link.className = "statistics-study-link";
+    link.href = href;
+    link.textContent = "📘 Revisar Estatística e Probabilidade";
+    link.setAttribute("aria-label", "Revisar Estatística e Probabilidade");
+
+    const meta = card.querySelector(".question-detail__meta");
+    if (meta) meta.insertAdjacentElement("afterend", link);
+    else card.prepend(link);
+  }
+
+  addCatalogLinks();
+  addDetailLink();
+
+  const observer = new MutationObserver(() => {
+    addCatalogLinks();
+    addDetailLink();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
