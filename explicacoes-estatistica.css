@@ -1,0 +1,39 @@
+/* Explicação completa de Estatística e Probabilidade — somente na aba Explicações */
+.statistics-guide{display:grid;gap:22px;max-width:980px;margin:32px auto 0;scroll-margin-top:24px}
+.statistics-guide__hero{position:relative;overflow:hidden;padding:34px;border:1px solid #b9dfbf;border-radius:20px;background:linear-gradient(135deg,#eef9ef 0%,#ffffff 68%);box-shadow:0 16px 34px rgba(15,35,63,.07)}
+.statistics-guide__hero::after{content:"📊";position:absolute;right:28px;top:18px;font-size:76px;opacity:.12;transform:rotate(5deg)}
+.statistics-guide__eyebrow{margin:0 0 8px;color:#004A00;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.statistics-guide__hero h2{margin:0 0 10px;color:#16243a;font-size:clamp(28px,4vw,42px)}
+.statistics-guide__hero p{max-width:740px;margin:0;color:#526174;line-height:1.75}
+.statistics-guide__toc{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
+.statistics-guide__toc a{padding:9px 12px;border:1px solid #b9dfbf;border-radius:999px;color:#004A00;background:#fff;text-decoration:none;font-size:12px;font-weight:800}
+.statistics-guide__toc a:hover{background:#effaf1}
+.statistics-section{scroll-margin-top:24px;padding:26px;border:1px solid #e4e9f1;border-radius:18px;background:#fff;box-shadow:0 9px 24px rgba(15,35,63,.05)}
+.statistics-section h3{display:flex;align-items:center;gap:10px;margin:0 0 16px;color:#17263c;font-size:22px}
+.statistics-section h4{margin:22px 0 8px;color:#20344f;font-size:17px}
+.statistics-section p,.statistics-section li{color:#526174;line-height:1.72}
+.statistics-section ul,.statistics-section ol{padding-left:22px}
+.statistics-section strong{color:#1f3048}
+.statistics-accent{border-left:5px solid #004A00}
+.statistics-callout{margin:18px 0;padding:16px 18px;border-radius:14px;background:#eef9ef;border:1px solid #cce8d0;color:#164a20;line-height:1.65}
+.statistics-flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:16px 0}
+.statistics-flow span{padding:10px 13px;border-radius:10px;background:#eff9f0;border:1px solid #c6e5cb;color:#004A00;font-weight:800}
+.statistics-flow b{color:#a1adbc}
+.statistics-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}
+.statistics-mini-card{padding:17px;border:1px solid #e2e8f0;border-radius:14px;background:#fbfcfe}
+.statistics-mini-card h4{margin:0 0 8px}.statistics-mini-card p{margin:0;font-size:13px}
+.statistics-concepts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:16px}
+.statistics-concept-card{padding:18px;border:1px solid #dbe5f1;border-radius:15px;background:#fbfdff}
+.statistics-concept-card h4{margin:0 0 8px}.statistics-concept-card p{margin:7px 0;font-size:13px}
+.statistics-formula{display:inline-block;margin:4px 0 10px;padding:8px 11px;border-radius:9px;color:#fff;background:#004A00;font-size:14px;font-weight:900}
+.statistics-example{margin-top:10px;padding:12px 14px;border-radius:11px;background:#f2f7fb;border:1px solid #dce5ee;color:#42556c;font-size:13px;line-height:1.65}
+.statistics-checklist{counter-reset:statstep;display:grid;gap:10px;padding:0!important;list-style:none}
+.statistics-checklist li{position:relative;padding:13px 15px 13px 48px;border:1px solid #e2e8f0;border-radius:12px;background:#fff}
+.statistics-checklist li::before{counter-increment:statstep;content:counter(statstep);position:absolute;left:13px;top:11px;display:grid;width:25px;height:25px;place-items:center;border-radius:50%;color:#fff;background:#004A00;font-weight:800}
+.statistics-summary{padding:22px;border-radius:18px;background:linear-gradient(135deg,#003b16,#08752c);color:#fff}
+.statistics-summary h3,.statistics-summary strong{color:#fff}.statistics-summary p,.statistics-summary li{color:#eaf8ee}
+.statistics-study-link{display:inline-flex;align-items:center;gap:7px;margin-top:12px;padding:9px 12px;border-radius:9px;background:#004A00;color:#fff!important;text-decoration:none;font-size:12px;font-weight:800;box-shadow:none}
+.statistics-study-link:hover{background:#003600}
+.question-card .statistics-study-link{margin:10px 0 0;width:max-content}
+.question-detail .statistics-study-link{margin:0 0 18px}
+@media(max-width:760px){.statistics-grid,.statistics-concepts{grid-template-columns:1fr}.statistics-guide__hero,.statistics-section{padding:20px}.statistics-guide__hero::after{font-size:52px;right:12px}}
