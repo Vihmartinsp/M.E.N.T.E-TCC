@@ -51,3 +51,12 @@
   });
   observer.observe(document.body, { childList: true, subtree: true });
 })();
+
+(() => {
+  if (document.querySelector('script[data-finance-question-loader="140"]')) return;
+  const script = document.createElement("script");
+  script.src = "questoes-financeira-porcentagem-oficiais.js?v=1";
+  script.defer = true;
+  script.dataset.financeQuestionLoader = "140";
+  document.head.appendChild(script);
+})();
