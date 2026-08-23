@@ -2,7 +2,7 @@
 
 (() => {
   const officialQuestion = {
-    id: 13,
+    id: 23,
     examNumber: 150,
     category: "Grandezas e Medidas",
     topic: "Porcentagem e proporcionalidade",
@@ -16,7 +16,7 @@
   };
 
   function resetOldPlaceholderAnswer() {
-    const migrationKey = "mente-q150-2023-v1";
+    const migrationKey = "mente-q150-2023-v2";
     if (localStorage.getItem(migrationKey)) return;
     try {
       const answers = JSON.parse(localStorage.getItem("mente-answers") || "{}");
