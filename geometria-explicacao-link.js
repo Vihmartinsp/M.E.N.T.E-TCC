@@ -12,7 +12,7 @@
       link.className = "geometry-study-link";
       link.href = href;
       link.textContent = "📘 Revisar Geometria";
-      link.setAttribute("aria-label", "Abrir explicação de Geometria");
+      link.setAttribute("aria-label", "Revisar Geometria");
 
       const footer = card.querySelector(".question-card__footer");
       if (footer) footer.insertAdjacentElement("beforebegin", link);
@@ -34,8 +34,8 @@
     const link = document.createElement("a");
     link.className = "geometry-study-link";
     link.href = href;
-    link.textContent = "📘 Precisa revisar? Ver explicação de Geometria";
-    link.setAttribute("aria-label", "Abrir explicação de Geometria em uma nova etapa de estudo");
+    link.textContent = "📘 Revisar Geometria";
+    link.setAttribute("aria-label", "Revisar Geometria");
 
     const meta = card.querySelector(".question-detail__meta");
     if (meta) meta.insertAdjacentElement("afterend", link);
