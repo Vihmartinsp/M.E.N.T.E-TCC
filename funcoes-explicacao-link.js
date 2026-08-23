@@ -11,8 +11,8 @@
       const link = document.createElement("a");
       link.className = "function-study-link";
       link.href = href;
-      link.textContent = "📘 Estudar Funções";
-      link.setAttribute("aria-label", "Abrir explicação de Funções");
+      link.textContent = "📘 Revisar Funções";
+      link.setAttribute("aria-label", "Revisar Funções");
 
       const footer = card.querySelector(".question-card__footer");
       if (footer) footer.insertAdjacentElement("beforebegin", link);
@@ -34,8 +34,8 @@
     const link = document.createElement("a");
     link.className = "function-study-link";
     link.href = href;
-    link.textContent = "📘 Precisa revisar? Ver explicação de Funções";
-    link.setAttribute("aria-label", "Abrir explicação de Funções");
+    link.textContent = "📘 Revisar Funções";
+    link.setAttribute("aria-label", "Revisar Funções");
 
     const meta = card.querySelector(".question-detail__meta");
     if (meta) meta.insertAdjacentElement("afterend", link);
