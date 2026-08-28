@@ -1,0 +1,37 @@
+/* Explicação completa de Matemática Financeira — somente na aba Explicações */
+.finance-guide{display:grid;gap:22px;max-width:980px;margin:32px auto 0;scroll-margin-top:24px}
+.finance-guide__hero{position:relative;overflow:hidden;padding:34px;border:1px solid #f3df94;border-radius:20px;background:linear-gradient(135deg,#fffbe8 0%,#ffffff 68%);box-shadow:0 16px 34px rgba(15,35,63,.07)}
+.finance-guide__hero::after{content:"💰";position:absolute;right:28px;top:18px;font-size:76px;opacity:.12;transform:rotate(5deg)}
+.finance-guide__eyebrow{margin:0 0 8px;color:#9a7300;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.finance-guide__hero h2{margin:0 0 10px;color:#16243a;font-size:clamp(28px,4vw,42px)}
+.finance-guide__hero p{max-width:760px;margin:0;color:#526174;line-height:1.75}
+.finance-guide__toc{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
+.finance-guide__toc a{padding:9px 12px;border:1px solid #efd98a;border-radius:999px;color:#7b5d00;background:#fff;text-decoration:none;font-size:12px;font-weight:800}
+.finance-guide__toc a:hover{background:#fff9dc}
+.finance-section{scroll-margin-top:24px;padding:26px;border:1px solid #e4e9f1;border-radius:18px;background:#fff;box-shadow:0 9px 24px rgba(15,35,63,.05)}
+.finance-section h3{display:flex;align-items:center;gap:10px;margin:0 0 16px;color:#17263c;font-size:22px}
+.finance-section h4{margin:22px 0 8px;color:#20344f;font-size:17px}
+.finance-section p,.finance-section li{color:#526174;line-height:1.72}
+.finance-section ul,.finance-section ol{padding-left:22px}
+.finance-section strong{color:#1f3048}
+.finance-accent{border-left:5px solid #D9A400}
+.finance-callout{margin:18px 0;padding:16px 18px;border-radius:14px;background:#fffbea;border:1px solid #f1df9b;color:#6f5700;line-height:1.65}
+.finance-flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:16px 0}
+.finance-flow span{padding:10px 13px;border-radius:10px;background:#fff9df;border:1px solid #ecd88a;color:#7a5c00;font-weight:800}
+.finance-flow b{color:#a1adbc}
+.finance-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}
+.finance-mini-card{padding:17px;border:1px solid #e2e8f0;border-radius:14px;background:#fbfcfe}
+.finance-mini-card h4{margin:0 0 8px}.finance-mini-card p{margin:0;font-size:13px}
+.finance-concepts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:16px}
+.finance-concept-card{padding:18px;border:1px solid #e7dfc3;border-radius:15px;background:#fffdf6}
+.finance-concept-card h4{margin:0 0 8px}.finance-concept-card p{margin:7px 0;font-size:13px}
+.finance-formula{display:inline-block;margin:6px 0 10px;padding:8px 11px;border-radius:9px;color:#fff;background:#B88900;font-size:14px;font-weight:900}
+.finance-example{margin-top:10px;padding:12px 14px;border-radius:11px;background:#fff9e7;border:1px solid #eddd9d;color:#5e5331;font-size:13px;line-height:1.65}
+.finance-checklist{counter-reset:finstep;display:grid;gap:10px;padding:0!important;list-style:none}
+.finance-checklist li{position:relative;padding:13px 15px 13px 48px;border:1px solid #e2e8f0;border-radius:12px;background:#fff}
+.finance-checklist li::before{counter-increment:finstep;content:counter(finstep);position:absolute;left:13px;top:11px;display:grid;width:25px;height:25px;place-items:center;border-radius:50%;color:#fff;background:#B88900;font-weight:800}
+.finance-summary{padding:22px;border-radius:18px;background:linear-gradient(135deg,#806000,#C89900);color:#fff}
+.finance-summary h3,.finance-summary strong{color:#fff}.finance-summary p,.finance-summary li{color:#fff8da}
+.finance-study-link{display:inline-flex;align-items:center;gap:7px;margin-top:12px;padding:9px 12px;border-radius:9px;background:#B88900;color:#fff!important;text-decoration:none;font-size:12px;font-weight:800;box-shadow:none}
+.finance-study-link:hover{background:#8f6b00}
+@media(max-width:760px){.finance-grid,.finance-concepts{grid-template-columns:1fr}.finance-guide__hero,.finance-section{padding:20px}.finance-guide__hero::after{font-size:52px;right:12px}}
