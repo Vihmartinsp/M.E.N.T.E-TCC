@@ -9,10 +9,39 @@ const pageInfo={
  videoaulas:["Vídeo Aulas","Uma curadoria de professores e aulas para complementar seus estudos."],
  desempenho:["Meu Desempenho","Entenda sua evolução e descubra qual deve ser o próximo passo."],
 };
-const nav=[['questoes.html','⌕','Busca de Questões'],['roteiro.html','◇','Roteiro de Estudos'],['modulos.html','▤','Módulos de Estudos'],['explicacoes.html','✦','Explicações'],['simulados.html','✓','Simulados'],['videoaulas.html','▷','Vídeo Aulas'],['desempenho.html','↗','Meu Desempenho']];
+const navGroups=[
+  {label:"Estudo",items:[['questoes.html','⌕','Busca de Questões'],['roteiro.html','◇','Roteiro de Estudos'],['modulos.html','▤','Módulos de Estudos'],['explicacoes.html','✦','Explicações']]},
+  {label:"Prática",items:[['simulados.html','✓','Simulados'],['videoaulas.html','▷','Vídeo Aulas']]},
+  {label:"Perfil",items:[['desempenho.html','↗','Meu Desempenho'],['index.html','⌂','Página Inicial']]},
+];
 function user(){try{return JSON.parse(localStorage.getItem(DEMO_USER_KEY))}catch{return null}}
 function points(){return Number(localStorage.getItem(POINTS_KEY)||0)}
-function shell(content){const current=location.pathname.split('/').pop();const u=user()||{name:'Visitante',email:'visitante@mente.local'};document.body.innerHTML=`<aside class="sidebar"><a class="sidebar__brand" href="index.html" aria-label="M.E.N.T.E — página inicial" style="display:flex;width:160px;height:160px;margin:0 auto 24px;align-items:center;justify-content:center;overflow:visible;background:transparent;box-shadow:none"><img src="assets/logo-mente-original.png" alt="M.E.N.T.E — Matemática Enem Traduzida e Explicada" style="display:block;width:160px;height:160px;object-fit:contain;border-radius:0"></a><nav class="sidebar__nav"><p class="sidebar__group">Estudo e prática</p>${nav.map(([href,icon,label])=>`<a class="sidebar__link ${current===href?'is-active':''}" href="${href}"><span>${icon}</span>${label}</a>`).join('')}<a class="sidebar__link" href="index.html"><span>⌂</span>Página Inicial</a></nav><button class="sidebar__logout" id="logout-button">↪ Sair</button></aside><div class="page-shell"><header class="topbar"><button class="menu-toggle" id="menu-toggle">☰</button><div><p class="topbar__eyebrow">Sua jornada M.E.N.T.E</p><h1>${pageInfo[page][0]}</h1></div><div class="topbar__actions"><div class="score">★ <strong id="global-points">${points()}</strong><small> pontos</small></div><button class="user-menu"><span class="user-menu__avatar">${(u.name||u.email)[0].toUpperCase()}</span><span class="user-menu__copy"><small>Bem-vindo(a)</small><strong>${u.name||u.email.split('@')[0]}</strong></span></button></div></header>${content}</div><div class="sidebar-backdrop" id="sidebar-backdrop"></div>`;document.querySelector('#logout-button').onclick=()=>{localStorage.removeItem(DEMO_USER_KEY);location.replace('login.html')};const toggle=document.querySelector('#menu-toggle');toggle.onclick=()=>document.body.classList.toggle('sidebar-open');document.querySelector('#sidebar-backdrop').onclick=()=>document.body.classList.remove('sidebar-open')}
+function ensureSidebarStyles(){
+  if(document.querySelector('#mente-sidebar-cleanup'))return;
+  const style=document.createElement('style');
+  style.id='mente-sidebar-cleanup';
+  style.textContent=`
+    .sidebar{padding-top:26px!important}
+    .sidebar__brand{display:none!important}
+    .sidebar__nav{display:flex;flex:1;flex-direction:column;overflow-y:auto;padding-right:2px}
+    .sidebar__group{margin:0 12px 9px!important;padding:0;color:#8292ab;font-size:10px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase}
+    .sidebar__group:not(:first-child){margin-top:18px!important;padding-top:18px;border-top:1px solid rgba(255,255,255,.11)}
+    .sidebar__link{flex:none;margin:2px 0!important}
+    .sidebar__logout{margin-top:16px;padding-top:16px!important;border-top:1px solid rgba(255,255,255,.13)!important}
+  `;
+  document.head.appendChild(style);
+}
+function shell(content){
+  ensureSidebarStyles();
+  const current=location.pathname.split('/').pop();
+  const u=user()||{name:'Visitante',email:'visitante@mente.local'};
+  const navHtml=navGroups.map(group=>`<p class="sidebar__group">${group.label}</p>${group.items.map(([href,icon,label])=>`<a class="sidebar__link ${current===href?'is-active':''}" href="${href}"><span>${icon}</span>${label}</a>`).join('')}`).join('');
+  document.body.innerHTML=`<aside class="sidebar"><nav class="sidebar__nav">${navHtml}</nav><button class="sidebar__logout" id="logout-button">↪ Sair</button></aside><div class="page-shell"><header class="topbar"><button class="menu-toggle" id="menu-toggle">☰</button><div><p class="topbar__eyebrow">Sua jornada M.E.N.T.E</p><h1>${pageInfo[page][0]}</h1></div><div class="topbar__actions"><div class="score">★ <strong id="global-points">${points()}</strong><small> pontos</small></div><button class="user-menu"><span class="user-menu__avatar">${(u.name||u.email)[0].toUpperCase()}</span><span class="user-menu__copy"><small>Bem-vindo(a)</small><strong>${u.name||u.email.split('@')[0]}</strong></span></button></div></header>${content}</div><div class="sidebar-backdrop" id="sidebar-backdrop"></div>`;
+  document.querySelector('#logout-button').onclick=()=>{localStorage.removeItem(DEMO_USER_KEY);location.replace('login.html')};
+  const toggle=document.querySelector('#menu-toggle');
+  toggle.onclick=()=>document.body.classList.toggle('sidebar-open');
+  document.querySelector('#sidebar-backdrop').onclick=()=>document.body.classList.remove('sidebar-open');
+}
 const modules=['Geometria','Funções','Estatística e Probabilidade','Matemática Financeira','Grandezas e Medidas','Gráficos e Tabelas'];
 function card(icon,title,text,extra=''){return `<article class="portal-card"><span class="portal-card__icon">${icon}</span><h3>${title}</h3><p>${text}</p>${extra}</article>`}
 const renderers={
