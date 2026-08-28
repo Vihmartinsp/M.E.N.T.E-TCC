@@ -45,9 +45,9 @@
   addCatalogLinks();
   addDetailLink();
 
-  const observer = new MutationObserver(() => {
-    addCatalogLinks();
-    addDetailLink();
-  });
-  observer.observe(document.body, { childList: true, subtree: true });
+  const grid = document.querySelector("#questions-grid");
+  if (grid) {
+    const observer = new MutationObserver(addCatalogLinks);
+    observer.observe(grid, { childList: true });
+  }
 })();
