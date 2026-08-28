@@ -1,7 +1,8 @@
-/* Cabeçalho público do login/cadastro — mesma identidade clara da homepage. */
+/* Cabeçalho público do login/cadastro — logo ampliada para reforçar a identidade visual. */
 .login-page{background:#f3f6fa}
-.login-header{height:94px!important;padding:5px max(22px,calc((100% - 1120px)/2))!important;background:#f3f6fa!important;border-bottom:1px solid rgba(19,41,75,.06)!important}
-.login-header .brand{display:flex!important;width:176px!important;height:84px!important;align-items:center!important;justify-content:flex-start!important;overflow:visible!important}
-.login-header .brand__logo{display:block!important;width:176px!important;height:84px!important;max-width:none!important;max-height:84px!important;object-fit:contain!important;object-position:left center!important;mix-blend-mode:multiply!important;transform:none!important;image-rendering:auto!important}
-.login-main{min-height:calc(100vh - 94px)!important}
-@media(max-width:620px){.login-header{height:78px!important;min-height:78px!important;padding:5px 10px!important}.login-header .brand,.login-header .brand__logo{width:112px!important;height:66px!important;max-height:66px!important}.login-main{min-height:calc(100vh - 78px)!important}}
+.login-header{height:136px!important;padding:4px max(22px,calc((100% - 1120px)/2))!important;background:#f3f6fa!important;border-bottom:1px solid rgba(19,41,75,.06)!important;overflow:visible!important}
+.login-header .brand{display:flex!important;width:330px!important;height:128px!important;align-items:center!important;justify-content:flex-start!important;overflow:visible!important;flex-shrink:0!important}
+.login-header .brand__logo{display:block!important;width:320px!important;height:128px!important;max-width:none!important;max-height:128px!important;object-fit:contain!important;object-position:left center!important;mix-blend-mode:multiply!important;transform:none!important;image-rendering:auto!important}
+.login-main{min-height:calc(100vh - 136px)!important}
+@media(max-width:900px){.login-header{height:118px!important}.login-header .brand{width:270px!important;height:110px!important}.login-header .brand__logo{width:262px!important;height:110px!important;max-height:110px!important}.login-main{min-height:calc(100vh - 118px)!important}}
+@media(max-width:620px){.login-header{height:100px!important;min-height:100px!important;padding:4px 10px!important}.login-header .brand{width:190px!important;height:92px!important}.login-header .brand__logo{width:184px!important;height:92px!important;max-height:92px!important}.login-main{min-height:calc(100vh - 100px)!important}}
