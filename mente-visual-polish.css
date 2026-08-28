@@ -1,0 +1,221 @@
+/* Ajustes visuais finais da plataforma M.E.N.T.E. */
+
+/* =========================
+   HERO DAS EXPLICAÇÕES
+   ========================= */
+.mente-explanations .portal-hero{
+  padding:34px 28px!important;
+  border:1px solid #c9d8f2!important;
+  border-radius:22px!important;
+  background:linear-gradient(135deg,#edf4ff 0%,#dfeaff 55%,#d3e1ff 100%)!important;
+  box-shadow:0 12px 28px rgba(23,53,107,.08)!important;
+}
+.mente-explanations .portal-hero h1,
+.mente-explanations .portal-hero h2{
+  margin:10px 0 14px!important;
+  color:#16325c!important;
+}
+.mente-explanations .portal-hero p{
+  max-width:860px!important;
+  color:#2f4d78!important;
+  line-height:1.7!important;
+  font-size:18px!important;
+}
+.mente-explanations .portal-hero .portal-card__tag{
+  display:inline-flex!important;
+  padding:6px 12px!important;
+  border:1px solid #bfd0ef!important;
+  border-radius:999px!important;
+  background:#fff!important;
+  color:#285296!important;
+  font-size:12px!important;
+  font-weight:800!important;
+}
+
+/* Corrige o rótulo dos dados: mantém o texto original "Verde". */
+.mente-reading__item--data strong{
+  font-size:12px!important;
+}
+.mente-reading__item--data strong::after{
+  content:none!important;
+  display:none!important;
+}
+
+/* =========================
+   CARDS DE QUESTÕES
+   ========================= */
+.questions-grid{
+  display:grid!important;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr))!important;
+  gap:18px!important;
+  align-items:stretch!important;
+  grid-auto-rows:auto!important;
+}
+.questions-grid .question-card{
+  display:flex!important;
+  flex-direction:column!important;
+  min-height:430px!important;
+  height:100%!important;
+  max-height:none!important;
+  padding:20px!important;
+  overflow:hidden!important;
+  border:1px solid #dbe3ee!important;
+  border-radius:18px!important;
+  background:#fff!important;
+  box-shadow:0 10px 24px rgba(15,23,42,.06)!important;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease!important;
+}
+.questions-grid .question-card:hover{
+  transform:translateY(-4px)!important;
+  border-color:#c8d5e5!important;
+  box-shadow:0 14px 28px rgba(15,23,42,.10)!important;
+}
+.questions-grid .question-card__meta{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:10px!important;
+  min-height:30px!important;
+}
+.questions-grid .question-card__category{
+  max-width:70%!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  font-weight:800!important;
+}
+.questions-grid .question-card__tags{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  gap:6px!important;
+  min-height:30px!important;
+  max-height:none!important;
+  margin-top:10px!important;
+  overflow:visible!important;
+}
+.questions-grid .question-card__visual{
+  display:flex!important;
+  align-items:stretch!important;
+  justify-content:center!important;
+  flex:0 0 148px!important;
+  min-height:148px!important;
+  height:148px!important;
+  max-height:148px!important;
+  margin:14px 0 0!important;
+  padding:0!important;
+  overflow:hidden!important;
+  border:1px solid #e2e8f0!important;
+  border-radius:16px!important;
+  background:#f8fafc!important;
+}
+.questions-grid .question-card__visual>*{
+  width:100%!important;
+  max-width:none!important;
+  max-height:none!important;
+}
+.questions-grid .question-card__text{
+  display:-webkit-box!important;
+  min-height:104px!important;
+  max-height:104px!important;
+  margin:16px 0 14px!important;
+  overflow:hidden!important;
+  color:#4a5a70!important;
+  font-size:13px!important;
+  line-height:1.6!important;
+  -webkit-box-orient:vertical!important;
+  -webkit-line-clamp:4!important;
+  line-clamp:4!important;
+}
+.questions-grid .question-card__text strong,
+.questions-grid .question-card__text b{color:#24364f!important}
+.questions-grid .question-card__text p{margin:0!important}
+.questions-grid .question-card__footer{
+  margin-top:auto!important;
+  padding-top:14px!important;
+}
+.questions-grid .question-card__footer .portal-button,
+.questions-grid .question-card__footer>a{
+  justify-content:center!important;
+}
+
+/* Mini capa visual de cada questão. */
+.question-teaser{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  width:100%;
+  height:100%;
+  padding:14px;
+  background:linear-gradient(135deg,var(--teaser-soft) 0%,#fff 100%);
+}
+.question-teaser__top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.question-teaser__icon{
+  display:grid;
+  width:40px;
+  height:40px;
+  flex:0 0 40px;
+  place-items:center;
+  border-radius:12px;
+  background:var(--teaser-accent);
+  color:#fff;
+  font-size:20px;
+  font-weight:900;
+  box-shadow:0 6px 14px color-mix(in srgb,var(--teaser-accent) 20%,transparent);
+}
+.question-teaser__year{
+  padding:6px 10px;
+  border:1px solid rgba(0,0,0,.05);
+  border-radius:999px;
+  background:rgba(255,255,255,.86);
+  color:var(--teaser-text);
+  font-size:11px;
+  font-weight:800;
+}
+.question-teaser__body strong{
+  display:-webkit-box;
+  margin-top:10px;
+  overflow:hidden;
+  color:var(--teaser-text);
+  font-size:15px;
+  line-height:1.22;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+}
+.question-teaser__body p{
+  display:-webkit-box;
+  margin:5px 0 0;
+  overflow:hidden;
+  color:#546476;
+  font-size:11px;
+  line-height:1.42;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+}
+.question-teaser__bottom{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:7px;
+}
+.question-teaser__badge{
+  padding:5px 8px;
+  border:1px solid rgba(0,0,0,.06);
+  border-radius:999px;
+  background:#fff;
+  color:var(--teaser-text);
+  font-size:10px;
+  font-weight:800;
+}
+
+@media(max-width:760px){
+  .mente-explanations .portal-hero{padding:25px 20px!important}
+  .mente-explanations .portal-hero p{font-size:15px!important}
+  .questions-grid{grid-template-columns:1fr!important}
+  .questions-grid .question-card{min-height:420px!important}
+  .questions-grid .question-card__text{min-height:0!important;max-height:112px!important;-webkit-line-clamp:4!important;line-clamp:4!important}
+}
