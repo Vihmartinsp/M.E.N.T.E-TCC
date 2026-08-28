@@ -1,9 +1,9 @@
 /*
  * M.E.N.T.E — restauração visual
  *
- * A homepage e o login permanecem com o visual já aprovado.
- * A paleta por matéria e os destaques pedagógicos são aplicados somente
- * nas páginas internas da plataforma, depois do acesso.
+ * Homepage, login e cadastro usam a identidade azul suave original.
+ * A paleta por matéria e os destaques pedagógicos ficam restritos
+ * às páginas internas da plataforma, depois do acesso.
  */
 
 :root {
@@ -25,16 +25,19 @@
   --background: #f4f7fb;
   --white: #ffffff;
 
-  /* Mantidos aqui para não alterar homepage/login */
+  /* Valores neutros na área pública. As cores pedagógicas oficiais
+     são redefinidas somente dentro da plataforma interna. */
   --questao-conteudo: #526b9d;
   --questao-objetivo: #1769e0;
   --questao-dados-importantes: #526b9d;
-  --questao-dica: #f7e6a8;
+  --questao-dica: #377fdd;
   --questao-erro: #b42318;
   --questao-resumo: #526b9d;
 }
 
-/* Homepage — NÃO ALTERAR */
+/* ==========================================================
+   HOMEPAGE — identidade azul suave original
+   ========================================================== */
 body:not([data-page]) {
   color: #13294b;
 }
@@ -63,7 +66,7 @@ h1 {
 .footer-cta a:focus-visible,
 .footer-information a:focus-visible,
 .access-form > button:focus-visible {
-  outline-color: #f7e6a8;
+  outline-color: #377fdd;
 }
 
 .hero {
@@ -143,9 +146,10 @@ h1 span {
   color: #526b9d;
 }
 
+/* A dica da ilustração da homepage deixa de usar amarelo forte. */
 .question-tip {
-  color: #5d5227;
-  background: #f7e6a8;
+  color: #294678;
+  background: #e8f1ff;
 }
 
 .answer--selected span,
@@ -158,7 +162,20 @@ h1 span {
   background: #edf1f5;
 }
 
-/* Login/Cadastro — NÃO ALTERAR */
+/* Caixa informativa da homepage também volta à família azul. */
+.prototype-note {
+  border-color: #b8cae6;
+  color: #52627a;
+  background: #f4f7fc;
+}
+
+.prototype-note > span {
+  color: #377fdd;
+}
+
+/* ==========================================================
+   LOGIN / CADASTRO — identidade azul suave original
+   ========================================================== */
 .login-main {
   background: linear-gradient(120deg, #001f4f 0%, #0053bd 100%);
 }
@@ -199,10 +216,8 @@ h1 span {
 }
 
 /* ==========================================================
-   PLATAFORMA INTERNA — paleta oficial da imagem de referência
+   PLATAFORMA INTERNA — paleta oficial da referência
    ========================================================== */
-
-/* Cores pedagógicas: só existem/valem dentro da plataforma. */
 .questions-grid,
 .question-detail,
 body[data-page] {
@@ -219,7 +234,6 @@ body[data-page] {
   --materia-matematica-financeira: #F2C94C;
   --materia-grandezas-medidas: #D70101;
   --materia-analise-graficos: #FF2E9A;
-  --materia-modulo-extra: #FF7A00;
 }
 
 /* A estrutura geral da plataforma continua azul e limpa. */
@@ -252,24 +266,27 @@ body[data-page] {
   background: linear-gradient(90deg, #1769e0, #65a6ff);
 }
 
-/* ----------------------------------------------------------
-   CATÁLOGO DE QUESTÕES — cada matéria usa sua cor oficial
-   O JS antigo ainda envia três cores anteriores; elas são
-   corrigidas aqui sem alterar a lógica nem as questões.
-   ---------------------------------------------------------- */
-.question-card[style*="#FF751F"] {
+/* ==========================================================
+   CATÁLOGO DE QUESTÕES — cores oficiais por matéria
+   ========================================================== */
+.question-card[style*="#FF751F"],
+.question-card[style*="#FF7A00"] {
   --category-color: #FF7A00 !important;
 }
 
+.question-card[style*="#AB47BC"],
 .question-card[style*="#9D4EDD"] {
   --category-color: #9D4EDD !important;
 }
 
+.question-card[style*="#0F766E"],
 .question-card[style*="#004A00"] {
   --category-color: #004A00 !important;
 }
 
-.question-card[style*="#FFEE48"] {
+.question-card[style*="#16A34A"],
+.question-card[style*="#FFEE48"],
+.question-card[style*="#F2C94C"] {
   --category-color: #F2C94C !important;
 }
 
@@ -277,9 +294,22 @@ body[data-page] {
   --category-color: #D70101 !important;
 }
 
-.question-card[style*="#2A68B2"] {
+.question-card[style*="#0284C7"],
+.question-card[style*="#2A68B2"],
+.question-card[style*="#FF2E9A"] {
   --category-color: #FF2E9A !important;
 }
+
+/* Os conteúdos finais trazem algumas cores antigas inline.
+   Estas regras normalizam a variável sem mexer na lógica das questões. */
+[style*="--subject-color:#AB47BC"] { --subject-color: #9D4EDD !important; }
+[style*="--subject-color:#0F766E"] { --subject-color: #004A00 !important; }
+[style*="--subject-color:#16A34A"] { --subject-color: #F2C94C !important; }
+[style*="--subject-color:#0284C7"] { --subject-color: #FF2E9A !important; }
+[style*="--category-color:#AB47BC"] { --category-color: #9D4EDD !important; }
+[style*="--category-color:#0F766E"] { --category-color: #004A00 !important; }
+[style*="--category-color:#16A34A"] { --category-color: #F2C94C !important; }
+[style*="--category-color:#0284C7"] { --category-color: #FF2E9A !important; }
 
 .question-card {
   border-top-color: var(--category-color) !important;
@@ -308,19 +338,25 @@ body[data-page] {
   background: color-mix(in srgb, var(--category-color) 7%, #f8fafc) !important;
 }
 
-/* Matemática Financeira é amarela: mantém contraste legível. */
-.question-card[style*="#FFEE48"] .question-card__category {
+/* Matemática Financeira usa amarelo: mantém contraste legível. */
+.question-card[style*="#FFEE48"] .question-card__category,
+.question-card[style*="#16A34A"] .question-card__category,
+.question-card[style*="#F2C94C"] .question-card__category {
   color: #3f3300 !important;
 }
 
 .question-card[style*="#FFEE48"] .question-card__stars,
-.question-card[style*="#FFEE48"] .question-card__footer button {
+.question-card[style*="#16A34A"] .question-card__stars,
+.question-card[style*="#F2C94C"] .question-card__stars,
+.question-card[style*="#FFEE48"] .question-card__footer button,
+.question-card[style*="#16A34A"] .question-card__footer button,
+.question-card[style*="#F2C94C"] .question-card__footer button {
   color: #9a7600 !important;
 }
 
-/* ----------------------------------------------------------
-   MÓDULOS, ROTEIRO E EXPLICAÇÕES — mesma ordem das matérias
-   ---------------------------------------------------------- */
+/* ==========================================================
+   MÓDULOS, ROTEIRO E EXPLICAÇÕES
+   ========================================================== */
 body[data-page="modulos"] .portal-card:nth-child(1),
 body[data-page="explicacoes"] .portal-card:nth-child(1),
 .roadmap .portal-card:nth-child(1) { --category-color: #FF7A00; }
@@ -382,9 +418,9 @@ body[data-page="explicacoes"] .portal-card:nth-child(4) .portal-button,
   background: var(--category-color);
 }
 
-/* ----------------------------------------------------------
-   RESOLUÇÃO DA QUESTÃO — cores pedagógicas da referência
-   ---------------------------------------------------------- */
+/* ==========================================================
+   RESOLUÇÃO DA QUESTÃO — cores pedagógicas oficiais
+   ========================================================== */
 .question-detail__meta span {
   color: var(--questao-conteudo);
   background: color-mix(in srgb, var(--questao-conteudo) 10%, #ffffff);
@@ -438,7 +474,6 @@ body[data-page="explicacoes"] .portal-card:nth-child(4) .portal-button,
   color: var(--questao-erro);
 }
 
-/* Cores reservadas para os próximos blocos pedagógicos do projeto. */
 .question-content-highlight { color: var(--questao-conteudo); }
 .question-objective-highlight { color: var(--questao-objetivo); }
 .question-data-highlight { color: var(--questao-dados-importantes); }
