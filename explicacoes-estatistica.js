@@ -10,14 +10,15 @@
   if (!functions) return;
 
   const section = document.createElement("section");
-  section.className = "statistics-guide";
+  section.className = "statistics-guide mente-statistics-final";
   section.id = "estatistica";
   section.innerHTML = `
     <header class="statistics-guide__hero">
       <p class="statistics-guide__eyebrow">Explicação completa</p>
-      <h2>Estatística e Probabilidade sem mistério</h2>
-      <p>Quando muita gente ouve essas palavras, pensa em porcentagens, médias e gráficos difíceis. Mas a ideia é mais simples: <strong>Estatística serve para entender informações</strong> e <strong>Probabilidade serve para prever possibilidades</strong>. O ENEM quer saber se você consegue interpretar dados antes de sair fazendo contas.</p>
+      <h2>📊 ESTATÍSTICA E PROBABILIDADE</h2>
+      <p><strong>Estatística serve para entender informações.</strong> <strong>Probabilidade serve para prever possibilidades.</strong> No ENEM, o mais importante é interpretar as informações antes de fazer contas.</p>
       <nav class="statistics-guide__toc" aria-label="Tópicos da explicação de Estatística e Probabilidade">
+        <a href="#o-que-e-estatistica">O que é?</a>
         <a href="#enem-estatistica">Como o ENEM cobra</a>
         <a href="#segredo-estatistica">O segredo</a>
         <a href="#conceitos-estatistica">Conceitos principais</a>
@@ -26,38 +27,54 @@
       </nav>
     </header>
 
-    <article class="statistics-section statistics-accent">
-      <h3>📊 O que é Estatística e Probabilidade?</h3>
-      <p>Todos os dias usamos essas ideias sem perceber.</p>
+    <article class="statistics-section statistics-accent" id="o-que-e-estatistica">
+      <h3>O que é Estatística e Probabilidade?</h3>
+      <p>Quando ouvimos essas palavras, muita gente pensa em:</p>
+      <ul>
+        <li>porcentagens;</li>
+        <li>médias;</li>
+        <li>gráficos difíceis.</li>
+      </ul>
+      <p>Mas, na verdade:</p>
+      <ul>
+        <li><strong>Estatística serve para entender informações.</strong></li>
+        <li><strong>Probabilidade serve para prever possibilidades.</strong></li>
+      </ul>
+      <p>Todos os dias usamos isso.</p>
       <div class="statistics-grid">
-        <div class="statistics-mini-card"><h4>🌦️ Previsão do tempo</h4><p>Probabilidade ajuda a estimar a chance de chuva ou de outras condições acontecerem.</p></div>
-        <div class="statistics-mini-card"><h4>💰 Inflação</h4><p>Estatística organiza dados para acompanhar como preços e índices mudam ao longo do tempo.</p></div>
-        <div class="statistics-mini-card"><h4>⚽ Esportes</h4><p>Desempenhos, frequências, médias e comparações aparecem o tempo todo.</p></div>
-        <div class="statistics-mini-card"><h4>🧪 Pesquisas</h4><p>Pesquisas de opinião, vacinas e estudos científicos dependem da análise correta de dados.</p></div>
+        <div class="statistics-mini-card"><h4>🌦️ Previsão do tempo</h4><p>É uma situação do cotidiano em que usamos informações e possibilidades.</p></div>
+        <div class="statistics-mini-card"><h4>💰 Inflação</h4><p>É um exemplo de informação analisada por meio de dados.</p></div>
+        <div class="statistics-mini-card"><h4>⚽ Esportes</h4><p>A chance de um time vencer também envolve esse tipo de análise.</p></div>
+        <div class="statistics-mini-card"><h4>💉 Vacinas</h4><p>Pesquisas sobre vacinas utilizam Estatística.</p></div>
       </div>
-      <div class="statistics-callout"><strong>Primeiro entenda o que os dados representam.</strong> Só depois escolha a conta que faz sentido.</div>
+      <div class="statistics-callout">Por isso, o ENEM quer saber se você consegue <strong>interpretar informações antes de fazer contas.</strong></div>
     </article>
 
     <article class="statistics-section" id="enem-estatistica">
-      <h3>🎯 Como o ENEM cobra Estatística?</h3>
-      <p>O ENEM quase nunca apresenta apenas “calcule a média”. Normalmente, primeiro aparece uma situação, depois aparecem os dados, e a Matemática entra para interpretar essas informações.</p>
-      <p>É comum encontrar questões sobre:</p>
+      <h3>Como o ENEM cobra Estatística?</h3>
+      <p>O ENEM quase nunca pergunta apenas:</p>
+      <div class="statistics-callout"><strong>“Calcule a média.”</strong></div>
+      <p>Normalmente aparecem situações como:</p>
       <ul>
         <li>pesquisas de opinião;</li>
         <li>rendimento escolar;</li>
-        <li>vacinação e saúde;</li>
+        <li>vacinação;</li>
         <li>esportes;</li>
         <li>economia;</li>
-        <li>saúde e população.</li>
+        <li>saúde.</li>
       </ul>
-      <p>A pergunta principal costuma ser: <strong>o que esses dados mostram e o que precisa ser comparado?</strong></p>
+      <p><strong>Primeiro aparece uma situação.</strong></p>
+      <p><strong>Depois aparecem os dados.</strong></p>
+      <p>A Matemática serve para interpretar essas informações.</p>
     </article>
 
     <article class="statistics-section" id="segredo-estatistica">
-      <h3>🔑 O segredo da Estatística</h3>
+      <h3>O segredo da Estatística</h3>
       <p>Toda questão pode ser pensada assim:</p>
       <div class="statistics-flow"><span>Situação</span><b>→</b><span>Dados</span><b>→</b><span>Informação</span><b>→</b><span>Resposta</span></div>
-      <p>Muitos alunos tentam fazer conta atrás de conta e acabam errando. Antes de calcular, pergunte:</p>
+      <p>Muitos alunos fazem:</p>
+      <div class="statistics-flow"><span>Conta</span><b>→</b><span>Conta</span><b>→</b><span>Conta</span><b>→</b><span>Erro</span></div>
+      <p>Antes de calcular, pergunte:</p>
       <ol>
         <li><strong>O que esses números representam?</strong></li>
         <li><strong>Qual informação eles querem mostrar?</strong></li>
@@ -66,60 +83,83 @@
     </article>
 
     <article class="statistics-section" id="conceitos-estatistica">
-      <h3>🧠 Conceitos mais importantes</h3>
+      <h3>Conceitos mais importantes</h3>
       <div class="statistics-concepts">
         <div class="statistics-concept-card">
           <h4>Média</h4>
-          <p>É um valor que representa um conjunto.</p>
-          <p><strong>1.</strong> Some todos os valores.<br><strong>2.</strong> Depois divida pela quantidade.</p>
-          <p>Não é apenas uma fórmula: é uma forma de representar um grupo inteiro com um único número.</p>
+          <p>É o valor que <strong>representa um conjunto</strong>.</p>
+          <ol>
+            <li><strong>Some todos os valores.</strong></li>
+            <li><strong>Depois divida pela quantidade.</strong></li>
+          </ol>
+          <p>Não é apenas uma fórmula.</p>
+          <p>É uma forma de representar um grupo inteiro com um único número.</p>
         </div>
+
         <div class="statistics-concept-card">
           <h4>Moda</h4>
           <p>É o valor que <strong>mais aparece</strong>.</p>
-          <div class="statistics-example">Exemplo: 6, 7, 7, 8, 9.<br><strong>A moda é 7.</strong></div>
+          <p>Imagine uma sala onde as notas são:</p>
+          <div class="statistics-example">6 &nbsp; 7 &nbsp; <strong>7</strong> &nbsp; 8 &nbsp; 9<br><br><strong>A moda é 7.</strong></div>
         </div>
+
         <div class="statistics-concept-card">
           <h4>Mediana</h4>
           <p>É o valor que fica exatamente no meio quando os números estão organizados.</p>
-          <div class="statistics-example">1, 2, 3, 4, 5 → mediana = 3.<br><br>1, 2, 3, 4, 5, 6 → valores centrais 3 e 4.<br>(3 + 4) / 2 = <strong>3,5</strong>.</div>
+          <p>Ela evita que valores muito altos ou muito baixos distorçam a análise.</p>
+          <div class="statistics-example">
+            <strong>Exemplo 1</strong><br>
+            1, 2, 3, 4, 5<br>
+            A mediana é <strong>3</strong>.<br><br>
+            <strong>Exemplo 2</strong><br>
+            1, 2, 3, 4, 5, 6<br>
+            Nesse caso, somamos os valores do meio:<br>
+            3 + 4 = 7<br>
+            Depois dividimos por dois:<br>
+            7 / 2 = <strong>3,5</strong><br>
+            A mediana é <strong>3,5</strong>.
+          </div>
         </div>
+
         <div class="statistics-concept-card">
           <h4>Probabilidade</h4>
           <p>Mostra a <strong>chance de um evento acontecer</strong>.</p>
-          <span class="statistics-formula">P = casos favoráveis / casos possíveis</span>
-          <p>Ela compara aquilo que interessa com todas as possibilidades. Quanto maior essa relação, maior a chance.</p>
+          <p>Ela sempre compara:</p>
+          <div class="statistics-flow"><span>casos favoráveis</span><b>com</b><span>casos possíveis</span></div>
+          <p>Quanto maior essa relação, maior a chance.</p>
+          <span class="statistics-formula">P = evento esperado / total de possibilidades</span>
         </div>
       </div>
     </article>
 
     <article class="statistics-section" id="enunciado-estatistica">
-      <h3>🔎 O que destacar no enunciado?</h3>
+      <h3>O que destacar no enunciado?</h3>
       <div class="pedagogy-list">
-        <div class="pedagogy-item pedagogy-item--objective"><strong>Objetivo</strong><span>Procure expressões como “qual a média?”, “qual a probabilidade?”, “qual representa?” e “qual porcentagem?”.</span></div>
-        <div class="pedagogy-item pedagogy-item--data"><strong>Dados importantes</strong><span>Tabelas, gráficos, quantidades, frequências, porcentagens e totais.</span></div>
-        <div class="pedagogy-item pedagogy-item--tip"><strong>Dicas escondidas</strong><span>Palavras como “amostra”, “população”, “aproximadamente” e “em média” indicam como os dados devem ser interpretados.</span></div>
-        <div class="pedagogy-item pedagogy-item--trap"><strong>Armadilhas</strong><span>Esquecer de ler os eixos do gráfico; confundir porcentagem com quantidade; usar todos os dados quando a questão pede apenas parte deles; não observar unidades.</span></div>
+        <div class="pedagogy-item pedagogy-item--objective"><strong>Objetivo</strong><span>“qual a média”; “qual a probabilidade”; “qual representa”; “qual porcentagem”.</span></div>
+        <div class="pedagogy-item pedagogy-item--data"><strong>Dados importantes</strong><span>tabelas; gráficos; quantidades; frequências; percentuais; totais.</span></div>
+        <div class="pedagogy-item pedagogy-item--tip"><strong>Dicas escondidas</strong><span>“amostra”; “população”; “aproximadamente”; “em média”.</span></div>
+        <div class="pedagogy-item pedagogy-item--trap"><strong>Armadilhas</strong><span>esquecer de ler os eixos do gráfico; confundir porcentagem com quantidade; usar todos os dados quando a questão pede apenas parte deles; não observar unidades.</span></div>
       </div>
     </article>
 
     <article class="statistics-section" id="pensar-estatistica">
-      <h3>🧭 Como pensar durante uma questão?</h3>
+      <h3>Como pensar durante uma questão?</h3>
       <p>Sempre faça este caminho:</p>
       <ol class="statistics-checklist">
-        <li><strong>O que está sendo analisado?</strong> Identifique o assunto e o contexto.</li>
-        <li><strong>Quais dados foram fornecidos?</strong> Separe números, tabelas, gráficos, frequências e porcentagens.</li>
-        <li><strong>Como esses dados se relacionam?</strong> Observe o que está sendo comparado.</li>
-        <li><strong>O que preciso descobrir?</strong> Média, moda, mediana, probabilidade, porcentagem ou tendência?</li>
-        <li><strong>Existe alguma informação escondida?</strong> Releia palavras que mudam a interpretação.</li>
-        <li><strong>Agora escolha o cálculo.</strong> A conta vem depois de entender a informação.</li>
+        <li><strong>O que está sendo analisado?</strong></li>
+        <li><strong>Quais dados foram fornecidos?</strong></li>
+        <li><strong>Como esses dados se relacionam?</strong></li>
+        <li><strong>O que preciso descobrir?</strong></li>
+        <li><strong>Existe alguma informação escondida?</strong></li>
+        <li><strong>Agora sim: escolho o cálculo.</strong></li>
       </ol>
     </article>
 
     <article class="statistics-summary">
-      <h3>✅ Resumo</h3>
-      <p>Estatística não serve apenas para fazer contas. <strong>Ela serve para transformar dados em informação.</strong></p>
-      <p>No ENEM, quem interpreta corretamente tabelas, gráficos e pesquisas normalmente resolve grande parte da questão antes mesmo de pegar na calculadora.</p>
+      <h3>Resumo</h3>
+      <p><strong>Estatística não serve apenas para fazer contas.</strong></p>
+      <p>Ela serve para <strong>transformar dados em informação</strong>.</p>
+      <p>No ENEM, quem interpreta corretamente tabelas, gráficos e pesquisas normalmente resolve a maior parte da questão antes mesmo de pegar na calculadora.</p>
       <a class="portal-button" href="questoes.html">Praticar questões de Estatística e Probabilidade →</a>
     </article>`;
 
@@ -145,7 +185,7 @@
     }
   }
 
-  if (location.hash === "#estatistica" || location.hash.startsWith("#enem-estatistica") || location.hash.startsWith("#segredo-estatistica") || location.hash.startsWith("#conceitos-estatistica") || location.hash.startsWith("#enunciado-estatistica") || location.hash.startsWith("#pensar-estatistica")) {
+  if (location.hash === "#estatistica" || location.hash.startsWith("#o-que-e-estatistica") || location.hash.startsWith("#enem-estatistica") || location.hash.startsWith("#segredo-estatistica") || location.hash.startsWith("#conceitos-estatistica") || location.hash.startsWith("#enunciado-estatistica") || location.hash.startsWith("#pensar-estatistica")) {
     requestAnimationFrame(() => document.querySelector(location.hash)?.scrollIntoView({ behavior: "smooth", block: "start" }));
   }
 })();
