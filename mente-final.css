@@ -22,8 +22,23 @@
 .mente-explanations{display:grid;gap:24px;max-width:1050px;margin:0 auto}.mente-subject-nav{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:8px;padding:12px;border:1px solid #e2e8f0;border-radius:14px;background:rgba(255,255,255,.96);backdrop-filter:blur(10px)}.mente-subject-nav a{padding:8px 11px;border-radius:999px;background:#f8fafc;color:#334155;text-decoration:none;font-size:12px;font-weight:800}.mente-subject-section{scroll-margin-top:90px;overflow:hidden;border:1px solid #e2e8f0;border-radius:20px;background:#fff;box-shadow:0 12px 28px rgba(15,23,42,.06)}.mente-subject-header{padding:28px;border-top:6px solid var(--subject-color)}.mente-subject-header__eyebrow{margin:0 0 6px;color:var(--subject-color);font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}.mente-subject-header h2{margin:0 0 10px}.mente-subject-header p{margin:0;max-width:830px;color:#536176;line-height:1.7}.mente-subject-body{padding:0 28px 28px}.mente-concepts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}.mente-concept{padding:15px;border:1px solid #e2e8f0;border-radius:13px;background:#fbfcfe}.mente-concept strong{display:block;margin-bottom:5px;color:#25364d}.mente-path{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin:16px 0}.mente-path span{padding:8px 10px;border-radius:9px;background:#f8fafc;border:1px solid #e2e8f0;font-size:12px;font-weight:800}.mente-level-list{display:grid;gap:8px;margin:15px 0}.mente-level-row{display:grid;grid-template-columns:90px 1fr auto;gap:12px;align-items:center;padding:11px 13px;border:1px solid #e2e8f0;border-radius:11px}.mente-level-row small{color:#64748b}.mente-subject-cta{display:inline-flex;margin-top:10px;padding:10px 13px;border-radius:10px;background:var(--subject-color);color:#fff!important;text-decoration:none;font-weight:800}
 .mente-label-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.mente-label{padding:12px;border-radius:10px;border:1px solid #cbd5e1;text-align:center;font-size:12px}.mente-mini-graphs{display:grid;grid-template-columns:repeat(5,minmax(130px,1fr));gap:10px;min-width:700px}.mente-mini-graph{padding:10px;border:1px solid #cbd5e1;border-radius:10px;background:#fff}.mente-mini-graph strong{display:block;margin-bottom:6px;text-align:center}
 
-/* Normalização visual das cores dos módulos finais. Os PDFs antigos traziam
-   alguns códigos diferentes; a plataforma usa a paleta oficial definida pela banca. */
+/* Geometria completa enviada para a aba de explicações. */
+#geometria.mente-geometry-final{scroll-margin-top:90px;width:100%;max-width:none}
+#geometria.mente-geometry-final .geometry-guide__hero{border-top:6px solid #FF7A00}
+
+/* Padronização das capas dos cards de questões. */
+.questions-grid{align-items:stretch;grid-auto-rows:1fr}
+.questions-grid .question-card{height:355px;min-height:355px;max-height:355px;padding:21px;display:flex;flex-direction:column;overflow:hidden}
+.questions-grid .question-card__meta{min-height:31px;align-items:flex-start}
+.questions-grid .question-card__category{max-width:68%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.questions-grid .question-card__tags{min-height:29px;max-height:29px;overflow:hidden;align-content:flex-start}
+.questions-grid .question-card__visual{flex:0 0 92px;height:92px;min-height:92px;max-height:92px;margin:13px 0 0;overflow:hidden}
+.questions-grid .question-card__visual>*,.questions-grid .question-card__visual svg,.questions-grid .question-card__visual img{max-width:100%;max-height:74px;object-fit:contain}
+.questions-grid .question-card__text{display:-webkit-box;min-height:108px;max-height:108px;margin:15px 0 14px;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:5;line-clamp:5;font-size:12.5px;line-height:1.7}
+.questions-grid .question-card__footer{flex:0 0 auto;margin-top:auto;padding-top:14px}
+.questions-grid .question-card:hover{transform:translateY(-2px)}
+
+/* Normalização visual das cores dos módulos finais. */
 html[style*="#AB47BC"]{--subject-color:#9D4EDD!important}
 html[style*="#0F766E"]{--subject-color:#004A00!important}
 html[style*="#16A34A"]{--subject-color:#F2C94C!important}
@@ -34,24 +49,8 @@ html[style*="#0284C7"]{--subject-color:#FF2E9A!important}
 #matematica-financeira{--subject-color:#F2C94C!important}
 #grandezas-medidas{--subject-color:#D70101!important}
 #graficos-tabelas{--subject-color:#FF2E9A!important}
-.mente-subject-nav a[href="#geometria"]{border-bottom-color:#FF7A00!important}
-.mente-subject-nav a[href="#funcoes"]{border-bottom-color:#9D4EDD!important}
-.mente-subject-nav a[href="#estatistica-probabilidade"]{border-bottom-color:#004A00!important}
-.mente-subject-nav a[href="#matematica-financeira"]{border-bottom-color:#F2C94C!important}
-.mente-subject-nav a[href="#grandezas-medidas"]{border-bottom-color:#D70101!important}
-.mente-subject-nav a[href="#graficos-tabelas"]{border-bottom-color:#FF2E9A!important}
+.mente-subject-nav a[href="#geometria"]{border-bottom-color:#FF7A00!important}.mente-subject-nav a[href="#funcoes"]{border-bottom-color:#9D4EDD!important}.mente-subject-nav a[href="#estatistica-probabilidade"]{border-bottom-color:#004A00!important}.mente-subject-nav a[href="#matematica-financeira"]{border-bottom-color:#F2C94C!important}.mente-subject-nav a[href="#grandezas-medidas"]{border-bottom-color:#D70101!important}.mente-subject-nav a[href="#graficos-tabelas"]{border-bottom-color:#FF2E9A!important}
+.mente-reading__item--data strong{font-size:0}.mente-reading__item--data strong::after{content:"Azul-claro";font-size:12px}
+.mente-subject-section .mente-subject-header__eyebrow{font-size:0}#geometria .mente-subject-header__eyebrow::after{content:"📐 Geometria · cor #FF7A00";font-size:12px}#funcoes .mente-subject-header__eyebrow::after{content:"ƒ Funções · cor #9D4EDD";font-size:12px}#estatistica-probabilidade .mente-subject-header__eyebrow::after{content:"📊 Estatística e Probabilidade · cor #004A00";font-size:12px}#matematica-financeira .mente-subject-header__eyebrow::after{content:"💰 Matemática Financeira · cor #F2C94C";font-size:12px}#grandezas-medidas .mente-subject-header__eyebrow::after{content:"⚖️ Grandezas e Medidas · cor #D70101";font-size:12px}#graficos-tabelas .mente-subject-header__eyebrow::after{content:"📈 Gráficos e Tabelas · cor #FF2E9A";font-size:12px}
 
-/* O bloco de dados importantes agora é azul-claro/ciano, não verde. */
-.mente-reading__item--data strong{font-size:0}
-.mente-reading__item--data strong::after{content:"Azul-claro";font-size:12px}
-
-/* Mostra também o código oficial de cada matéria na explicação. */
-.mente-subject-section .mente-subject-header__eyebrow{font-size:0}
-#geometria .mente-subject-header__eyebrow::after{content:"📐 Geometria · cor #FF7A00";font-size:12px}
-#funcoes .mente-subject-header__eyebrow::after{content:"ƒ Funções · cor #9D4EDD";font-size:12px}
-#estatistica-probabilidade .mente-subject-header__eyebrow::after{content:"📊 Estatística e Probabilidade · cor #004A00";font-size:12px}
-#matematica-financeira .mente-subject-header__eyebrow::after{content:"💰 Matemática Financeira · cor #F2C94C";font-size:12px}
-#grandezas-medidas .mente-subject-header__eyebrow::after{content:"⚖️ Grandezas e Medidas · cor #D70101";font-size:12px}
-#graficos-tabelas .mente-subject-header__eyebrow::after{content:"📈 Gráficos e Tabelas · cor #FF2E9A";font-size:12px}
-
-@media(max-width:760px){.mente-reading__item{grid-template-columns:1fr;gap:5px}.mente-concepts{grid-template-columns:1fr}.mente-level-row{grid-template-columns:1fr}.mente-subject-header,.mente-subject-body{padding-left:18px;padding-right:18px}.mente-subject-nav{position:static}}
+@media(max-width:760px){.mente-reading__item{grid-template-columns:1fr;gap:5px}.mente-concepts{grid-template-columns:1fr}.mente-level-row{grid-template-columns:1fr}.mente-subject-header,.mente-subject-body{padding-left:18px;padding-right:18px}.mente-subject-nav{position:static}.questions-grid .question-card{height:auto;min-height:320px;max-height:none}.questions-grid .question-card__text{min-height:0;max-height:none;-webkit-line-clamp:7;line-clamp:7}}
