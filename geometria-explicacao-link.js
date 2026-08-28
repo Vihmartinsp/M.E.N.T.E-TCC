@@ -6,6 +6,9 @@
   function renameProfileLink() {
     document.querySelectorAll('a[href*="desempenho.html"]').forEach((link) => {
       if (!link.classList.contains("sidebar__link")) return;
+      if (link.dataset.menteProfileNormalized === "1") return;
+
+      link.dataset.menteProfileNormalized = "1";
       link.innerHTML = '<span aria-hidden="true">◉</span> Perfil';
       link.setAttribute("aria-label", "Perfil");
     });
@@ -50,14 +53,19 @@
     else card.prepend(link);
   }
 
-  renameProfileLink();
-  addCatalogLinks();
-  addDetailLink();
-
-  const observer = new MutationObserver(() => {
+  function refresh() {
     renameProfileLink();
     addCatalogLinks();
     addDetailLink();
-  });
-  observer.observe(document.body, { childList: true, subtree: true });
+  }
+
+  refresh();
+
+  const grid = document.querySelector("#questions-grid");
+  if (grid) {
+    const observer = new MutationObserver(() => {
+      addCatalogLinks();
+    });
+    observer.observe(grid, { childList: true });
+  }
 })();
