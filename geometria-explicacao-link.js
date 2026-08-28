@@ -3,6 +3,14 @@
 (() => {
   const href = "explicacoes.html#geometria";
 
+  function renameProfileLink() {
+    document.querySelectorAll('a[href*="desempenho.html"]').forEach((link) => {
+      if (!link.classList.contains("sidebar__link")) return;
+      link.innerHTML = '<span aria-hidden="true">◉</span> Perfil';
+      link.setAttribute("aria-label", "Perfil");
+    });
+  }
+
   function addCatalogLinks() {
     document.querySelectorAll(".question-card").forEach((card) => {
       const category = card.querySelector(".question-card__category")?.textContent?.trim();
@@ -42,10 +50,12 @@
     else card.prepend(link);
   }
 
+  renameProfileLink();
   addCatalogLinks();
   addDetailLink();
 
   const observer = new MutationObserver(() => {
+    renameProfileLink();
     addCatalogLinks();
     addDetailLink();
   });
