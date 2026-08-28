@@ -8,7 +8,7 @@
     <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css?v=18">
     <link rel="stylesheet" href="theme-reset.css?v=2">
-    <link rel="stylesheet" href="homepage-reference.css?v=2">
+    <link rel="stylesheet" href="homepage-reference.css?v=3">
     <script src="script.js?v=9" defer></script>
   </head>
   <body>
@@ -16,7 +16,6 @@
       <a class="brand" href="./index.html" aria-label="M.E.N.T.E - Página inicial">
         <img class="brand__logo" src="./assets/logo-mente-original.png" alt="M.E.N.T.E">
       </a>
-
       <nav class="main-nav" aria-label="Navegação principal">
         <a class="main-nav__link" href="#sobre">Sobre</a>
         <a class="main-nav__link" href="#como-funciona">Funcionalidades</a>
@@ -24,191 +23,23 @@
         <a class="main-nav__button main-nav__button--wide" href="./login.html">Começar agora</a>
       </nav>
     </header>
-
     <main class="hero">
       <section class="prototype-window" aria-labelledby="hero-title">
-        <div class="window-bar" aria-hidden="true">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-
+        <div class="window-bar" aria-hidden="true"><span></span><span></span><span></span></div>
         <p class="prototype-label">Protótipo Educacional • M.E.N.T.E - Matemática ENEM Traduzida e Explicada</p>
-
         <div class="prototype-content">
           <div class="hero-copy">
-            <h1 id="hero-title">
-              Matemática do<br>
-              ENEM<br>
-              <span>sem mistério</span>
-            </h1>
-
-            <p class="hero-description">
-              Chega de decorar fórmula sem entender.<br>
-              Aqui você resolve questões reais do<br>
-              ENEM com explicações passo a passo,<br>
-              em uma linguagem que faz sentido de<br>
-              verdade.
-            </p>
-
-            <div class="hero-actions">
-              <a href="./questoes.html">Quero aprender agora →</a>
-              <a href="#sobre">Saiba mais</a>
-            </div>
-
-            <dl class="hero-stats" aria-label="Destaques da plataforma">
-              <div>
-                <dt>10+</dt>
-                <dd>Questões ENEM</dd>
-              </div>
-              <div>
-                <dt>5</dt>
-                <dd>Tópicos</dd>
-              </div>
-              <div>
-                <dt>100%</dt>
-                <dd>Gratuito</dd>
-              </div>
-            </dl>
+            <h1 id="hero-title">Matemática do<br>ENEM<br><span>sem mistério</span></h1>
+            <p class="hero-description">Chega de decorar fórmula sem entender.<br>Aqui você resolve questões reais do<br>ENEM com explicações passo a passo,<br>em uma linguagem que faz sentido de<br>verdade.</p>
+            <div class="hero-actions"><a href="./questoes.html">Quero aprender agora →</a><a href="#sobre">Saiba mais</a></div>
+            <dl class="hero-stats" aria-label="Destaques da plataforma"><div><dt>10+</dt><dd>Questões ENEM</dd></div><div><dt>5</dt><dd>Tópicos</dd></div><div><dt>100%</dt><dd>Gratuito</dd></div></dl>
           </div>
-
-          <div class="question-stage">
-            <div class="question-frame" aria-label="Ilustração de uma questão do ENEM">
-              <article class="question-card">
-                <header class="question-meta">
-                  <div class="question-tags">
-                    <span>ENEM 2023</span>
-                    <span>Função Quadrática</span>
-                  </div>
-                  <strong>+10 pts</strong>
-                </header>
-
-                <p class="question-text">
-                  Uma bola é lançada verticalmente para cima. Sua altura é dada por:
-                  <strong>h(t) = -5t² + 20t</strong>
-                  Qual a altura máxima atingida?
-                </p>
-
-                <p class="question-tip">💡 Dica: o vértice da parábola nos dá a altura máxima.</p>
-
-                <div class="answers" aria-hidden="true">
-                  <div class="answer"><span>A</span>15 m</div>
-                  <div class="answer answer--selected"><span>B</span>20 m</div>
-                  <div class="answer"><span>C</span>25 m</div>
-                  <div class="answer"><span>D</span>30 m</div>
-                </div>
-
-                <div class="illustration-button" aria-hidden="true">Confirmar resposta</div>
-              </article>
-            </div>
-          </div>
+          <div class="question-stage"><div class="question-frame" aria-label="Ilustração de uma questão do ENEM"><article class="question-card"><header class="question-meta"><div class="question-tags"><span>ENEM 2023</span><span>Função Quadrática</span></div><strong>+10 pts</strong></header><p class="question-text">Uma bola é lançada verticalmente para cima. Sua altura é dada por:<strong>h(t) = -5t² + 20t</strong>Qual a altura máxima atingida?</p><p class="question-tip">💡 Dica: o vértice da parábola nos dá a altura máxima.</p><div class="answers" aria-hidden="true"><div class="answer"><span>A</span>15 m</div><div class="answer answer--selected"><span>B</span>20 m</div><div class="answer"><span>C</span>25 m</div><div class="answer"><span>D</span>30 m</div></div><div class="illustration-button" aria-hidden="true">Confirmar resposta</div></article></div></div>
         </div>
       </section>
     </main>
-
-    <section class="information-section information-section--about" id="sobre" aria-labelledby="about-title">
-      <div class="information-section__content">
-        <p class="section-label">Nosso objetivo</p>
-        <h2 id="about-title">Por que criamos isso?</h2>
-        <p class="about-introduction">
-          Este projeto é um <strong>protótipo funcional</strong> de site educacional desenvolvido para<br>
-          ajudar estudantes do ensino médio a compreender as questões de<br>
-          Matemática do ENEM, usando recursos visuais, explicações guiadas e interação<br>
-          passo a passo.
-        </p>
-
-        <article class="main-objective">
-          <h3><span aria-hidden="true">🎯</span> Objetivo Principal</h3>
-          <p>
-            Desenvolver um protótipo funcional de site educacional que auxilie estudantes do ensino<br>
-            médio na compreensão de questões de Matemática do ENEM por meio de recursos visuais,<br>
-            explicações guiadas e interação passo a passo.
-          </p>
-        </article>
-
-        <div class="objective-benefits" aria-label="Recursos do projeto">
-          <article>
-            <span class="objective-benefits__icon" aria-hidden="true">📚</span>
-            <h3>Questões Reais</h3>
-            <p>Questões baseadas no formato real das provas do ENEM, com enunciados completos.</p>
-          </article>
-          <article>
-            <span class="objective-benefits__icon" aria-hidden="true">🔍</span>
-            <h3>Destaque Visual</h3>
-            <p>Partes-chave do enunciado são destacadas para facilitar a interpretação.</p>
-          </article>
-          <article>
-            <span class="objective-benefits__icon" aria-hidden="true">💬</span>
-            <h3>Feedback Explicativo</h3>
-            <p>Errou? Não tem problema. Você recebe uma explicação do porquê errou.</p>
-          </article>
-          <article>
-            <span class="objective-benefits__icon" aria-hidden="true">🏆</span>
-            <h3>Gamificação</h3>
-            <p>Ganhe pontos, acompanhe seu progresso e mantenha a motivação em alta.</p>
-          </article>
-          <article>
-            <span class="objective-benefits__icon" aria-hidden="true">🧩</span>
-            <h3>Resolução em Etapas</h3>
-            <p>Cada questão é resolvida passo a passo, do mais simples ao mais complexo.</p>
-          </article>
-          <article>
-            <span class="objective-benefits__icon" aria-hidden="true">📱</span>
-            <h3>Interface Moderna</h3>
-            <p>Design limpo e intuitivo, pensado para funcionar em qualquer dispositivo.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="workflow-section" id="como-funciona" aria-labelledby="how-it-works-title">
-      <div class="how-it-works">
-        <p class="section-label">Como funciona?</p>
-        <h2 id="how-it-works-title">Uma experiência diferente de estudar</h2>
-
-        <ol class="how-it-works__steps">
-          <li>
-            <span>01</span>
-            <h3>Escolha um tópico</h3>
-            <p>Selecione entre funções, geometria, probabilidade, porcentagem e muito mais.</p>
-          </li>
-          <li>
-            <span>02</span>
-            <h3>Leia a questão</h3>
-            <p>O enunciado aparece com destaques visuais nas informações mais importantes.</p>
-          </li>
-          <li>
-            <span>03</span>
-            <h3>Responda e aprenda</h3>
-            <p>Escolha sua alternativa e receba a resolução guiada passo a passo.</p>
-          </li>
-          <li>
-            <span>04</span>
-            <h3>Acumule pontos</h3>
-            <p>Cada acerto vale pontos. Acompanhe sua evolução e tente melhorar sempre.</p>
-          </li>
-        </ol>
-
-        <aside class="prototype-note">
-          <span aria-hidden="true">ℹ️</span>
-          <p><strong>Nota importante:</strong> Este é um <u>protótipo funcional</u> e não uma plataforma completa. Ele demonstra a metodologia proposta e serve como modelo operacional para validar a abordagem educacional.</p>
-        </aside>
-      </div>
-    </section>
-
-    <footer class="site-footer">
-      <section class="footer-cta" aria-labelledby="footer-title">
-        <h2 id="footer-title">Pronto para começar?</h2>
-        <p>Sem cadastro, sem complicação. É só entrar e estudar.</p>
-        <a href="./login.html">Acessar o conteúdo <span aria-hidden="true">➤</span></a>
-      </section>
-
-      <div class="footer-information">
-        <strong>M.E.N.T.E</strong>
-        <p>Protótipo educacional desenvolvido como Trabalho de Conclusão de Curso.</p>
-        <p>© 2026 M.E.N.T.E - Projeto Acadêmico</p>
-        <a href="mailto:mentetcc@gmail.com">Suporte: mentetcc@gmail.com</a>
-      </div>
-    </footer>
+    <section class="information-section information-section--about" id="sobre" aria-labelledby="about-title"><div class="information-section__content"><p class="section-label">Nosso objetivo</p><h2 id="about-title">Por que criamos isso?</h2><p class="about-introduction">Este projeto é um <strong>protótipo funcional</strong> de site educacional desenvolvido para<br>ajudar estudantes do ensino médio a compreender as questões de<br>Matemática do ENEM, usando recursos visuais, explicações guiadas e interação<br>passo a passo.</p><article class="main-objective"><h3><span aria-hidden="true">🎯</span> Objetivo Principal</h3><p>Desenvolver um protótipo funcional de site educacional que auxilie estudantes do ensino<br>médio na compreensão de questões de Matemática do ENEM por meio de recursos visuais,<br>explicações guiadas e interação passo a passo.</p></article><div class="objective-benefits" aria-label="Recursos do projeto"><article><span class="objective-benefits__icon" aria-hidden="true">📚</span><h3>Questões Reais</h3><p>Questões baseadas no formato real das provas do ENEM, com enunciados completos.</p></article><article><span class="objective-benefits__icon" aria-hidden="true">🔍</span><h3>Destaque Visual</h3><p>Partes-chave do enunciado são destacadas para facilitar a interpretação.</p></article><article><span class="objective-benefits__icon" aria-hidden="true">💬</span><h3>Feedback Explicativo</h3><p>Errou? Não tem problema. Você recebe uma explicação do porquê errou.</p></article><article><span class="objective-benefits__icon" aria-hidden="true">🏆</span><h3>Gamificação</h3><p>Ganhe pontos, acompanhe seu progresso e mantenha a motivação em alta.</p></article><article><span class="objective-benefits__icon" aria-hidden="true">🧩</span><h3>Resolução em Etapas</h3><p>Cada questão é resolvida passo a passo, do mais simples ao mais complexo.</p></article><article><span class="objective-benefits__icon" aria-hidden="true">📱</span><h3>Interface Moderna</h3><p>Design limpo e intuitivo, pensado para funcionar em qualquer dispositivo.</p></article></div></div></section>
+    <section class="workflow-section" id="como-funciona" aria-labelledby="how-it-works-title"><div class="how-it-works"><p class="section-label">Como funciona?</p><h2 id="how-it-works-title">Uma experiência diferente de estudar</h2><ol class="how-it-works__steps"><li><span>01</span><h3>Escolha um tópico</h3><p>Selecione entre funções, geometria, probabilidade, porcentagem e muito mais.</p></li><li><span>02</span><h3>Leia a questão</h3><p>O enunciado aparece com destaques visuais nas informações mais importantes.</p></li><li><span>03</span><h3>Responda e aprenda</h3><p>Escolha sua alternativa e receba a resolução guiada passo a passo.</p></li><li><span>04</span><h3>Acumule pontos</h3><p>Cada acerto vale pontos. Acompanhe sua evolução e tente melhorar sempre.</p></li></ol><aside class="prototype-note"><span aria-hidden="true">ℹ️</span><p><strong>Nota importante:</strong> Este é um <u>protótipo funcional</u> e não uma plataforma completa. Ele demonstra a metodologia proposta e serve como modelo operacional para validar a abordagem educacional.</p></aside></div></section>
+    <footer class="site-footer"><section class="footer-cta" aria-labelledby="footer-title"><h2 id="footer-title">Pronto para começar?</h2><p>Sem cadastro, sem complicação. É só entrar e estudar.</p><a href="./login.html">Acessar o conteúdo <span aria-hidden="true">➤</span></a></section><div class="footer-information"><strong>M.E.N.T.E</strong><p>Protótipo educacional desenvolvido como Trabalho de Conclusão de Curso.</p><p>© 2026 M.E.N.T.E - Projeto Acadêmico</p><a href="mailto:mentetcc@gmail.com">Suporte: mentetcc@gmail.com</a></div></footer>
   </body>
 </html>
