@@ -39,25 +39,29 @@
           <li>quanto mais quilômetros um carro percorre, maior é o gasto de combustível;</li>
           <li>quanto maior a quantidade de produtos comprados, maior é o valor pago.</li>
         </ul>
-        <div class="functions-callout">Em todas essas situações existe uma informação que depende da outra. É exatamente isso que o ENEM quer que você enxergue. Não basta fazer contas: <strong>você precisa descobrir qual grandeza depende da outra.</strong></div>
+        <p>Perceba uma coisa.</p>
+        <p><strong>Em todas essas situações existe uma informação que depende da outra.</strong></p>
+        <div class="functions-callout">É exatamente isso que o ENEM quer que você enxergue. Não basta fazer contas. <strong>Você precisa descobrir qual grandeza depende da outra.</strong></div>
       </article>
 
       <article class="functions-section" id="enem-funcoes">
         <h3>Como o ENEM cobra Funções?</h3>
-        <p>No ENEM, quase nunca aparece uma questão dizendo: “Resolva esta função”.</p>
+        <p>No ENEM, quase nunca aparece uma questão dizendo:</p>
+        <div class="functions-callout">“Resolva esta função.”</div>
         <p>Normalmente ela vem assim:</p>
         <ul>
           <li>Uma empresa cobra uma taxa fixa mais um valor por quilômetro...</li>
           <li>O consumo de água aumenta conforme o número de moradores...</li>
           <li>Uma população cresce ao longo dos anos...</li>
         </ul>
-        <p><strong>Perceba uma coisa:</strong></p>
+        <p>Perceba uma coisa.</p>
         <ol>
           <li><strong>Primeiro aparece uma situação do cotidiano.</strong></li>
           <li><strong>Depois aparecem os números.</strong></li>
           <li><strong>Só então aparece a função.</strong></li>
         </ol>
-        <p>Por isso, a maior dificuldade dos alunos não é resolver a conta. É descobrir:</p>
+        <p>Por isso, a maior dificuldade dos alunos não é resolver a conta.</p>
+        <p>É descobrir:</p>
         <ul>
           <li><strong>qual informação muda;</strong></li>
           <li><strong>qual informação depende da outra;</strong></li>
@@ -86,21 +90,37 @@
           <div class="function-formula-card">
             <h4>Função afim</h4>
             <p>É a mais cobrada no ENEM.</p>
+            <p>Sua fórmula é:</p>
             <span class="function-formula">f(x) = ax + b</span>
-            <p>Mas não decore. Entenda.</p>
-            <p>Imagine um aplicativo de corrida. Você paga <strong>R$ 8</strong> para entrar no carro. Depois paga <strong>R$ 2 por quilômetro</strong>.</p>
-            <p>Existe um valor que <strong>nunca muda</strong> e existe outro que <strong>aumenta conforme a distância</strong>. Essa é exatamente uma função afim.</p>
-            <p>O número <strong>b representa o valor fixo</strong>. O número <strong>a representa quanto aumenta a cada unidade</strong>.</p>
+            <p><strong>Mas não decore. Entenda.</strong></p>
+            <p>Imagine um aplicativo de corrida.</p>
+            <p>Você paga: <strong>R$ 8 para entrar no carro.</strong></p>
+            <p>Depois paga <strong>R$ 2 por quilômetro.</strong></p>
+            <p>Perceba:</p>
+            <ul>
+              <li>Existe um valor que nunca muda.</li>
+              <li>Existe outro que aumenta conforme a distância.</li>
+            </ul>
+            <p>Essa é exatamente uma função afim.</p>
+            <p>O número <strong>b representa o valor fixo.</strong></p>
+            <p>O número <strong>a representa quanto aumenta a cada unidade.</strong></p>
           </div>
+
           <div class="function-formula-card">
             <h4>Função linear</h4>
             <p>É um caso especial da função afim.</p>
+            <p>Sua fórmula é:</p>
             <span class="function-formula">f(x) = ax</span>
-            <p><strong>Não existe taxa inicial.</strong> Tudo começa no zero.</p>
-            <p>Exemplo: cada ingresso custa <strong>R$ 25</strong>. Se ninguém comprar ingresso, o valor arrecadado será zero.</p>
+            <p><strong>Não existe taxa inicial.</strong></p>
+            <p><strong>Tudo começa no zero.</strong></p>
+            <p>Exemplo:</p>
+            <p>Cada ingresso custa <strong>R$ 25.</strong></p>
+            <p>Se ninguém comprar ingresso, o valor arrecadado será zero.</p>
           </div>
+
           <div class="function-formula-card">
             <h4>Função quadrática</h4>
+            <p>Sua fórmula é:</p>
             <span class="function-formula">f(x) = ax² + bx + c</span>
             <p>Ela aparece quando o crescimento não acontece sempre na mesma velocidade.</p>
             <p>Exemplos:</p>
@@ -122,7 +142,10 @@
             <h4>Função afim</h4>
             <span class="function-formula">f(x) = ax + b</span>
             <p>Pergunte sempre:</p>
-            <ul><li>quanto aumenta?</li><li>existe um valor inicial?</li></ul>
+            <ul>
+              <li>quanto aumenta?</li>
+              <li>existe um valor inicial?</li>
+            </ul>
           </div>
           <div class="function-formula-card">
             <h4>Função quadrática</h4>
@@ -131,11 +154,17 @@
             <ul><li>o crescimento continua igual ou muda ao longo do tempo?</li></ul>
           </div>
         </div>
-        <h4>Coeficiente angular (a)</h4>
-        <p>Mostra se a função:</p>
-        <ul><li>cresce;</li><li>diminui;</li><li>ou permanece constante.</li></ul>
-        <h4>Coeficiente linear (b)</h4>
-        <ul><li>Mostra onde a função começa.</li></ul>
+        <div class="functions-grid">
+          <div class="functions-mini-card">
+            <h4>Coeficiente angular (a)</h4>
+            <p>Mostra se a função:</p>
+            <ul><li>cresce;</li><li>diminui;</li><li>ou permanece constante.</li></ul>
+          </div>
+          <div class="functions-mini-card">
+            <h4>Coeficiente linear (b)</h4>
+            <p>Mostra onde a função começa.</p>
+          </div>
+        </div>
       </article>
 
       <article class="functions-section" id="enunciado-funcoes">
@@ -150,20 +179,20 @@
 
       <article class="functions-section" id="pensar-funcoes">
         <h3>Como pensar durante uma questão?</h3>
-        <p>Sempre faça este caminho:</p>
+        <p>Sempre faça este caminho.</p>
         <ol class="functions-checklist">
           <li><strong>Qual situação está sendo apresentada?</strong></li>
           <li><strong>Quais grandezas aparecem?</strong></li>
           <li><strong>Qual depende da outra?</strong></li>
           <li><strong>Existe uma taxa fixa?</strong></li>
           <li><strong>Existe uma regra?</strong></li>
-          <li><strong>Agora sim: monte a função.</strong></li>
+          <li><strong>Agora sim: monto a função.</strong></li>
         </ol>
       </article>
 
       <article class="functions-summary">
         <h3>Resumo</h3>
-        <p>As questões de Funções do ENEM <strong>não avaliam apenas se você sabe substituir valores em uma fórmula.</strong></p>
+        <p>As questões de Funções do ENEM não avaliam apenas se você sabe substituir valores em uma fórmula.</p>
         <p>Elas querem verificar se você consegue:</p>
         <ul>
           <li>identificar duas grandezas relacionadas;</li>
