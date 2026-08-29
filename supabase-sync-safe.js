@@ -7,6 +7,7 @@
   const POINTS_KEY = "mente-points";
   const USER_KEY = "mente-demo-user";
   const TIMEOUT_MS = 7000;
+  let activeUser = null;
 
   const categoryBySlug = {
     geometria: "Geometria",
@@ -74,7 +75,9 @@
   async function getSessionUser() {
     const { data, error } = await withTimeout(client.auth.getSession(), 5000, "Sessão demorou para responder");
     if (error) throw error;
-    return data.session?.user || null;
+    activeUser = data.session?.user || null;
+    window.menteCurrentUser = activeUser;
+    return activeUser;
   }
 
   async function syncUserProgress(user) {
@@ -224,7 +227,7 @@
   }
 
   async function saveAnswerToDatabase(button) {
-    const user = await getSessionUser();
+    const user = activeUser || await getSessionUser();
     if (!user) return false;
     const questionId = getQuestionId();
     const selected = document.querySelector('input[name^="mente-answer-"]:checked');
@@ -270,8 +273,7 @@
   document.addEventListener("click", async (event) => {
     const answerButton = event.target.closest?.("#mente-final-answer");
     if (answerButton) {
-      let user = null;
-      try { user = await getSessionUser(); } catch {}
+      const user = activeUser || window.menteCurrentUser;
       if (!user) return;
       event.preventDefault();
       event.stopImmediatePropagation();
