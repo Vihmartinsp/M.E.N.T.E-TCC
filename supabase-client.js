@@ -11,3 +11,11 @@ window.menteSupabase = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_PUBLISHABLE_KEY,
 );
+
+if (!document.querySelector('script[data-mente-account-authority]')) {
+  const authorityScript = document.createElement("script");
+  authorityScript.src = "./account-state-authority.js?v=1";
+  authorityScript.defer = true;
+  authorityScript.dataset.menteAccountAuthority = "1";
+  document.head.appendChild(authorityScript);
+}
