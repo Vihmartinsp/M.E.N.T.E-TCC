@@ -11,18 +11,15 @@
 
   if (!loading || !denied || !content) return;
 
-  // Cabeçalho mais limpo: somente “Painel administrativo” na lateral.
   if (brand) {
     brand.innerHTML = '<strong class="admin-brand__solo">Painel administrativo</strong>';
     brand.setAttribute("aria-label", "Painel administrativo");
   }
   if (eyebrow) eyebrow.textContent = "M.E.N.T.E";
 
-  // O aviso grande de acesso restrito nunca deve aparecer na interface.
   denied.hidden = true;
   denied.style.display = "none";
 
-  // Indicador pequeno e permanente de sincronização automática.
   let sync = document.querySelector("#admin-sync-status");
   if (!sync && topbar) {
     sync = document.createElement("div");
@@ -48,7 +45,6 @@
 
   compactLoading();
 
-  // Regras visuais injetadas aqui para não interferir no restante do painel.
   if (!document.querySelector("#admin-polish-styles")) {
     const style = document.createElement("style");
     style.id = "admin-polish-styles";
@@ -74,7 +70,6 @@
     document.head.appendChild(style);
   }
 
-  // Observa o carregamento normal do admin.js e mantém apenas o status pequeno.
   const contentObserver = new MutationObserver(() => {
     if (!content.hidden) {
       loading.hidden = true;
@@ -83,14 +78,12 @@
   });
   contentObserver.observe(content, { attributes: true, attributeFilter: ["hidden"] });
 
-  // Se o admin.js tentar mostrar a tela de acesso restrito por erro/timeout, escondemos.
   const deniedObserver = new MutationObserver(() => {
     denied.hidden = true;
     denied.style.display = "none";
   });
   deniedObserver.observe(denied, { attributes: true, attributeFilter: ["hidden", "style"] });
 
-  // Em conexão lenta, mantém o painel limpo e informa apenas no selo compacto.
   const slowTimer = setTimeout(() => {
     if (content.hidden) {
       setSync("Sincronização mais lenta", "slow");
@@ -141,8 +134,23 @@
 
   enforceSuperAdmin();
 
+  // Atualiza as estatísticas em segundo plano a cada minuto enquanto o painel estiver aberto.
+  const autoRefreshTimer = setInterval(() => {
+    if (content.hidden || document.visibilityState !== "visible") return;
+    const refreshButton = document.querySelector("#admin-refresh");
+    if (!refreshButton || refreshButton.disabled) return;
+
+    setSync("Atualizando dados...", "loading");
+    refreshButton.click();
+
+    setTimeout(() => {
+      if (!content.hidden) setSync("Dados sincronizados", "ok");
+    }, 3000);
+  }, 60000);
+
   window.addEventListener("beforeunload", () => {
     clearTimeout(slowTimer);
+    clearInterval(autoRefreshTimer);
     contentObserver.disconnect();
     deniedObserver.disconnect();
   }, { once: true });
