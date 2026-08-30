@@ -73,7 +73,7 @@
   }
 
   async function getSessionUser() {
-    const { data, error } = await withTimeout(client.auth.getSession(), 5000, "Sessão demorou para responder");
+    const { data, error } = await withTimeout(client.auth.getSession(), 6500, "Sessão demorou para responder");
     if (error) throw error;
     activeUser = data.session?.user || null;
     window.menteCurrentUser = activeUser;
@@ -295,23 +295,45 @@
       setStatus("Banco desconectado · usando dados locais", "error");
       return;
     }
+
     setStatus("Banco: conectando...", "loading");
-    const safetyTimer = setTimeout(() => {
-      if (window.menteDatabaseStatus?.state === "loading") setStatus("Banco demorando · site disponível em modo local", "error");
-    }, TIMEOUT_MS + 500);
+
+    // 1) Primeiro testa o banco público. A saúde do banco não depende do Auth.
+    let total = 0;
     try {
-      const user = await getSessionUser();
-      await syncUserProgress(user);
-      const total = await syncQuestionCatalog();
-      await syncCurrentQuestionAnswer(user);
-      setStatus(user ? `Banco conectado · ${total || "questões locais"} · progresso online` : `Banco conectado · ${total || "questões locais"} · modo visitante`, "ok");
+      total = await syncQuestionCatalog();
+      if (document.querySelector("#questions-grid")) {
+        setStatus(`Banco conectado · ${total || "questões locais"} · verificando conta...`, "ok");
+      }
     } catch (error) {
       setStatus("Banco indisponível · usando dados locais", "error");
       notify("mente:catalog-updated");
       notify("mente:account-updated");
-      console.error("[M.E.N.T.E] Supabase indisponível; interface liberada:", error);
-    } finally {
-      clearTimeout(safetyTimer);
+      console.error("[M.E.N.T.E] Falha na leitura pública do Supabase:", error);
+      return;
+    }
+
+    // 2) Depois sincroniza login/progresso. Se o Auth atrasar, o banco continua conectado.
+    try {
+      const user = await getSessionUser();
+      await syncUserProgress(user);
+      await syncCurrentQuestionAnswer(user);
+      if (document.querySelector("#questions-grid")) {
+        setStatus(
+          user
+            ? `Banco conectado · ${total || "questões locais"} · progresso online`
+            : `Banco conectado · ${total || "questões locais"} · modo visitante`,
+          "ok",
+        );
+      }
+    } catch (error) {
+      activeUser = null;
+      window.menteCurrentUser = null;
+      if (document.querySelector("#questions-grid")) {
+        setStatus(`Banco conectado · ${total || "questões locais"} · login não sincronizado`, "ok");
+      }
+      notify("mente:account-updated");
+      console.warn("[M.E.N.T.E] Banco conectado, mas a sessão demorou para sincronizar:", error);
     }
   }
 
