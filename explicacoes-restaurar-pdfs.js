@@ -61,7 +61,7 @@
       // é inserida depois de Financeira.
       await loadScript("explicacoes-estatistica.js?v=3");
       await loadScript("explicacoes-financeira.js?v=2");
-      await loadScript("explicacoes-grandezas.js?v=2");
+      await loadScript("explicacoes-grandezas.js?v=3");
       normalizeIdsAndLinks();
 
       const legacyHash = {
