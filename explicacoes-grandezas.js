@@ -14,131 +14,104 @@
   section.id = "grandezas";
   section.innerHTML = `
     <header class="measures-guide__hero">
-      <p class="measures-guide__eyebrow">Explicação completa</p>
+      <p class="measures-guide__eyebrow">M.E.N.T.E · Matemática ENEM Traduzida e Explicada</p>
       <h2>🔴 GRANDEZAS E MEDIDAS</h2>
-      <p>Grandezas e Medidas aparecem em praticamente todas as áreas da Matemática. <strong>Uma grandeza é qualquer coisa que pode ser medida.</strong> No ENEM, o mais importante é perceber quando uma conversão é necessária antes de resolver o problema.</p>
+      <p>Grandezas e Medidas aparecem em praticamente todas as áreas da Matemática. Uma grandeza é tudo aquilo que pode ser medido, como comprimento, massa, capacidade, área, volume e tempo.</p>
+      <p>No ENEM, a dificuldade normalmente não está em uma conversão isolada. O desafio é perceber <strong>quando as unidades precisam ser compatibilizadas antes de fazer a conta.</strong></p>
       <nav class="measures-guide__toc" aria-label="Tópicos da explicação de Grandezas e Medidas">
-        <a href="#o-que-sao-grandezas">O que são?</a>
-        <a href="#enem-grandezas">Como o ENEM cobra</a>
-        <a href="#segredo-grandezas">O segredo</a>
-        <a href="#unidades-grandezas">Unidades</a>
-        <a href="#enunciado-grandezas">O que destacar</a>
-        <a href="#pensar-grandezas">Como pensar</a>
+        <a href="#caminho-grandezas">Caminho M.E.N.T.E</a>
+        <a href="#conversoes-grandezas">Conversões</a>
+        <a href="#cores-grandezas">Sistema de cores</a>
+        <a href="#sequencia-grandezas">Questões do módulo</a>
       </nav>
     </header>
 
-    <article class="measures-section measures-accent" id="o-que-sao-grandezas">
-      <h3>O que são Grandezas e Medidas?</h3>
-      <p>Quando ouvimos esse nome, muita gente pensa apenas em:</p>
-      <ul>
-        <li>quilômetros;</li>
-        <li>litros;</li>
-        <li>quilos.</li>
-      </ul>
-      <p>Mas esse conteúdo vai muito além disso.</p>
-      <p><strong>Uma grandeza é qualquer coisa que pode ser medida.</strong></p>
-      <div class="measures-grid">
-        <div class="measures-mini-card"><h4>📏 Comprimento</h4><p>Distâncias e medidas lineares.</p></div>
-        <div class="measures-mini-card"><h4>⚖️ Massa</h4><p>Medidas como quilogramas e gramas.</p></div>
-        <div class="measures-mini-card"><h4>🥤 Capacidade</h4><p>Litros, mililitros e outras medidas de capacidade.</p></div>
-        <div class="measures-mini-card"><h4>⬜ Área, volume e tempo</h4><p>Também são grandezas que aparecem frequentemente nos problemas.</p></div>
-      </div>
-      <div class="measures-callout">Por isso, o ENEM não quer saber apenas se você sabe converter unidades. Ele quer descobrir se você consegue <strong>perceber quando uma conversão é necessária antes de resolver o problema.</strong></div>
-    </article>
-
-    <article class="measures-section" id="enem-grandezas">
-      <h3>Como o ENEM cobra Grandezas e Medidas?</h3>
-      <p>O ENEM quase nunca pergunta apenas:</p>
-      <div class="measures-callout"><strong>“Converta metros para centímetros.”</strong></div>
-      <p>Normalmente ele apresenta situações como:</p>
-      <ul>
-        <li>consumo de água;</li>
-        <li>construção civil;</li>
-        <li>receitas;</li>
-        <li>embalagens;</li>
-        <li>mapas;</li>
-        <li>velocidade;</li>
-        <li>combustível.</li>
-      </ul>
-      <p><strong>Primeiro aparece o problema.</strong></p>
-      <p><strong>Depois surge a necessidade da conversão.</strong></p>
-    </article>
-
-    <article class="measures-section" id="segredo-grandezas">
-      <h3>O segredo das Grandezas</h3>
-      <p>Toda questão pode ser pensada assim:</p>
+    <article class="measures-section measures-accent" id="caminho-grandezas">
+      <h3>Como interpretar antes de calcular</h3>
+      <p>Use este caminho:</p>
       <div class="measures-flow"><span>Situação</span><b>→</b><span>Unidade</span><b>→</b><span>Conversão</span><b>→</b><span>Cálculo</span><b>→</b><span>Resposta</span></div>
-      <p>Muitos alunos fazem:</p>
-      <div class="measures-flow"><span>Conta</span><b>→</b><span>Conta</span><b>→</b><span>Erro</span></div>
       <p>Antes de calcular, pergunte:</p>
       <ul>
-        <li><strong>Todas as unidades são iguais?</strong></li>
-        <li><strong>Preciso converter alguma medida?</strong></li>
-        <li><strong>A resposta deve sair em qual unidade?</strong></li>
+        <li>Todas as medidas estão na mesma unidade?</li>
+        <li>A resposta deve sair em qual unidade?</li>
+        <li>A grandeza é de comprimento, área, volume, capacidade, tempo ou uma unidade derivada?</li>
+        <li>A escala é linear ou a questão está falando de área?</li>
       </ul>
-      <p><strong>Só depois faça os cálculos.</strong></p>
     </article>
 
-    <article class="measures-section" id="unidades-grandezas">
-      <h3>As unidades mais importantes</h3>
-      <p>Você não precisa decorar tudo. Precisa entender como cada unidade <strong>“anda” na tabela</strong>.</p>
+    <article class="measures-section" id="conversoes-grandezas">
+      <h3>Conversões que mais ajudam neste módulo</h3>
       <div class="measure-conversion-grid">
         <div class="measure-conversion-card">
           <h4>Comprimento</h4>
           <div class="measure-scale"><span>km</span><b>→</b><span>hm</span><b>→</b><span>dam</span><b>→</b><span>m</span><b>→</b><span>dm</span><b>→</b><span>cm</span><b>→</b><span>mm</span></div>
-          <span class="measure-rule">Cada casa: ×10 → | ÷10 ←</span>
+          <span class="measure-rule">Cada passo: ×10 → | ÷10 ←</span>
         </div>
         <div class="measure-conversion-card">
           <h4>Área</h4>
           <div class="measure-scale"><span>km²</span><b>→</b><span>hm²</span><b>→</b><span>dam²</span><b>→</b><span>m²</span><b>→</b><span>dm²</span><b>→</b><span>cm²</span><b>→</b><span>mm²</span></div>
-          <span class="measure-rule">Cada casa: ×100 → | ÷100 ←</span>
+          <span class="measure-rule">Cada passo: ×100 → | ÷100 ←</span>
+          <p>O fator é 100 porque duas dimensões estão sendo convertidas.</p>
         </div>
         <div class="measure-conversion-card">
           <h4>Volume</h4>
           <div class="measure-scale"><span>km³</span><b>→</b><span>hm³</span><b>→</b><span>dam³</span><b>→</b><span>m³</span><b>→</b><span>dm³</span><b>→</b><span>cm³</span><b>→</b><span>mm³</span></div>
-          <span class="measure-rule">Cada casa: ×1000 → | ÷1000 ←</span>
+          <span class="measure-rule">Cada passo: ×1000 → | ÷1000 ←</span>
         </div>
         <div class="measure-conversion-card">
-          <h4>Massa</h4>
-          <div class="measure-scale"><span>kg</span><b>→</b><span>hg</span><b>→</b><span>dag</span><b>→</b><span>g</span><b>→</b><span>dg</span><b>→</b><span>cg</span><b>→</b><span>mg</span></div>
-          <span class="measure-rule">Cada casa vale ×10</span>
+          <h4>Capacidade e volume</h4>
+          <p><strong>1 mL = 1 cm³</strong> e <strong>1 L = 1 dm³</strong>.</p>
+          <p>Essas equivalências evitam conversões desnecessárias em muitos problemas.</p>
         </div>
         <div class="measure-conversion-card">
-          <h4>Capacidade</h4>
-          <div class="measure-scale"><span>kL</span><b>→</b><span>hL</span><b>→</b><span>daL</span><b>→</b><span>L</span><b>→</b><span>dL</span><b>→</b><span>cL</span><b>→</b><span>mL</span></div>
-          <span class="measure-rule">Cada casa vale ×10</span>
+          <h4>Tempo</h4>
+          <p>Quando duas contagens usam durações diferentes, transforme ambas para uma unidade comum, como dias, antes de comparar.</p>
+        </div>
+        <div class="measure-conversion-card">
+          <h4>Unidades derivadas</h4>
+          <p>Se uma grandeza é definida por uma razão, a unidade segue a mesma razão.</p>
+          <p><strong>Exemplo:</strong> intensidade luminosa dividida por distância ao quadrado gera <strong>cd/m²</strong>.</p>
+        </div>
+        <div class="measure-conversion-card measure-conversion-card--wide">
+          <h4>Escala</h4>
+          <p>Numa escala <strong>1:n</strong>, uma medida linear do desenho corresponde a <strong>n</strong> vezes essa medida na realidade.</p>
+          <p>Para áreas, o fator passa a ser <strong>n²</strong>.</p>
         </div>
       </div>
     </article>
 
-    <article class="measures-section" id="enunciado-grandezas">
-      <h3>O que destacar no enunciado?</h3>
+    <article class="measures-section" id="cores-grandezas">
+      <h3>Sistema de cores do M.E.N.T.E</h3>
       <div class="pedagogy-list">
-        <div class="pedagogy-item pedagogy-item--objective"><strong>Objetivo</strong><span>“converta”; “determine”; “calcule”; “expresse em”; “qual unidade”.</span></div>
-        <div class="pedagogy-item pedagogy-item--data"><strong>Dados importantes</strong><span>metros; centímetros; litros; quilogramas; horas; quilômetros.</span></div>
-        <div class="pedagogy-item pedagogy-item--tip"><strong>Dicas de interpretação e raciocínio</strong><span>“na mesma unidade”; “equivale”; “aproximadamente”; “transforme”.</span></div>
-        <div class="pedagogy-item pedagogy-item--trap"><strong>Erros comuns e armadilhas</strong><span>esquecer de converter unidades; usar ×10 em área ou volume; misturar litros com mililitros; misturar metros com centímetros.</span></div>
+        <div class="pedagogy-item pedagogy-item--objective"><strong>Objetivo</strong><span>O que a questão quer descobrir.</span></div>
+        <div class="pedagogy-item pedagogy-item--data"><strong>Dados importantes</strong><span>Medidas, unidades, proporções, escalas e valores necessários.</span></div>
+        <div class="pedagogy-item pedagogy-item--tip"><strong>Pista de interpretação</strong><span>Palavras que indicam conversão, equivalência ou relação entre grandezas.</span></div>
+        <div class="pedagogy-item pedagogy-item--trap"><strong>Armadilha</strong><span>Erros frequentes de unidade, escala ou fator de conversão.</span></div>
+        <div class="pedagogy-item pedagogy-item--strategy"><strong>Estratégia</strong><span>O plano de resolução antes de fazer os cálculos.</span></div>
       </div>
     </article>
 
-    <article class="measures-section" id="pensar-grandezas">
-      <h3>Como pensar durante uma questão?</h3>
-      <p>Sempre faça este caminho:</p>
-      <ol class="measures-checklist">
-        <li><strong>Qual é a situação?</strong></li>
-        <li><strong>Quais unidades aparecem?</strong></li>
-        <li><strong>Todas estão na mesma unidade?</strong></li>
-        <li><strong>O que preciso descobrir?</strong></li>
-        <li><strong>Preciso converter alguma medida?</strong></li>
-        <li><strong>Agora sim: faço os cálculos.</strong></li>
-      </ol>
+    <article class="measures-section" id="sequencia-grandezas">
+      <h3>Sequência das questões</h3>
+      <p>Os cinco níveis do módulo usam questões oficiais do ENEM e avançam da equivalência direta entre unidades até escala de área.</p>
+      <div class="measures-table-wrap">
+        <table class="measures-question-table">
+          <thead><tr><th>Nível</th><th>Ano</th><th>Questão</th><th>Conteúdo</th><th>Gabarito</th></tr></thead>
+          <tbody>
+            <tr><td>⭐</td><td>2025</td><td>159</td><td>Capacidade e volume: cm³ e mL</td><td>D</td></tr>
+            <tr><td>⭐⭐</td><td>2025</td><td>179</td><td>Unidade derivada: cd/m²</td><td>A</td></tr>
+            <tr><td>⭐⭐⭐</td><td>2025</td><td>156</td><td>Escala e conversão de medidas</td><td>E</td></tr>
+            <tr><td>⭐⭐⭐⭐</td><td>2023</td><td>171</td><td>Conversão entre calendários</td><td>C</td></tr>
+            <tr><td>⭐⭐⭐⭐⭐</td><td>2024</td><td>151</td><td>Escala de área e conversão m²/cm²</td><td>E</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <a class="measures-study-link" href="questoes.html">Praticar Grandezas e Medidas →</a>
     </article>
 
     <article class="measures-summary">
-      <h3>Resumo</h3>
-      <p><strong>Grandezas e Medidas não exigem decorar dezenas de conversões.</strong></p>
-      <p>O mais importante é identificar <strong>quando converter</strong> e <strong>qual regra usar</strong>. Depois disso, a maior parte das questões do ENEM se torna muito mais simples de resolver.</p>
-      <a class="portal-button" href="questoes.html">Praticar questões de Grandezas e Medidas →</a>
+      <h3>Dica para levar para a prova</h3>
+      <p>Antes da conta, confirme a unidade. Em Grandezas e Medidas, uma conversão correta costuma decidir toda a questão.</p>
     </article>`;
 
   finance.insertAdjacentElement("afterend", section);
@@ -159,11 +132,17 @@
   if (geometryOther) {
     const card = [...geometryOther.children].find((item) => item.textContent.includes("Grandezas e Medidas"));
     if (card) {
-      card.innerHTML = '<strong>Grandezas e Medidas</strong>Comprimento, massa, capacidade, área, volume e conversões.<br><a class="measures-study-link" href="#grandezas">Abrir explicação →</a>';
+      card.innerHTML = '<strong>Grandezas e Medidas</strong>Comprimento, capacidade, área, volume, tempo, unidades derivadas e escalas.<br><a class="measures-study-link" href="#grandezas">Abrir explicação →</a>';
     }
   }
 
-  if (location.hash === "#grandezas" || location.hash.startsWith("#o-que-sao-grandezas") || location.hash.startsWith("#enem-grandezas") || location.hash.startsWith("#segredo-grandezas") || location.hash.startsWith("#unidades-grandezas") || location.hash.startsWith("#enunciado-grandezas") || location.hash.startsWith("#pensar-grandezas")) {
+  if (
+    location.hash === "#grandezas" ||
+    location.hash.startsWith("#caminho-grandezas") ||
+    location.hash.startsWith("#conversoes-grandezas") ||
+    location.hash.startsWith("#cores-grandezas") ||
+    location.hash.startsWith("#sequencia-grandezas")
+  ) {
     requestAnimationFrame(() => document.querySelector(location.hash)?.scrollIntoView({ behavior: "smooth", block: "start" }));
   }
 })();
