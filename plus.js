@@ -20,27 +20,34 @@
   ];
 
   function currentState() {
-    return window.MENTE_PLUS?.state || { active:false, trialUsed:false, expiresAt:null, loaded:false };
+    return window.MENTE_PLUS?.state || { active:false, actualActive:false, trialUsed:false, expiresAt:null, loaded:false, role:"aluno", preview:"real" };
+  }
+
+  function isStaff(state) {
+    return ["admin", "super_admin"].includes(String(state.role || "").toLowerCase());
   }
 
   function stateCopy(state) {
+    const previewing = isStaff(state) && state.preview !== "real";
     if (state.active) {
-      const date = state.expiresAt ? window.MENTE_PLUS?.formatDate?.(state.expiresAt) : "";
+      const date = state.actualActive && state.expiresAt ? window.MENTE_PLUS?.formatDate?.(state.expiresAt) : "";
       return {
-        title: "M.E.N.T.E Plus ativo",
-        text: date ? `Seu acesso Plus está liberado até ${date}.` : "Seu acesso Plus está liberado.",
-        detail: "Recursos premium disponíveis neste perfil.",
+        title: previewing ? "Prévia do M.E.N.T.E Plus" : "M.E.N.T.E Plus ativo",
+        text: previewing ? "Você está vendo a experiência Plus em modo administrativo." : date ? `Seu acesso Plus está liberado até ${date}.` : "Seu acesso Plus está liberado.",
+        detail: previewing ? "Essa prévia não altera o plano real da sua conta." : "Recursos premium disponíveis neste perfil.",
       };
     }
     return {
-      title: "Plano Convencional",
-      text: "As ferramentas essenciais de estudo continuam disponíveis gratuitamente.",
-      detail: state.trialUsed ? "Seu teste gratuito já foi utilizado." : "Você pode experimentar o Plus por 7 dias.",
+      title: previewing ? "Prévia do Plano Convencional" : "Plano Convencional",
+      text: previewing ? "Você está vendo exatamente como a experiência convencional se comporta para um aluno." : "As ferramentas essenciais de estudo continuam disponíveis gratuitamente.",
+      detail: previewing ? "Essa prévia não altera o plano real da sua conta." : state.trialUsed ? "Seu teste gratuito já foi utilizado." : "Você pode experimentar o Plus por 7 dias.",
     };
   }
 
   function render() {
     const state = currentState();
+    const staff = isStaff(state);
+    const previewing = staff && state.preview !== "real";
     const copy = stateCopy(state);
     main.innerHTML = `
       <div class="plus-page">
@@ -49,14 +56,15 @@
             <p class="plus-eyebrow">Uma camada extra de personalização e inteligência</p>
             <h2>M.E.N.T.E <span>Plus</span></h2>
             <p>O plano convencional mantém todas as funcionalidades educacionais essenciais. O Plus amplia a experiência com personalização, análises, recursos adaptativos e gamificação avançada.</p>
+            ${staff ? `<div class="plus-admin-preview">👑 <strong>Modo administrador:</strong> use o seletor “Visualizar” no topo para alternar entre <strong>Convencional</strong> e <strong>Plus</strong>. Isso muda apenas a prévia da interface e não altera o plano real da conta.</div>` : ""}
             <div class="plus-hero__actions">
-              <button class="plus-primary" id="plus-trial" type="button" ${state.active || state.trialUsed ? "disabled" : ""}>${state.active ? "★ Plus ativo" : state.trialUsed ? "Teste já utilizado" : "Experimentar Plus por 7 dias"}</button>
+              <button class="plus-primary" id="plus-trial" type="button" ${staff || state.actualActive || state.trialUsed ? "disabled" : ""}>${staff ? "Prévia disponível no topo" : state.actualActive ? "★ Plus ativo" : state.trialUsed ? "Teste já utilizado" : "Experimentar Plus por 7 dias"}</button>
               <a class="plus-secondary" href="desempenho.html">Voltar ao perfil</a>
             </div>
             <p class="plus-feedback" id="plus-feedback" aria-live="polite"></p>
           </div>
           <aside class="plus-status-card">
-            <small>Seu plano atual</small>
+            <small>${previewing ? "Modo de visualização" : "Seu plano atual"}</small>
             <strong>${copy.title}</strong>
             <p>${copy.text}</p>
             <div class="plus-status-card__line"></div>
@@ -67,14 +75,14 @@
         <section class="plus-section">
           <div class="plus-section-head"><div><h3>Dois planos, o mesmo objetivo educacional</h3><p>O conteúdo essencial não fica bloqueado. O Plus adiciona ferramentas extras de personalização e acompanhamento.</p></div><span class="plus-pill">VERSÃO TCC</span></div>
           <div class="plus-plans">
-            <article class="plus-plan">
+            <article class="plus-plan ${!state.active ? "plus-plan--selected" : ""}">
               <span class="plus-plan__badge">CONVENCIONAL</span>
               <h4>M.E.N.T.E</h4>
               <div class="plus-plan__price"><strong>Gratuito</strong><span>recursos essenciais</span></div>
               <p>Para estudar, praticar e acompanhar sua evolução sem perder as funções principais da plataforma.</p>
               <ul class="plus-feature-list"><li>Questões e explicações completas</li><li>Roteiro de estudos</li><li>Simulados prontos</li><li>Perfil, metas, XP e emblemas</li><li>Avatares básicos</li></ul>
             </article>
-            <article class="plus-plan plus-plan--plus">
+            <article class="plus-plan plus-plan--plus ${state.active ? "plus-plan--selected" : ""}">
               <span class="plus-plan__badge">PLUS</span>
               <h4>M.E.N.T.E Plus</h4>
               <div class="plus-plan__price"><strong>7 dias</strong><span>teste demonstrativo</span></div>
@@ -106,6 +114,8 @@
   }
 
   async function activateTrial() {
+    const state = currentState();
+    if (isStaff(state)) return;
     const button = document.querySelector("#plus-trial");
     const feedback = document.querySelector("#plus-feedback");
     if (!button || !feedback) return;
@@ -129,7 +139,7 @@
       window.dispatchEvent(new CustomEvent("mente:plan-refresh"));
       await window.MENTE_PLUS?.refresh?.();
       feedback.textContent = "M.E.N.T.E Plus ativado! Seus recursos premium já estão liberados.";
-      setTimeout(render, 500);
+      setTimeout(render, 400);
     } catch (error) {
       feedback.classList.add("is-error");
       feedback.textContent = error?.message || "Não foi possível ativar o teste agora.";
