@@ -1,10 +1,10 @@
 "use strict";
 
 (() => {
-  const CACHE_KEY = "mente-plus-state-v2";
+  const CACHE_KEY = "mente-plus-state-v3";
   const PREVIEW_KEY = "mente-admin-plan-preview-v1";
-  const PREMIUM_AVATARS = new Set(["chart", "geometry", "calculator", "lightning", "diamond", "crown"]);
   const STAFF_ROLES = new Set(["admin", "super_admin"]);
+  const PREMIUM_AVATARS = new Set(["chart", "geometry", "calculator", "lightning", "diamond", "crown"]);
 
   const state = {
     plan: "convencional",
@@ -25,11 +25,9 @@
       const preview = localStorage.getItem(PREVIEW_KEY);
       if (["real", "convencional", "plus"].includes(preview)) state.preview = preview;
     } catch {}
-
-    if (!Object.prototype.hasOwnProperty.call(state, "actualActive")) state.actualActive = Boolean(state.active);
     if (state.actualActive && state.expiresAt && Date.parse(state.expiresAt) <= Date.now()) {
-      state.plan = "convencional";
       state.actualActive = false;
+      state.plan = "convencional";
     }
   }
 
@@ -63,26 +61,22 @@
     return new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" }).format(date);
   }
 
+  function snapshotKey() {
+    return JSON.stringify({
+      plan: state.plan,
+      actualActive: state.actualActive,
+      active: state.active,
+      startedAt: state.startedAt,
+      expiresAt: state.expiresAt,
+      trialUsed: state.trialUsed,
+      role: state.role,
+      preview: state.preview,
+      loaded: state.loaded,
+    });
+  }
+
   function emit() {
     try { window.dispatchEvent(new CustomEvent("mente:plan-updated", { detail: { ...state } })); } catch {}
-  }
-
-  function applyEffectiveState({ emitEvent = true } = {}) {
-    state.active = effectiveActive();
-    document.documentElement.dataset.mentePlan = state.active ? "plus" : "convencional";
-    document.documentElement.dataset.mentePlanPreview = isStaff() ? state.preview : "real";
-    saveCache();
-    refreshUi();
-    if (emitEvent) emit();
-  }
-
-  function setRemoteState(next) {
-    Object.assign(state, next, { loaded: true });
-    if (state.actualActive && state.expiresAt && Date.parse(state.expiresAt) <= Date.now()) {
-      state.plan = "convencional";
-      state.actualActive = false;
-    }
-    applyEffectiveState();
   }
 
   function ensureStyles() {
@@ -101,7 +95,7 @@
       .plus-lockable.is-plus-locked{filter:saturate(.8)}
       .plus-lockable.is-plus-locked::after{content:"PLUS";position:absolute;top:8px;right:8px;z-index:4;padding:3px 7px;border-radius:999px;background:linear-gradient(135deg,#7C3AED,#4F46E5);color:#fff;font-size:9px;font-weight:900;letter-spacing:.5px;box-shadow:0 5px 16px rgba(79,70,229,.22)}
       .sim-custom.plus-lockable.is-plus-locked{padding:16px;border:1px dashed #d8ccff;border-radius:14px;background:linear-gradient(135deg,#faf8ff,#fff)}
-      .sim-custom.plus-lockable.is-plus-locked::before{content:"Personalização de quantidade e tempo é um recurso M.E.N.T.E Plus";position:absolute;inset:0;z-index:3;display:grid;place-items:center;padding:18px;border-radius:14px;background:rgba(255,255,255,.9);color:#5b3fb7;text-align:center;font-size:12px;font-weight:800;backdrop-filter:blur(2px)}
+      .sim-custom.plus-lockable.is-plus-locked::before{content:"Personalização de quantidade e tempo é um recurso M.E.N.T.E Plus";position:absolute;inset:0;z-index:3;display:grid;place-items:center;padding:18px;border-radius:14px;background:rgba(255,255,255,.9);color:#5b3fb7;text-align:center;font-size:12px;font-weight:800}
       .profile-avatar-option.is-plus-locked{opacity:.68}
       .profile-avatar-option.is-plus-locked::after{top:4px;right:4px;font-size:8px;padding:2px 5px}
       .mente-plus-profile-card{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;margin:18px 0;padding:20px 22px;border:1px solid #e6dcff;border-radius:20px;background:linear-gradient(135deg,#fbf9ff 0%,#fff8da 100%);box-shadow:0 12px 30px rgba(58,52,93,.08)}
@@ -112,12 +106,11 @@
       .mente-plus-profile-card.is-active{border-color:#f0d46c;background:linear-gradient(135deg,#fffcef,#fff8cf)}
       .mente-plus-profile-card.is-admin-preview{border-style:dashed}
       .mente-plus-modal[hidden]{display:none!important}
-      .mente-plus-modal{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:20px;background:rgba(11,30,59,.55);backdrop-filter:blur(5px)}
+      .mente-plus-modal{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:20px;background:rgba(11,30,59,.55)}
       .mente-plus-modal__card{width:min(470px,100%);padding:26px;border-radius:22px;background:#fff;box-shadow:0 26px 80px rgba(0,0,0,.24)}
       .mente-plus-modal__icon{display:grid;place-items:center;width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,#7C3AED,#F2C94C);color:#fff;font-size:23px}
       .mente-plus-modal h3{margin:14px 0 8px;color:#17213a;font-size:22px}.mente-plus-modal p{margin:0;color:#64748b;line-height:1.55}
       .mente-plus-modal__actions{display:flex;gap:10px;justify-content:flex-end;margin-top:22px}.mente-plus-modal button,.mente-plus-modal a{min-height:40px;padding:0 14px;border-radius:11px;border:0;font:inherit;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}.mente-plus-modal button{background:#eef2f7;color:#334155}.mente-plus-modal a{background:#4F46E5;color:#fff}
-      .plus-admin-preview{margin:14px 0 0;padding:12px 14px;border:1px dashed #cdbef7;border-radius:12px;background:#faf8ff;color:#5b3fb7;font-size:12px;font-weight:700;line-height:1.45}
       @media(max-width:900px){.mente-admin-plan-switch{display:none}}
       @media(max-width:720px){.mente-plus-profile-card{grid-template-columns:1fr}.mente-plan-chip{display:none}.mente-plus-profile-card a{width:100%}}
     `;
@@ -131,7 +124,7 @@
     modal.className = "mente-plus-modal";
     modal.id = "mente-plus-modal";
     modal.hidden = true;
-    modal.innerHTML = `<div class="mente-plus-modal__card" role="dialog" aria-modal="true" aria-labelledby="mente-plus-modal-title"><div class="mente-plus-modal__icon">★</div><h3 id="mente-plus-modal-title">Recurso M.E.N.T.E Plus</h3><p id="mente-plus-modal-copy">Este recurso faz parte da experiência Plus.</p><div class="mente-plus-modal__actions"><button type="button" data-plus-close>Agora não</button><a href="plus.html">Conhecer o Plus</a></div></div>`;
+    modal.innerHTML = `<div class="mente-plus-modal__card" role="dialog" aria-modal="true"><div class="mente-plus-modal__icon">★</div><h3>Recurso M.E.N.T.E Plus</h3><p id="mente-plus-modal-copy">Este recurso faz parte da experiência Plus.</p><div class="mente-plus-modal__actions"><button type="button" data-plus-close>Agora não</button><a href="plus.html">Conhecer o Plus</a></div></div>`;
     document.body.appendChild(modal);
     modal.addEventListener("click", (event) => {
       if (event.target === modal || event.target.closest("[data-plus-close]")) modal.hidden = true;
@@ -142,9 +135,7 @@
   function openUpgrade(feature) {
     const modal = ensureModal();
     const copy = modal.querySelector("#mente-plus-modal-copy");
-    const adminText = isStaff() ? " Como administrador, você também pode selecionar ‘Ver Plus’ no topo para testar a experiência sem alterar o plano real." : "";
-    const message = `${feature || "Este recurso"} faz parte do M.E.N.T.E Plus. Você pode experimentar o plano gratuitamente por 7 dias nesta versão do TCC.${adminText}`;
-    if (copy && copy.textContent !== message) copy.textContent = message;
+    if (copy) copy.textContent = `${feature || "Este recurso"} faz parte do M.E.N.T.E Plus.${isStaff() ? " Como administrador, selecione Plus no controle de visualização para testar sem mudar seu plano real." : ""}`;
     modal.hidden = false;
   }
 
@@ -166,35 +157,7 @@
       badge.className = "plus-nav-badge";
       link.appendChild(badge);
     }
-    const label = state.active ? "ATIVO" : "PLUS";
-    if (badge.textContent !== label) badge.textContent = label;
-  }
-
-  function ensureAdminSwitcher() {
-    const actions = document.querySelector(".topbar__actions");
-    if (!actions) return;
-    let wrap = actions.querySelector(".mente-admin-plan-switch");
-    if (!isStaff()) {
-      wrap?.remove();
-      return;
-    }
-
-    if (!wrap) {
-      wrap = document.createElement("label");
-      wrap.className = "mente-admin-plan-switch";
-      wrap.innerHTML = `👑 Visualizar <select aria-label="Visualizar plano como administrador"><option value="real">Plano real</option><option value="convencional">Convencional</option><option value="plus">Plus</option></select>`;
-      const score = actions.querySelector(".score");
-      if (score) score.before(wrap); else actions.prepend(wrap);
-      wrap.querySelector("select").addEventListener("change", (event) => {
-        const value = event.target.value;
-        state.preview = ["real", "convencional", "plus"].includes(value) ? value : "real";
-        try { localStorage.setItem(PREVIEW_KEY, state.preview); } catch {}
-        applyEffectiveState();
-      });
-    }
-    const select = wrap.querySelector("select");
-    if (select && select.value !== state.preview) select.value = state.preview;
-    wrap.title = "Prévia administrativa: muda apenas o que você visualiza. Não altera o plano real da conta.";
+    badge.textContent = state.active ? "ATIVO" : "PLUS";
   }
 
   function ensureTopChip() {
@@ -210,10 +173,50 @@
     }
     chip.classList.toggle("is-plus", state.active);
     chip.classList.toggle("is-preview", isStaff() && state.preview !== "real");
-    const label = isStaff() && state.preview !== "real"
+    chip.textContent = isStaff() && state.preview !== "real"
       ? `Prévia: ${state.active ? "Plus" : "Convencional"}`
       : state.active ? "M.E.N.T.E Plus" : "Plano Convencional";
-    if (chip.textContent !== label) chip.textContent = label;
+  }
+
+  function ensureAdminSwitcher() {
+    const actions = document.querySelector(".topbar__actions");
+    if (!actions) return;
+    let wrap = actions.querySelector(".mente-admin-plan-switch");
+    if (!isStaff()) {
+      wrap?.remove();
+      return;
+    }
+    if (!wrap) {
+      wrap = document.createElement("label");
+      wrap.className = "mente-admin-plan-switch";
+      wrap.innerHTML = `👑 Visualizar <select aria-label="Prévia de plano"><option value="real">Plano real</option><option value="convencional">Convencional</option><option value="plus">Plus</option></select>`;
+      const score = actions.querySelector(".score");
+      if (score) score.before(wrap); else actions.prepend(wrap);
+      wrap.querySelector("select").addEventListener("change", (event) => {
+        state.preview = ["real", "convencional", "plus"].includes(event.target.value) ? event.target.value : "real";
+        try { localStorage.setItem(PREVIEW_KEY, state.preview); } catch {}
+        applyState(true);
+      });
+    }
+    const select = wrap.querySelector("select");
+    if (select) select.value = state.preview;
+  }
+
+  function decoratePremiumSurfaces() {
+    document.querySelectorAll(".profile-avatar-option[data-avatar-id]").forEach((button) => {
+      if (!PREMIUM_AVATARS.has(button.dataset.avatarId)) return;
+      button.dataset.plusOnly = "1";
+      button.dataset.plusFeature = "Este avatar especial";
+      button.classList.add("plus-lockable");
+      button.classList.toggle("is-plus-locked", !state.active);
+    });
+    const custom = document.querySelector(".sim-custom");
+    if (custom) {
+      custom.dataset.plusOnly = "1";
+      custom.dataset.plusFeature = "A personalização de quantidade e tempo do simulado";
+      custom.classList.add("plus-lockable");
+      custom.classList.toggle("is-plus-locked", !state.active);
+    }
   }
 
   function ensureProfileCard() {
@@ -227,39 +230,18 @@
       card.className = "mente-plus-profile-card";
       hero.insertAdjacentElement("afterend", card);
     }
-    const adminPreview = isStaff() && state.preview !== "real";
+    const previewing = isStaff() && state.preview !== "real";
     card.classList.toggle("is-active", state.active);
-    card.classList.toggle("is-admin-preview", adminPreview);
-    const days = state.actualActive && state.expiresAt ? Math.max(1, Math.ceil((Date.parse(state.expiresAt) - Date.now()) / 86400000)) : null;
-    const renderKey = `${state.active ? "plus" : "convencional"}:${adminPreview}:${state.preview}:${days || 0}`;
-    if (card.dataset.renderKey === renderKey) return;
-    card.dataset.renderKey = renderKey;
-
-    if (adminPreview) {
-      card.innerHTML = `<div><small>Prévia administrativa</small><strong>${state.active ? "★ Visualizando M.E.N.T.E Plus" : "Visualizando Plano Convencional"}</strong><p>Este modo serve para você comparar as duas experiências. Seu plano real não foi alterado.</p></div><a href="plus.html">Comparar planos →</a>`;
-      return;
-    }
-
-    card.innerHTML = state.active
-      ? `<div><small>Seu plano</small><strong>★ M.E.N.T.E Plus ativo</strong><p>${days ? `Seu período Plus está ativo por mais ${days} dia${days === 1 ? "" : "s"}.` : "Sua experiência Plus está ativa."} Personalização e recursos premium ficam liberados.</p></div><a href="plus.html">Ver benefícios →</a>`
-      : `<div><small>Seu plano</small><strong>Plano Convencional</strong><p>Você tem acesso a todas as ferramentas essenciais de estudo. O Plus adiciona personalização, análises e recursos avançados.</p></div><a href="plus.html">Conhecer o Plus →</a>`;
-  }
-
-  function decoratePremiumSurfaces() {
-    document.querySelectorAll(".profile-avatar-option[data-avatar-id]").forEach((button) => {
-      if (!PREMIUM_AVATARS.has(button.dataset.avatarId)) return;
-      if (!button.dataset.plusOnly) button.dataset.plusOnly = "avatar premium";
-      if (!button.dataset.plusFeature) button.dataset.plusFeature = "Este avatar especial";
-      button.classList.add("plus-lockable");
-      button.classList.toggle("is-plus-locked", !state.active);
-    });
-
-    const custom = document.querySelector(".sim-custom");
-    if (custom) {
-      if (!custom.dataset.plusOnly) custom.dataset.plusOnly = "simulado personalizado";
-      if (!custom.dataset.plusFeature) custom.dataset.plusFeature = "A personalização de quantidade e tempo do simulado";
-      custom.classList.add("plus-lockable");
-      custom.classList.toggle("is-plus-locked", !state.active);
+    card.classList.toggle("is-admin-preview", previewing);
+    const key = `${state.active}:${previewing}:${state.preview}:${state.expiresAt || ""}`;
+    if (card.dataset.renderKey === key) return;
+    card.dataset.renderKey = key;
+    if (previewing) {
+      card.innerHTML = `<div><small>Prévia administrativa</small><strong>${state.active ? "★ Visualizando M.E.N.T.E Plus" : "Visualizando Plano Convencional"}</strong><p>Essa prévia não altera seu plano real.</p></div><a href="plus.html">Comparar planos →</a>`;
+    } else if (state.active) {
+      card.innerHTML = `<div><small>Seu plano</small><strong>★ M.E.N.T.E Plus ativo</strong><p>Recursos premium liberados${state.expiresAt ? ` até ${formatDate(state.expiresAt)}` : ""}.</p></div><a href="plus.html">Ver benefícios →</a>`;
+    } else {
+      card.innerHTML = `<div><small>Seu plano</small><strong>Plano Convencional</strong><p>Você tem acesso às ferramentas essenciais; o Plus adiciona personalização e recursos avançados.</p></div><a href="plus.html">Conhecer o Plus →</a>`;
     }
   }
 
@@ -268,23 +250,31 @@
     ensureNav();
     ensureAdminSwitcher();
     ensureTopChip();
-    ensureProfileCard();
     decoratePremiumSurfaces();
+    ensureProfileCard();
+  }
+
+  function applyState(emitEvent = false) {
+    const before = snapshotKey();
+    state.active = effectiveActive();
+    document.documentElement.dataset.mentePlan = state.active ? "plus" : "convencional";
+    document.documentElement.dataset.mentePlanPreview = isStaff() ? state.preview : "real";
+    saveCache();
+    refreshUi();
+    if (emitEvent && before !== snapshotKey()) emit();
   }
 
   async function refreshRemote() {
     const client = window.menteSupabase;
-    if (!client) {
-      refreshUi();
-      return state;
-    }
-
+    if (!client) return state;
+    const before = snapshotKey();
     try {
-      const { data: sessionData, error: sessionError } = await client.auth.getSession();
-      if (sessionError) throw sessionError;
+      const { data: sessionData } = await client.auth.getSession();
       const user = sessionData?.session?.user;
       if (!user) {
-        setRemoteState({ plan: "convencional", actualActive: false, startedAt: null, expiresAt: null, trialUsed: false, role: "aluno" });
+        Object.assign(state, { plan: "convencional", actualActive: false, startedAt: null, expiresAt: null, trialUsed: false, role: "aluno", loaded: true });
+        applyState(false);
+        if (before !== snapshotKey()) emit();
         return state;
       }
 
@@ -293,23 +283,22 @@
         client.from("user_roles").select("role").eq("user_id", user.id).maybeSingle(),
       ]);
 
-      if (statusRes.error) throw statusRes.error;
       const row = Array.isArray(statusRes.data) ? statusRes.data[0] : statusRes.data;
-      const role = roleRes.error ? (window.menteUserRole || state.role || "aluno") : (roleRes.data?.role || "aluno");
-      window.menteUserRole = role;
-
-      setRemoteState({
+      Object.assign(state, {
         plan: row?.plano || "convencional",
         actualActive: Boolean(row?.plus_ativo),
         startedAt: row?.plus_iniciado_em || null,
         expiresAt: row?.plus_expira_em || null,
         trialUsed: Boolean(row?.plus_teste_usado),
-        role,
+        role: roleRes.data?.role || "aluno",
+        loaded: true,
       });
+      applyState(false);
+      if (before !== snapshotKey()) emit();
     } catch (error) {
-      console.warn("[M.E.N.T.E Plus] Não foi possível atualizar o plano agora.", error);
-      if (window.menteUserRole) state.role = window.menteUserRole;
-      applyEffectiveState();
+      console.warn("[M.E.N.T.E Plus] Falha ao carregar plano; mantendo a interface local.", error);
+      state.loaded = true;
+      applyState(false);
     }
     return state;
   }
@@ -320,40 +309,28 @@
     if (!locked) return;
     event.preventDefault();
     event.stopPropagation();
-    event.stopImmediatePropagation?.();
     openUpgrade(locked.dataset.plusFeature || "Este recurso");
   }, true);
 
   readCache();
-  if (window.menteUserRole) state.role = window.menteUserRole;
-  ensureStyles();
-  applyEffectiveState({ emitEvent: false });
+  applyState(false);
 
   window.MENTE_PLUS = {
     get state() { return { ...state }; },
     isActive: () => Boolean(state.active),
-    isStaff,
     openUpgrade,
     refresh: refreshRemote,
     formatDate,
-    setPreview(mode) {
-      if (!isStaff()) return false;
-      state.preview = ["real", "convencional", "plus"].includes(mode) ? mode : "real";
-      try { localStorage.setItem(PREVIEW_KEY, state.preview); } catch {}
-      applyEffectiveState();
-      return true;
-    },
   };
 
-  // Sem MutationObserver: a versão anterior reagia a alterações no DOM em cascata e podia deixar a interface pesada.
-  // Aqui a atualização de UI é limitada e idempotente.
-  const bootRefreshes = [0, 200, 600, 1200, 2200];
-  bootRefreshes.forEach((delay) => setTimeout(refreshUi, delay));
-  setTimeout(refreshRemote, 250);
-  setTimeout(refreshRemote, 1200);
+  window.addEventListener("mente:supabase-ready", () => refreshRemote(), { once: true });
+  window.addEventListener("mente:plan-refresh", () => refreshRemote());
+  window.addEventListener("mente:profile-updated", () => refreshUi());
+  window.addEventListener("load", () => refreshUi(), { once: true });
 
-  window.addEventListener("mente:supabase-ready", refreshRemote);
-  window.addEventListener("mente:plan-refresh", refreshRemote);
-  window.addEventListener("mente:profile-updated", refreshUi);
-  window.addEventListener("load", () => { refreshUi(); refreshRemote(); }, { once: true });
+  // Atualizações pontuais para páginas cujo conteúdo é montado por outros scripts.
+  setTimeout(refreshUi, 120);
+  setTimeout(refreshUi, 500);
+  setTimeout(refreshUi, 1200);
+  setTimeout(() => { if (window.menteSupabase) refreshRemote(); }, 450);
 })();
