@@ -1,6 +1,14 @@
 "use strict";
 
 (() => {
+  function ensureMeritScript() {
+    if (document.querySelector('script[src*="plus-merito.js"]')) return;
+    const script = document.createElement("script");
+    script.src = "plus-merito.js?v=1";
+    script.defer = true;
+    document.head.appendChild(script);
+  }
+
   async function getClient() {
     if (window.menteSupabase) return window.menteSupabase;
     return new Promise((resolve) => {
@@ -52,6 +60,7 @@
   }
 
   async function init() {
+    ensureMeritScript();
     removeAdminEntry();
     const client = await getClient();
     const account = await getRole(client);
