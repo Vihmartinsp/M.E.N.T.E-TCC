@@ -14,7 +14,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
   <script src="supabase-client.js?v=5" defer></script>
   <script src="admin.js?v=3" defer></script>
-  <script src="admin-connection-watchdog.js?v=4" defer></script>
+  <script src="admin-connection-watchdog.js?v=5" defer></script>
 </head>
 <body class="admin-page">
   <aside class="admin-sidebar">
@@ -63,8 +63,8 @@
         </section>
 
         <section class="admin-tab" data-tab-panel="team" hidden>
-          <div class="admin-intro"><div><span class="admin-kicker">Permissões</span><h2>Equipe M.E.N.T.E</h2><p>Como Super Admin, você pode transformar contas em professor ou administrador sem alterar o código.</p></div></div>
-          <article class="admin-panel"><div class="admin-panel__head"><div><span>Controle de acesso</span><h3>Funções da plataforma</h3></div></div><div class="role-explainer"><div><strong>👨‍🎓 Aluno</strong><span>Usa a plataforma e acompanha o próprio progresso.</span></div><div><strong>👩‍🏫 Professor</strong><span>Acessa estatísticas globais e acompanha alunos.</span></div><div><strong>◆ Admin</strong><span>Também gerencia questões e conteúdos.</span></div><div><strong>👑 Super Admin</strong><span>Controle total e gerenciamento da equipe.</span></div></div></article>
+          <div class="admin-intro"><div><span class="admin-kicker">Permissões</span><h2>Equipe M.E.N.T.E</h2><p>Como Super Admin, você pode transformar contas em aluno ou administrador sem alterar o código.</p></div></div>
+          <article class="admin-panel"><div class="admin-panel__head"><div><span>Controle de acesso</span><h3>Funções da plataforma</h3></div></div><div class="role-explainer"><div><strong>👨‍🎓 Aluno</strong><span>Usa a plataforma e acompanha o próprio progresso.</span></div><div><strong>◆ Admin</strong><span>Gerencia questões e acompanha os dados da plataforma.</span></div><div><strong>👑 Super Admin</strong><span>Controle total, planos e gerenciamento da equipe.</span></div></div></article>
           <article class="admin-panel admin-table-panel"><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Pessoa</th><th>E-mail</th><th>Função atual</th><th>Alterar função</th></tr></thead><tbody id="team-table"></tbody></table></div></article>
         </section>
       </div>
