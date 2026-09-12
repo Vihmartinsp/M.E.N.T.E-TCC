@@ -22,8 +22,9 @@
   }
 
   function renameProfileLinks() {
-    document.querySelectorAll('a[href*="desempenho.html"]').forEach((link) => {
-      if (!link.classList.contains("sidebar__link")) return;
+    document.querySelectorAll('a[href*="desempenho.html"].sidebar__link').forEach((link) => {
+      if (link.dataset.menteProfileNormalized === "1") return;
+      link.dataset.menteProfileNormalized = "1";
       link.innerHTML = '<span aria-hidden="true">◉</span> Perfil';
       link.setAttribute("aria-label", "Perfil");
     });
@@ -34,8 +35,9 @@
     const avatarId = profile?.avatar;
     if (!avatarId || !avatarEmoji[avatarId]) return;
     const el = document.querySelector("#user-avatar");
-    if (!el) return;
+    if (!el || el.dataset.menteAvatar === avatarId) return;
     const [a,b] = avatarGradient[avatarId] || avatarGradient.brain;
+    el.dataset.menteAvatar = avatarId;
     el.textContent = avatarEmoji[avatarId];
     el.style.background = `linear-gradient(135deg,${a},${b})`;
     el.style.fontSize = "18px";
@@ -47,10 +49,23 @@
   }
 
   refresh();
-  const observer = new MutationObserver(refresh);
+
+  // Algumas páginas criam a sidebar/topbar via JavaScript. Observamos apenas até
+  // esses elementos existirem e, principalmente, não reescrevemos nós já tratados.
+  const observer = new MutationObserver(() => {
+    refresh();
+    const navReady = document.querySelector('a[href*="desempenho.html"].sidebar__link');
+    const avatarReady = document.querySelector("#user-avatar") || document.body.dataset.page === "desempenho";
+    if (navReady && avatarReady) observer.disconnect();
+  });
   observer.observe(document.documentElement, { childList: true, subtree: true });
+
   window.addEventListener("mente:profile-updated", refresh);
   window.addEventListener("mente:account-updated", refresh);
-  window.addEventListener("load", () => setTimeout(refresh, 0), { once: true });
-  setTimeout(() => observer.disconnect(), 7000);
+  window.addEventListener("load", () => {
+    refresh();
+    setTimeout(() => observer.disconnect(), 1000);
+  }, { once: true });
+
+  setTimeout(() => observer.disconnect(), 3000);
 })();
