@@ -10,14 +10,15 @@
   const subjects = [
     { name: "Geometria", icon: "📐", color: "#FF7A00", slug: "geometria" },
     { name: "Funções", icon: "ƒ", color: "#AB47BC", slug: "funcoes" },
-    { name: "Estatística e Probabilidade", icon: "📊", color: "#16803C", slug: "estatistica" },
-    { name: "Matemática Financeira", icon: "💰", color: "#D9A400", slug: "financeira" },
-    { name: "Grandezas e Medidas", icon: "📏", color: "#D70101", slug: "grandezas" },
+    { name: "Estatística e Probabilidade", icon: "📊", color: "#16803C", slug: "estatistica-probabilidade" },
+    { name: "Matemática Financeira", icon: "💰", color: "#D9A400", slug: "matematica-financeira" },
+    { name: "Grandezas e Medidas", icon: "📏", color: "#D70101", slug: "grandezas-medidas" },
     { name: "Gráficos e Tabelas", icon: "📈", color: "#0284C7", slug: "graficos-tabelas" }
   ];
 
-  const STORAGE_PLAN = "mente-study-plan-v2";
-  const STORAGE_DONE = "mente-study-plan-done-v2";
+  const STORAGE_PLAN = "mente-study-plan-v3";
+  const STORAGE_PROGRESS = "mente-study-task-progress-v3";
+  const STORAGE_ACTIVE = "mente-study-active-task-v3";
   const answers = readJson("mente-answers", {});
 
   function readJson(key, fallback) {
@@ -31,6 +32,15 @@
 
   function saveJson(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
   }
 
   function subjectStats(subject) {
@@ -63,7 +73,7 @@
         <div class="roadmap-hero__copy">
           <p class="roadmap-eyebrow">Roteiro Inteligente M.E.N.T.E</p>
           <h2>O que estudar hoje?</h2>
-          <p>Escolha quanto tempo você tem e o tipo de estudo que quer fazer. O M.E.N.T.E monta um plano curto, em ordem, para você não perder tempo decidindo por onde começar.</p>
+          <p>Escolha quanto tempo você tem e o tipo de estudo que quer fazer. O M.E.N.T.E monta um plano curto e acompanha a atividade real: o tempo só conta na página certa e pausa se você sair ou trocar de aba.</p>
         </div>
         <aside class="roadmap-hero__summary">
           <small>Recomendação de hoje</small>
@@ -94,7 +104,7 @@
         <div class="roadmap-section-head">
           <div>
             <h3>Monte seu plano de hoje</h3>
-            <p>Três escolhas rápidas. Depois é só seguir a ordem.</p>
+            <p>Três escolhas rápidas. Depois, cada missão é validada automaticamente pelo que você realmente fizer.</p>
           </div>
           <span class="roadmap-step-number">1</span>
         </div>
@@ -123,7 +133,7 @@
         </div>
 
         <div class="roadmap-builder__footer">
-          <span class="roadmap-builder__hint">Dica: se estiver em dúvida, deixe todas as matérias marcadas e use “Reforçar dificuldades”.</span>
+          <span class="roadmap-builder__hint">O tempo pausa automaticamente se a aba ficar oculta, perder o foco ou você sair da atividade da missão.</span>
           <button class="roadmap-primary" type="button" id="build-roadmap">Montar meu roteiro →</button>
           <p class="roadmap-error" id="roadmap-error" hidden></p>
         </div>
@@ -142,8 +152,9 @@
           <div class="roadmap-progress__meta"><span id="progress-label">0 de 0 etapas</span><span id="progress-percent">0%</span></div>
           <div class="roadmap-progress__track"><span id="progress-bar"></span></div>
         </div>
+        <div class="roadmap-plan__notice">🔒 As etapas não podem mais ser marcadas manualmente. Elas são concluídas quando o requisito de tempo e, quando necessário, a atividade pedida forem cumpridos.</div>
         <div class="roadmap-timeline" id="roadmap-timeline"></div>
-        <div class="roadmap-plan__complete" id="plan-complete"><strong>🎉 Roteiro concluído!</strong><br>Você terminou o plano de hoje. Se quiser continuar, monte outro roteiro com mais tempo ou escolha uma nova matéria.</div>
+        <div class="roadmap-plan__complete" id="plan-complete"><strong>🎉 Roteiro concluído!</strong><br>Você terminou o plano de hoje com atividade verificada. Se quiser continuar, monte outro roteiro.</div>
       </section>
 
       <section class="roadmap-performance">
@@ -180,15 +191,58 @@
     return copy;
   }
 
-  function makeTask(subject, type, duration, round = 1) {
-    const common = { subject: subject.name, icon: subject.icon, color: subject.color, duration, round };
-    if (type === "explanation") return { ...common, type, title: `Entenda ${subject.name}`, description: "Leia a explicação focando nos exemplos e nas armadilhas mais comuns.", action: "Abrir explicação", href: `explicacoes.html#${subject.slug}` };
-    if (type === "practice") return { ...common, type, title: `Pratique ${subject.name}`, description: round > 1 ? "Faça mais 2 questões e tente justificar sua escolha antes de responder." : "Faça 2 questões e use a explicação depois para conferir o raciocínio.", action: "Ir para questões", href: "questoes.html" };
-    if (type === "review") return { ...common, type, title: `Revisão de ${subject.name}`, description: "Releia o erro ou a solução que mais chamou atenção e anote mentalmente a estratégia.", action: "Ver desempenho", href: "desempenho.html" };
-    return { ...common, type: "bonus", title: "Fechamento rápido", description: "Escolha uma questão que ainda não respondeu e tente resolvê-la sem consultar a explicação.", action: "Questão bônus", href: "questoes.html" };
+  function rewardFor(type) {
+    return { explanation: 8, practice: 15, review: 6, bonus: 10 }[type] || 5;
   }
 
-  function generatePlan(minutes, mode, selected) {
+  function makeTask(subject, type, duration, round = 1) {
+    const common = {
+      subject: subject.name,
+      subjectSlug: subject.slug,
+      icon: subject.icon,
+      color: subject.color,
+      duration,
+      requiredSeconds: Math.max(30, duration * 60),
+      requiredActions: type === "practice" ? 2 : type === "bonus" ? 1 : 0,
+      points: rewardFor(type),
+      round
+    };
+
+    if (type === "explanation") return {
+      ...common,
+      type,
+      title: `Entenda ${subject.name}`,
+      description: `Revise a explicação por ${duration} min. O cronômetro só avança com esta aba ativa e pausa automaticamente se você sair.`,
+      action: "Abrir explicação",
+      href: `explicacoes.html#${subject.slug}`
+    };
+    if (type === "practice") return {
+      ...common,
+      type,
+      title: `Pratique ${subject.name}`,
+      description: `Estude por ${duration} min e responda 2 questões de ${subject.name}. Só o tempo ativo e respostas reais validam a etapa.`,
+      action: "Ir para questões",
+      href: `questoes.html?materia=${encodeURIComponent(subject.name)}`
+    };
+    if (type === "review") return {
+      ...common,
+      type,
+      title: `Revisão de ${subject.name}`,
+      description: `Volte à explicação por ${duration} min e releia especialmente armadilhas, estratégia e resolução.`,
+      action: "Revisar explicação",
+      href: `explicacoes.html#${subject.slug}`
+    };
+    return {
+      ...common,
+      type: "bonus",
+      title: `Fechamento de ${subject.name}`,
+      description: `Use os ${duration} min finais para resolver 1 questão de ${subject.name}. O tempo e a resposta precisam ser registrados.`,
+      action: "Questão bônus",
+      href: `questoes.html?materia=${encodeURIComponent(subject.name)}`
+    };
+  }
+
+  function generatePlan(minutes, mode, selected, planId) {
     const ordered = orderSubjects(selected, mode);
     const tasks = [];
     let remaining = minutes;
@@ -213,47 +267,67 @@
       if (cursor > 18) break;
     }
 
-    if (remaining >= 5) {
-      const subject = ordered[0];
-      tasks.push(makeTask(subject, "bonus", remaining, 1));
-      remaining = 0;
+    if (remaining >= 5 && ordered.length) {
+      tasks.push(makeTask(ordered[0], "bonus", remaining, 1));
     }
 
-    return tasks.map((task, index) => ({ ...task, id: `task-${Date.now()}-${index}` }));
+    return tasks.map((task, index) => ({ ...task, id: `${planId}-t${index + 1}` }));
   }
 
-  function renderPlan(plan, doneMap = {}) {
+  function formatSeconds(seconds) {
+    const safe = Math.max(0, Math.floor(Number(seconds) || 0));
+    const minutes = Math.floor(safe / 60);
+    const rest = safe % 60;
+    return `${minutes}:${String(rest).padStart(2, "0")}`;
+  }
+
+  function taskState(task, progressMap) {
+    const progress = progressMap[task.id] || {};
+    const elapsed = Math.min(task.requiredSeconds, Math.max(0, Number(progress.elapsedSeconds) || 0));
+    const actions = Math.max(0, Number(progress.actionCount) || 0);
+    const timePct = task.requiredSeconds ? Math.min(100, Math.round((elapsed / task.requiredSeconds) * 100)) : 100;
+    const actionPct = task.requiredActions ? Math.min(100, Math.round((actions / task.requiredActions) * 100)) : 100;
+    const pct = Math.min(timePct, actionPct);
+    const completed = Boolean(progress.completed) || (elapsed >= task.requiredSeconds && actions >= task.requiredActions);
+    return { elapsed, actions, pct: completed ? 100 : pct, completed };
+  }
+
+  function taskStatusText(task, state) {
+    if (state.completed) return `Concluída · +${task.points} pts`;
+    if (state.elapsed <= 0 && state.actions <= 0) return "Não iniciada";
+    if (task.requiredActions) return `Em andamento · ${formatSeconds(state.elapsed)} / ${formatSeconds(task.requiredSeconds)} · ${Math.min(state.actions, task.requiredActions)}/${task.requiredActions} respostas`;
+    return `Em andamento · ${formatSeconds(state.elapsed)} / ${formatSeconds(task.requiredSeconds)}`;
+  }
+
+  function renderPlan(plan, progressMap = readJson(STORAGE_PROGRESS, {})) {
     if (!plan?.tasks?.length) return;
     document.querySelector("#plan-title").textContent = `${plan.minutes} minutos · ${plan.modeLabel}`;
-    document.querySelector("#plan-subtitle").textContent = `${plan.tasks.length} etapas em ordem. Marque cada uma quando terminar.`;
+    document.querySelector("#plan-subtitle").textContent = `${plan.tasks.length} etapas verificadas automaticamente. Abra a atividade pelo botão de cada missão para iniciar o acompanhamento.`;
     timeline.innerHTML = plan.tasks.map((task, index) => {
-      const done = Boolean(doneMap[task.id]);
-      return `<article class="roadmap-task ${done ? "is-done" : ""}" data-task-id="${task.id}" style="--task-color:${task.color}"><button class="roadmap-task__check" type="button" aria-label="${done ? "Desmarcar" : "Concluir"} etapa ${index + 1}">${done ? "✓" : ""}</button><div class="roadmap-task__body"><div class="roadmap-task__eyebrow"><span class="roadmap-task__dot"></span><span>${task.icon} ${task.subject}</span><span>·</span><span>${task.duration} min</span></div><h4>${index + 1}. ${task.title}</h4><p>${task.description}</p></div><a class="roadmap-task__action" href="${task.href}">${task.action} →</a></article>`;
+      const state = taskState(task, progressMap);
+      const statusClass = state.completed ? "is-complete" : state.elapsed > 0 || state.actions > 0 ? "is-progress" : "is-pending";
+      return `<article class="roadmap-task ${state.completed ? "is-done" : ""}" data-task-id="${escapeHtml(task.id)}" style="--task-color:${escapeHtml(task.color)}">
+        <span class="roadmap-task__check ${state.completed ? "is-complete" : ""}" aria-hidden="true">${state.completed ? "✓" : ""}</span>
+        <div class="roadmap-task__body">
+          <div class="roadmap-task__eyebrow"><span class="roadmap-task__dot"></span><span>${task.icon} ${escapeHtml(task.subject)}</span><span>·</span><span>${task.duration} min</span><span>·</span><span>+${task.points} pts</span></div>
+          <h4>${index + 1}. ${escapeHtml(task.title)}</h4>
+          <p>${escapeHtml(task.description)}</p>
+          <div class="roadmap-task__mission-progress" aria-label="Progresso da missão">
+            <div class="roadmap-task__mission-meta"><strong class="${statusClass}">${taskStatusText(task, state)}</strong><span>${state.pct}%</span></div>
+            <div class="roadmap-task__mission-track"><span style="width:${state.pct}%"></span></div>
+          </div>
+        </div>
+        <a class="roadmap-task__action ${state.completed ? "is-complete" : ""}" data-roadmap-task-id="${escapeHtml(task.id)}" href="${escapeHtml(task.href)}">${state.completed ? "Revisar novamente" : task.action} →</a>
+      </article>`;
     }).join("");
 
-    timeline.querySelectorAll(".roadmap-task__check").forEach((button) => {
-      button.addEventListener("click", () => {
-        const taskEl = button.closest(".roadmap-task");
-        const id = taskEl.dataset.taskId;
-        const current = readJson(STORAGE_DONE, {});
-        current[id] = !current[id];
-        if (!current[id]) delete current[id];
-        saveJson(STORAGE_DONE, current);
-        taskEl.classList.toggle("is-done", Boolean(current[id]));
-        button.textContent = current[id] ? "✓" : "";
-        button.setAttribute("aria-label", `${current[id] ? "Desmarcar" : "Concluir"} etapa`);
-        updateProgress(plan, current);
-      });
-    });
-
-    updateProgress(plan, doneMap);
+    updateProgress(plan, progressMap);
     builder.hidden = true;
     planSection.hidden = false;
-    planSection.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  function updateProgress(plan, doneMap) {
-    const completed = plan.tasks.filter((task) => doneMap[task.id]).length;
+  function updateProgress(plan, progressMap = readJson(STORAGE_PROGRESS, {})) {
+    const completed = plan.tasks.filter((task) => taskState(task, progressMap).completed).length;
     const total = plan.tasks.length;
     const pct = total ? Math.round((completed / total) * 100) : 0;
     document.querySelector("#progress-label").textContent = `${completed} de ${total} etapas`;
@@ -273,22 +347,39 @@
     }
     error.hidden = true;
     const labels = { smart: "Reforçar dificuldades", balanced: "Estudo equilibrado", review: "Revisão rápida" };
-    const plan = { createdAt: Date.now(), minutes, mode, modeLabel: labels[mode], tasks: generatePlan(minutes, mode, selected) };
+    const planId = `plan-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    const plan = { id: planId, version: 3, createdAt: Date.now(), minutes, mode, modeLabel: labels[mode], tasks: generatePlan(minutes, mode, selected, planId) };
     saveJson(STORAGE_PLAN, plan);
-    saveJson(STORAGE_DONE, {});
+    saveJson(STORAGE_PROGRESS, {});
+    localStorage.removeItem(STORAGE_ACTIVE);
     renderPlan(plan, {});
+    planSection.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 
   document.querySelector("#new-plan").addEventListener("click", () => {
     localStorage.removeItem(STORAGE_PLAN);
-    localStorage.removeItem(STORAGE_DONE);
+    localStorage.removeItem(STORAGE_PROGRESS);
+    localStorage.removeItem(STORAGE_ACTIVE);
     planSection.hidden = true;
     builder.hidden = false;
     builder.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 
+  window.addEventListener("mente:mission-progress", () => {
+    const plan = readJson(STORAGE_PLAN, null);
+    if (plan?.tasks?.length) renderPlan(plan, readJson(STORAGE_PROGRESS, {}));
+  });
+  window.addEventListener("storage", (event) => {
+    if (event.key !== STORAGE_PROGRESS) return;
+    const plan = readJson(STORAGE_PLAN, null);
+    if (plan?.tasks?.length) renderPlan(plan, readJson(STORAGE_PROGRESS, {}));
+  });
+
   const savedPlan = readJson(STORAGE_PLAN, null);
-  if (savedPlan?.tasks?.length) {
-    renderPlan(savedPlan, readJson(STORAGE_DONE, {}));
+  if (savedPlan?.version === 3 && savedPlan.tasks?.length) {
+    renderPlan(savedPlan, readJson(STORAGE_PROGRESS, {}));
+  } else {
+    localStorage.removeItem("mente-study-plan-v2");
+    localStorage.removeItem("mente-study-plan-done-v2");
   }
 })();
