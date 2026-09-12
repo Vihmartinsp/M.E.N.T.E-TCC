@@ -9,8 +9,6 @@
 
   if (!loading || !content) return;
 
-  // A tela de acesso restrito nunca é exibida. Usuários sem permissão são
-  // redirecionados em vez de receber uma segunda interface dentro do painel.
   if (denied) {
     denied.hidden = true;
     denied.style.display = "none";
@@ -23,9 +21,6 @@
     if (label) label.textContent = text;
   }
 
-  // IMPORTANTE: não observar/mutar #admin-denied aqui.
-  // A versão anterior criava um ciclo de MutationObserver que podia travar
-  // completamente a aba do navegador.
   const contentObserver = new MutationObserver(() => {
     if (!content.hidden) {
       loading.hidden = true;
@@ -50,39 +45,20 @@
     const timeout = new Promise((_, reject) => {
       timer = setTimeout(() => reject(new Error("Tempo limite da validação administrativa.")), ms);
     });
-    try {
-      return await Promise.race([promise, timeout]);
-    } finally {
-      clearTimeout(timer);
-    }
+    try { return await Promise.race([promise, timeout]); }
+    finally { clearTimeout(timer); }
   }
 
   async function enforceSuperAdmin() {
-    if (!client) {
-      setSync("Banco indisponível", "slow");
-      return;
-    }
-
+    if (!client) { setSync("Banco indisponível", "slow"); return; }
     try {
       const { data: sessionData, error: sessionError } = await withTimeout(client.auth.getSession());
       if (sessionError) throw sessionError;
-
       const user = sessionData.session?.user;
-      if (!user) {
-        location.replace("./login.html");
-        return;
-      }
-
-      const { data, error } = await withTimeout(
-        client.from("user_roles").select("role").eq("user_id", user.id).maybeSingle(),
-      );
+      if (!user) { location.replace("./login.html"); return; }
+      const { data, error } = await withTimeout(client.from("user_roles").select("role").eq("user_id", user.id).maybeSingle());
       if (error) throw error;
-
-      if (data?.role !== "super_admin") {
-        location.replace("./questoes.html");
-        return;
-      }
-
+      if (data?.role !== "super_admin") { location.replace("./questoes.html"); return; }
       document.body.dataset.adminVerified = "true";
     } catch (error) {
       console.warn("[M.E.N.T.E Admin] Validação administrativa demorou:", error);
@@ -90,20 +66,25 @@
     }
   }
 
-  enforceSuperAdmin();
+  function loadAdminPlus() {
+    if (document.querySelector('script[data-admin-plus-loader]')) return;
+    const script = document.createElement("script");
+    script.src = "admin-plus.js?v=1";
+    script.defer = true;
+    script.dataset.adminPlusLoader = "1";
+    document.head.appendChild(script);
+  }
 
-  // Atualização leve: no máximo uma vez por minuto e somente com a aba visível.
+  enforceSuperAdmin();
+  loadAdminPlus();
+
   const autoRefreshTimer = setInterval(() => {
     if (content.hidden || document.visibilityState !== "visible") return;
     const refreshButton = document.querySelector("#admin-refresh");
     if (!refreshButton || refreshButton.disabled) return;
-
     setSync("Atualizando dados...", "loading");
     refreshButton.click();
-
-    setTimeout(() => {
-      if (!content.hidden) setSync("Dados sincronizados", "ok");
-    }, 2500);
+    setTimeout(() => { if (!content.hidden) setSync("Dados sincronizados", "ok"); }, 2500);
   }, 60000);
 
   window.addEventListener("beforeunload", () => {
