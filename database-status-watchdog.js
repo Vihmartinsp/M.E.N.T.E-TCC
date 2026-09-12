@@ -7,6 +7,8 @@
   let stopped = false;
   let retryTimer = null;
   let probing = false;
+  const PROJECT = "M.E.N.T.E 2";
+  const PROJECT_REF = "jburhxxubqfvayfnahku";
 
   const getClient = () => window.menteSupabase || null;
 
@@ -19,8 +21,8 @@
     window.menteDatabaseStatus = {
       state,
       message,
-      project: "M.E.N.T.E 2",
-      projectRef: "jburhxxubqfvayfnahku",
+      project: PROJECT,
+      projectRef: PROJECT_REF,
       checkedAt: new Date().toISOString(),
     };
   }
@@ -49,39 +51,40 @@
 
       const { count, error } = await timeout(
         client.from("questoes").select("id", { count: "exact", head: true }).eq("ativa", true),
-        5000,
+        4500,
       );
       if (error) throw error;
 
       const current = window.menteDatabaseStatus?.message || statusEl.textContent || "";
-      if (!/progresso online|modo visitante|login não sincronizado/i.test(current)) {
-        set(`Banco conectado · ${Number(count) || 30} questões · M.E.N.T.E 2`, "ok");
+      if (/progresso online|modo visitante|login não sincronizado/i.test(current)) {
+        statusEl.dataset.state = "ok";
+      } else {
+        set(`Banco conectado · ${Number(count) || 30} questões · ${PROJECT}`, "ok");
       }
       scheduleRetry(30000);
     } catch (error) {
       const hasClient = Boolean(getClient());
       set(
         hasClient
-          ? "Dados locais prontos · M.E.N.T.E 2 temporariamente indisponível"
+          ? `Dados locais prontos · ${PROJECT} temporariamente indisponível`
           : "Dados locais prontos · cliente do Supabase não carregou",
         "local",
         { preserveOk: true },
       );
-      scheduleRetry(hasClient ? 12000 : 2500);
+      scheduleRetry(hasClient ? 10000 : 2000);
       console.warn("[M.E.N.T.E] Verificação do banco:", error?.message || error);
     } finally {
       probing = false;
     }
   }
 
-  // Não sobrescreve a tentativa principal de conexão. O antigo watchdog fazia
-  // isso imediatamente e podia deixar a interface presa na mensagem local.
+  // Registra o estado inicial sem sobrescrever uma conexão já confirmada.
   if (!window.menteDatabaseStatus) {
     window.menteDatabaseStatus = {
       state: statusEl.dataset.state || "loading",
-      message: statusEl.textContent || "Banco: conectando...",
-      project: "M.E.N.T.E 2",
-      projectRef: "jburhxxubqfvayfnahku",
+      message: statusEl.textContent || `Banco: conectando ao ${PROJECT}...`,
+      project: PROJECT,
+      projectRef: PROJECT_REF,
       checkedAt: new Date().toISOString(),
     };
   }
@@ -92,19 +95,19 @@
   });
   statusObserver.observe(statusEl, { attributes: true, attributeFilter: ["data-state"] });
 
-  // Dá tempo para supabase-sync-safe concluir a primeira leitura antes do probe.
-  setTimeout(probe, 1200);
+  // O teste independente do watchdog garante que uma falha no fluxo principal
+  // nunca deixe o selo preso para sempre em “conectando”.
+  setTimeout(probe, 350);
 
-  // Failsafe: nenhuma tela deve permanecer indefinidamente em “conectando”.
   setTimeout(() => {
     const state = window.menteDatabaseStatus?.state || statusEl.dataset.state;
     if (state === "loading") {
-      set("Dados locais prontos · verificando M.E.N.T.E 2 em segundo plano", "local");
+      set(`Dados locais prontos · verificando ${PROJECT} em segundo plano`, "local");
       probe();
     }
-  }, 8000);
+  }, 5500);
 
-  window.addEventListener("mente:catalog-updated", () => scheduleRetry(1000));
+  window.addEventListener("mente:catalog-updated", () => scheduleRetry(600));
   window.addEventListener("online", () => scheduleRetry(100));
   window.addEventListener("offline", () => {
     set("Modo local · sem conexão com a internet", "local", { preserveOk: false });
