@@ -6,7 +6,22 @@ const forms = document.querySelectorAll(".access-form");
 const loginForm = document.querySelector("#login-form");
 const registerForm = document.querySelector("#register-form");
 const googleButton = document.querySelector("#google-login");
-const supabaseClient = window.menteSupabase;
+
+async function getSupabaseClient(timeoutMs = 5000) {
+  if (window.menteSupabase) return window.menteSupabase;
+
+  return new Promise((resolve) => {
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      resolve(window.menteSupabase || null);
+    };
+
+    window.addEventListener("mente:supabase-ready", finish, { once: true });
+    setTimeout(finish, timeoutMs);
+  });
+}
 
 function showStatus(target, message, type = "error") {
   const status = target.matches?.(".access-form")
@@ -34,6 +49,7 @@ function activateTab(selectedTab) {
 
 function saveCompatibilityUser(user, fallbackName = "") {
   const name = user?.user_metadata?.name
+    || user?.user_metadata?.full_name
     || user?.user_metadata?.nome
     || fallbackName
     || user?.email?.split("@")[0]
@@ -57,6 +73,7 @@ async function enterPlatform(user, fallbackName = "") {
 }
 
 async function checkExistingSession() {
+  const supabaseClient = await getSupabaseClient();
   if (!supabaseClient) return;
   const { data, error } = await supabaseClient.auth.getSession();
   if (error) return;
@@ -82,6 +99,8 @@ if (loginForm) {
     try {
       submitButton.disabled = true;
       showStatus(loginForm, "Entrando...", "info");
+      const supabaseClient = await getSupabaseClient();
+      if (!supabaseClient) throw new Error("Supabase indisponível");
 
       const { data: authData, error } = await supabaseClient.auth.signInWithPassword({
         email,
@@ -116,6 +135,8 @@ if (registerForm) {
     try {
       submitButton.disabled = true;
       showStatus(registerForm, "Criando sua conta...", "info");
+      const supabaseClient = await getSupabaseClient();
+      if (!supabaseClient) throw new Error("Supabase indisponível");
 
       const { data: authData, error } = await supabaseClient.auth.signUp({
         email,
@@ -156,17 +177,29 @@ if (googleButton) {
       googleButton.disabled = true;
       showStatus(googleButton, "Abrindo o Google...", "info");
 
-      const redirectTo = new URL("./questoes.html", window.location.href).href;
+      const supabaseClient = await getSupabaseClient();
+      if (!supabaseClient) throw new Error("Supabase indisponível");
+
+      const redirectTo = window.location.hostname === "vihmartinsp.github.io"
+        ? "https://vihmartinsp.github.io/M.E.N.T.E-TCC/questoes.html"
+        : new URL("./questoes.html", window.location.href).href;
+
       const { error } = await supabaseClient.auth.signInWithOAuth({
         provider: "google",
-        options: { redirectTo },
+        options: {
+          redirectTo,
+          queryParams: {
+            prompt: "select_account",
+          },
+        },
       });
 
       if (error) throw error;
     } catch (error) {
+      console.error("[M.E.N.T.E Google Login]", error);
       showStatus(
         googleButton,
-        "O login com Google ainda precisa ser ativado no painel do Supabase.",
+        "Não foi possível iniciar o login com Google agora. Tente novamente em alguns instantes.",
         "error",
       );
       googleButton.disabled = false;
