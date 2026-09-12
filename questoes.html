@@ -20,16 +20,9 @@
       .sidebar__brand{display:none!important}
       #tutorial{display:none!important;pointer-events:none!important}
       .intro__database{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
-      #database-status{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid #cbd5e1;border-radius:999px;background:#fff;color:#64748b;font-size:12px;font-weight:700;white-space:nowrap}
-      #database-status::before{content:"";width:8px;height:8px;border-radius:50%;background:#64748b;box-shadow:0 0 0 3px rgba(100,116,139,.12)}
-      #database-status[data-state="ready"]{color:#315b9d;border-color:#cbdaf4;background:#f4f8ff}
-      #database-status[data-state="ready"]::before{background:#2e78ef;box-shadow:0 0 0 3px rgba(46,120,239,.12)}
-      #database-status[data-state="ok"]{color:#166534;border-color:#bbf7d0;background:#f0fdf4}
-      #database-status[data-state="ok"]::before{background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.14)}
-      #database-status[data-state="local"]{color:#8a5b00;border-color:#f3d89a;background:#fffaf0}
-      #database-status[data-state="local"]::before{background:#f59e0b;box-shadow:0 0 0 3px rgba(245,158,11,.12)}
-      #database-status[data-state="error"]{color:#991b1b;border-color:#fecaca;background:#fef2f2}
-      #database-status[data-state="error"]::before{background:#ef4444;box-shadow:0 0 0 3px rgba(239,68,68,.12)}
+      #database-status{display:none!important}
+      .catalog-status{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;border:1px solid #bbf7d0;border-radius:999px;background:#f0fdf4;color:#166534;font-size:12px;font-weight:800;white-space:nowrap}
+      .catalog-status::before{content:"✓";display:grid;place-items:center;width:17px;height:17px;border-radius:50%;background:#22c55e;color:#fff;font-size:10px;font-weight:900}
     </style>
     <script>try{localStorage.setItem('mente-tutorial-seen','true')}catch(e){}</script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
@@ -54,6 +47,7 @@
     <script src="mente-final-grandezas.js?v=2" defer></script>
     <script src="mente-final-graficos.js?v=1" defer></script>
     <script src="mente-final-core.js?v=1" defer></script>
+    <script src="questoes-final-catalog-force.js?v=1" defer></script>
     <script src="questoes-roadmap-filter.js?v=2" defer></script>
     <script src="questoes-cards-static.js?v=2" defer></script>
     <script src="gamification-safe.js?v=2" defer></script>
@@ -86,7 +80,7 @@
         <div class="topbar__actions"><div class="score" aria-label="Pontuação atual"><span aria-hidden="true">★</span><strong>0</strong><small> pontos</small></div><button class="user-menu" type="button" aria-label="Menu do usuário"><span class="user-menu__avatar" id="user-avatar" aria-hidden="true">A</span><span class="user-menu__copy"><small>Bem-vindo(a)</small><strong id="user-name">Aluno</strong></span><span aria-hidden="true">⌄</span></button></div>
       </header>
       <main class="main-content">
-        <section class="intro" aria-labelledby="intro-title"><div><p class="section-kicker">Pratique no seu ritmo</p><h2 id="intro-title">Encontre a questão ideal para você</h2><p>Explore 30 questões oficiais selecionadas do ENEM, organizadas por matéria, conteúdo e dificuldade.</p></div><div class="intro__database"><span id="database-status" data-state="ready">30 questões prontas · M.E.N.T.E 2</span><span class="question-count" id="question-count">0 questões</span></div></section>
+        <section class="intro" aria-labelledby="intro-title"><div><p class="section-kicker">Pratique no seu ritmo</p><h2 id="intro-title">Encontre a questão ideal para você</h2><p>Explore 30 questões oficiais selecionadas do ENEM, organizadas por matéria, conteúdo e dificuldade.</p></div><div class="intro__database"><span id="database-status" data-state="ready" aria-hidden="true">Sincronização em segundo plano</span><span class="catalog-status">Catálogo atualizado · 30 questões</span><span class="question-count" id="question-count">0 questões</span></div></section>
         <section class="filters" aria-labelledby="filters-title"><div class="filters__heading"><h2 id="filters-title">Filtrar questões</h2><button id="clear-filters" type="button">Limpar filtros</button></div><div class="filters__fields"><label>Matéria<select id="area-filter"><option value="">Todas as matérias</option></select></label><label>Conteúdo<select id="topic-filter"><option value="">Todos os conteúdos</option></select></label><label>Ano<select id="year-filter"><option value="">Todos os anos</option></select></label></div><div class="status-filters" aria-label="Filtrar por situação"><span>Situação</span><button class="status-button is-active" type="button" data-status="Todas">Todas</button><button class="status-button" type="button" data-status="Não respondida">Não respondidas</button><button class="status-button" type="button" data-status="Respondida">Respondidas</button><button class="status-button" type="button" data-status="Revisar">Para revisar</button></div></section>
         <section><div class="questions-grid" id="questions-grid" aria-live="polite"></div><p class="empty-state" id="empty-state" hidden>Nenhuma questão encontrada com esses filtros.</p></section>
       </main>
