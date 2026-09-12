@@ -1,13 +1,16 @@
 "use strict";
 
 (() => {
-  const client = window.menteSupabase;
   const statusEl = document.querySelector("#database-status");
   const ANSWERS_KEY = "mente-answers";
   const POINTS_KEY = "mente-points";
   const USER_KEY = "mente-demo-user";
   const TIMEOUT_MS = 7000;
   let activeUser = null;
+  let initializing = false;
+  let initializedOnline = false;
+
+  const getClient = () => window.menteSupabase || null;
 
   const categoryBySlug = {
     geometria: "Geometria",
@@ -35,7 +38,7 @@
     return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
   }
 
-  function setStatus(message, state = "loading") {
+  function setStatus(message, state = "ready") {
     window.menteDatabaseStatus = { state, message, checkedAt: new Date().toISOString() };
     if (!statusEl) return;
     statusEl.textContent = message;
@@ -72,7 +75,7 @@
     notify("mente:account-updated");
   }
 
-  async function getSessionUser() {
+  async function getSessionUser(client) {
     const { data, error } = await withTimeout(client.auth.getSession(), 6500, "Sessão demorou para responder");
     if (error) throw error;
     activeUser = data.session?.user || null;
@@ -80,7 +83,7 @@
     return activeUser;
   }
 
-  async function syncUserProgress(user) {
+  async function syncUserProgress(client, user) {
     if (!user) {
       window.menteDbAnsweredIds = new Set();
       notify("mente:account-updated");
@@ -132,7 +135,7 @@
     });
   }
 
-  async function syncQuestionCatalog() {
+  async function syncQuestionCatalog(client) {
     if (!document.querySelector("#questions-grid") || typeof questions === "undefined") return 0;
     const subjectsPromise = client.from("materias").select("id,slug,nome,cor").eq("ativa", true);
     const questionsPromise = client.from("questoes")
@@ -191,7 +194,7 @@
     catch { return 0; }
   }
 
-  async function fetchExistingResponse(userId, questionId) {
+  async function fetchExistingResponse(client, userId, questionId) {
     const { data, error } = await withTimeout(
       client.from("respostas").select("questao_id,alternativa,acertou,respondida_em").eq("user_id", userId).eq("questao_id", questionId).maybeSingle(),
       TIMEOUT_MS,
@@ -201,10 +204,10 @@
     return data;
   }
 
-  async function syncCurrentQuestionAnswer(user) {
+  async function syncCurrentQuestionAnswer(client, user) {
     const questionId = getQuestionId();
     if (!user || !questionId || !document.querySelector("#question-content")) return;
-    const existing = await fetchExistingResponse(user.id, questionId);
+    const existing = await fetchExistingResponse(client, user.id, questionId);
     if (!existing) return;
     const answers = readLocalAnswers();
     const local = answers[questionId];
@@ -227,7 +230,9 @@
   }
 
   async function saveAnswerToDatabase(button) {
-    const user = activeUser || await getSessionUser();
+    const client = getClient();
+    if (!client) return false;
+    const user = activeUser || await getSessionUser(client);
     if (!user) return false;
     const questionId = getQuestionId();
     const selected = document.querySelector('input[name^="mente-answer-"]:checked');
@@ -249,7 +254,7 @@
         "O banco demorou para salvar a resposta",
       );
       if (error) {
-        if (error.code === "23505") responseRow = await fetchExistingResponse(user.id, questionId);
+        if (error.code === "23505") responseRow = await fetchExistingResponse(client, user.id, questionId);
         else throw error;
       } else responseRow = data;
       if (!responseRow) throw new Error("Resposta não retornada pelo banco");
@@ -274,7 +279,7 @@
     const answerButton = event.target.closest?.("#mente-final-answer");
     if (answerButton) {
       const user = activeUser || window.menteCurrentUser;
-      if (!user) return;
+      if (!user || !getClient()) return;
       event.preventDefault();
       event.stopImmediatePropagation();
       await saveAnswerToDatabase(answerButton);
@@ -284,45 +289,51 @@
     if (logoutButton) {
       event.preventDefault();
       event.stopImmediatePropagation();
-      try { await withTimeout(client.auth.signOut(), 4000); } catch {}
+      try {
+        const client = getClient();
+        if (client) await withTimeout(client.auth.signOut(), 4000);
+      } catch {}
       localStorage.removeItem(USER_KEY);
       location.replace("./login.html");
     }
   }, true);
 
   async function initialize() {
+    if (initializing) return;
+    const client = getClient();
     if (!client) {
-      setStatus("Banco desconectado · usando dados locais", "error");
+      if (statusEl) setStatus("30 questões prontas · verificando M.E.N.T.E 2", "ready");
       return;
     }
 
-    setStatus("Banco: conectando...", "loading");
+    initializing = true;
+    if (statusEl && !initializedOnline) setStatus("30 questões prontas · sincronizando M.E.N.T.E 2", "ready");
 
-    // 1) Primeiro testa o banco público. A saúde do banco não depende do Auth.
     let total = 0;
     try {
-      total = await syncQuestionCatalog();
+      total = await syncQuestionCatalog(client);
+      initializedOnline = true;
       if (document.querySelector("#questions-grid")) {
-        setStatus(`Banco conectado · ${total || "questões locais"} · verificando conta...`, "ok");
+        setStatus(`Banco conectado · ${total || 30} questões · verificando conta...`, "ok");
       }
     } catch (error) {
-      setStatus("Banco indisponível · usando dados locais", "error");
+      if (statusEl) setStatus("30 questões locais · M.E.N.T.E 2 indisponível no momento", "local");
       notify("mente:catalog-updated");
       notify("mente:account-updated");
       console.error("[M.E.N.T.E] Falha na leitura pública do Supabase:", error);
+      initializing = false;
       return;
     }
 
-    // 2) Depois sincroniza login/progresso. Se o Auth atrasar, o banco continua conectado.
     try {
-      const user = await getSessionUser();
-      await syncUserProgress(user);
-      await syncCurrentQuestionAnswer(user);
+      const user = await getSessionUser(client);
+      await syncUserProgress(client, user);
+      await syncCurrentQuestionAnswer(client, user);
       if (document.querySelector("#questions-grid")) {
         setStatus(
           user
-            ? `Banco conectado · ${total || "questões locais"} · progresso online`
-            : `Banco conectado · ${total || "questões locais"} · modo visitante`,
+            ? `Banco conectado · ${total || 30} questões · progresso online`
+            : `Banco conectado · ${total || 30} questões · modo visitante`,
           "ok",
         );
       }
@@ -330,12 +341,16 @@
       activeUser = null;
       window.menteCurrentUser = null;
       if (document.querySelector("#questions-grid")) {
-        setStatus(`Banco conectado · ${total || "questões locais"} · login não sincronizado`, "ok");
+        setStatus(`Banco conectado · ${total || 30} questões · login não sincronizado`, "ok");
       }
       notify("mente:account-updated");
       console.warn("[M.E.N.T.E] Banco conectado, mas a sessão demorou para sincronizar:", error);
+    } finally {
+      initializing = false;
     }
   }
 
+  window.addEventListener("mente:supabase-ready", initialize);
+  window.addEventListener("online", initialize);
   initialize();
 })();
