@@ -37,6 +37,12 @@
     if (explainer) explainer.innerHTML = '<div><strong>👨‍🎓 Aluno</strong><span>Usa a plataforma e acompanha o próprio progresso.</span></div><div><strong>◆ Admin</strong><span>Gerencia questões e acompanha os dados da plataforma.</span></div><div><strong>👑 Super Admin</strong><span>Controle total, planos e gerenciamento da equipe.</span></div>';
   }
 
+  function scheduleRoleCleanup() {
+    setTimeout(removeProfessorUi, 80);
+    setTimeout(removeProfessorUi, 450);
+    setTimeout(removeProfessorUi, 1200);
+  }
+
   async function loadRole() {
     const { data: sessionData } = await client.auth.getSession();
     const user = sessionData?.session?.user;
@@ -127,8 +133,13 @@
   }
 
   document.addEventListener("change", (event) => {
-    const select = event.target.closest?.("[data-plan-user]");
-    if (select) changePlan(select);
+    const planSelect = event.target.closest?.("[data-plan-user]");
+    if (planSelect) changePlan(planSelect);
+    if (event.target.closest?.("[data-role-user]")) scheduleRoleCleanup();
+  });
+
+  document.addEventListener("click", (event) => {
+    if (event.target.closest?.("#admin-refresh,[data-admin-tab='team']")) scheduleRoleCleanup();
   });
 
   async function init() {
@@ -136,9 +147,7 @@
     await loadRole();
     if (!["admin","super_admin"].includes(currentRole)) return;
     ensureTab();
-    removeProfessorUi();
-    setTimeout(removeProfessorUi, 700);
-    setTimeout(removeProfessorUi, 1800);
+    scheduleRoleCleanup();
   }
 
   init().catch((error) => console.warn("[M.E.N.T.E Admin Plus]", error));
