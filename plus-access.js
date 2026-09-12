@@ -56,7 +56,7 @@
     style.id = "mente-plus-access-styles";
     style.textContent = `
       .plus-nav-badge{margin-left:auto;padding:2px 6px;border-radius:999px;background:linear-gradient(135deg,#F7B32B,#F2C94C);color:#3f2c00;font-size:9px;font-weight:900;letter-spacing:.4px}
-      .mente-plan-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;border:1px solid #d9e2ef;background:#fff;color:#51617c;font-size:11px;font-weight:800;white-space:nowrap}
+      .mente-plan-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;border:1px solid #d9e2ef;background:#fff;color:#51617c;font-size:11px;font-weight:800;white-space:nowrap;text-decoration:none}
       .mente-plan-chip.is-plus{border-color:#ecd47c;background:#fff9dc;color:#725300}
       .mente-plan-chip.is-plus::before{content:"★";color:#d29a00}
       .plus-lockable{position:relative}
@@ -102,7 +102,8 @@
   function openUpgrade(feature) {
     const modal = ensureModal();
     const copy = modal.querySelector("#mente-plus-modal-copy");
-    if (copy) copy.textContent = feature ? `${feature} faz parte do M.E.N.T.E Plus. Você pode experimentar o plano gratuitamente por 7 dias nesta versão do TCC.` : "Este recurso faz parte do M.E.N.T.E Plus. Você pode experimentar o plano gratuitamente por 7 dias nesta versão do TCC.";
+    const message = feature ? `${feature} faz parte do M.E.N.T.E Plus. Você pode experimentar o plano gratuitamente por 7 dias nesta versão do TCC.` : "Este recurso faz parte do M.E.N.T.E Plus. Você pode experimentar o plano gratuitamente por 7 dias nesta versão do TCC.";
+    if (copy && copy.textContent !== message) copy.textContent = message;
     modal.hidden = false;
   }
 
@@ -118,14 +119,14 @@
       const home = [...nav.querySelectorAll("a")].find((item) => item.getAttribute("href")?.includes("index.html"));
       if (home) home.before(link); else nav.appendChild(link);
     }
-    if (!link.querySelector(".plus-nav-badge")) {
-      const badge = document.createElement("b");
+    let badge = link.querySelector(".plus-nav-badge");
+    if (!badge) {
+      badge = document.createElement("b");
       badge.className = "plus-nav-badge";
-      badge.textContent = state.active ? "ATIVO" : "PLUS";
       link.appendChild(badge);
-    } else {
-      link.querySelector(".plus-nav-badge").textContent = state.active ? "ATIVO" : "PLUS";
     }
+    const label = state.active ? "ATIVO" : "PLUS";
+    if (badge.textContent !== label) badge.textContent = label;
   }
 
   function ensureTopChip() {
@@ -140,7 +141,8 @@
       if (score) score.before(chip); else actions.prepend(chip);
     }
     chip.classList.toggle("is-plus", state.active);
-    chip.textContent = state.active ? "M.E.N.T.E Plus" : "Plano Convencional";
+    const label = state.active ? "M.E.N.T.E Plus" : "Plano Convencional";
+    if (chip.textContent !== label) chip.textContent = label;
   }
 
   function ensureProfileCard() {
@@ -156,6 +158,9 @@
     }
     card.classList.toggle("is-active", state.active);
     const days = state.active && state.expiresAt ? Math.max(1, Math.ceil((Date.parse(state.expiresAt) - Date.now()) / 86400000)) : null;
+    const renderKey = `${state.active ? "plus" : "convencional"}:${days || 0}`;
+    if (card.dataset.renderKey === renderKey) return;
+    card.dataset.renderKey = renderKey;
     card.innerHTML = state.active
       ? `<div><small>Seu plano</small><strong>★ M.E.N.T.E Plus ativo</strong><p>${days ? `Seu período Plus está ativo por mais ${days} dia${days === 1 ? "" : "s"}.` : "Sua experiência Plus está ativa."} Personalização e recursos premium ficam liberados.</p></div><a href="plus.html">Ver benefícios →</a>`
       : `<div><small>Seu plano</small><strong>Plano Convencional</strong><p>Você tem acesso a todas as ferramentas essenciais de estudo. O Plus adiciona personalização, análises e recursos avançados.</p></div><a href="plus.html">Conhecer o Plus →</a>`;
@@ -164,16 +169,16 @@
   function decoratePremiumSurfaces() {
     document.querySelectorAll(".profile-avatar-option[data-avatar-id]").forEach((button) => {
       if (!PREMIUM_AVATARS.has(button.dataset.avatarId)) return;
-      button.dataset.plusOnly = "avatar premium";
-      button.dataset.plusFeature = "Este avatar especial";
+      if (!button.dataset.plusOnly) button.dataset.plusOnly = "avatar premium";
+      if (!button.dataset.plusFeature) button.dataset.plusFeature = "Este avatar especial";
       button.classList.add("plus-lockable");
       button.classList.toggle("is-plus-locked", !state.active);
     });
 
     const custom = document.querySelector(".sim-custom");
     if (custom) {
-      custom.dataset.plusOnly = "simulado personalizado";
-      custom.dataset.plusFeature = "A personalização de quantidade e tempo do simulado";
+      if (!custom.dataset.plusOnly) custom.dataset.plusOnly = "simulado personalizado";
+      if (!custom.dataset.plusFeature) custom.dataset.plusFeature = "A personalização de quantidade e tempo do simulado";
       custom.classList.add("plus-lockable");
       custom.classList.toggle("is-plus-locked", !state.active);
     }
@@ -243,7 +248,15 @@
   window.addEventListener("mente:plan-refresh", refreshRemote);
   window.addEventListener("load", () => { refreshUi(); refreshRemote(); }, { once: true });
 
-  const observer = new MutationObserver(() => refreshUi());
+  let observerBusy = false;
+  const observer = new MutationObserver(() => {
+    if (observerBusy) return;
+    observerBusy = true;
+    requestAnimationFrame(() => {
+      refreshUi();
+      observerBusy = false;
+    });
+  });
   observer.observe(document.documentElement, { childList: true, subtree: true });
   setTimeout(() => observer.disconnect(), 6000);
   setTimeout(refreshUi, 0);
