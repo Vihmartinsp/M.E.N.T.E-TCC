@@ -29,16 +29,11 @@
       link.dataset.menteAvatarCss = "1";
       document.head.appendChild(link);
     }
-    if (window.MENTE_AVATAR) {
-      window.MENTE_AVATAR.refresh?.();
-      return;
-    }
-    if (document.querySelector('script[data-mente-avatar-system]')) return;
+    if (window.MENTE_AVATAR || document.querySelector('script[data-mente-avatar-system]')) return;
     const script = document.createElement("script");
     script.src = "avatar-system.js?v=1";
     script.async = true;
     script.dataset.menteAvatarSystem = "1";
-    script.onload = () => window.MENTE_AVATAR?.refresh?.();
     document.head.appendChild(script);
   }
 
@@ -52,15 +47,15 @@
   }
 
   function applyAvatar() {
+    const el = document.querySelector("#user-avatar");
     if (window.MENTE_AVATAR?.hasCustom) {
-      window.MENTE_AVATAR.refresh?.();
+      if (el && !el.querySelector(".mente-avatar-svg")) window.MENTE_AVATAR.renderInto(el);
       return;
     }
     const profile = currentProfile();
     const avatarId = profile?.avatar;
-    if (!avatarId || !avatarEmoji[avatarId]) return;
-    const el = document.querySelector("#user-avatar");
-    if (!el || el.dataset.menteAvatar === avatarId) return;
+    if (!avatarId || !avatarEmoji[avatarId] || !el) return;
+    if (el.dataset.menteAvatar === avatarId) return;
     const [a,b] = avatarGradient[avatarId] || avatarGradient.brain;
     el.dataset.menteAvatar = avatarId;
     el.textContent = avatarEmoji[avatarId];
@@ -89,7 +84,7 @@
 
   window.addEventListener("mente:profile-updated", refresh);
   window.addEventListener("mente:account-updated", refresh);
-  window.addEventListener("mente:avatar-updated", () => window.MENTE_AVATAR?.refresh?.());
+  window.addEventListener("mente:avatar-updated", () => window.MENTE_AVATAR?.renderInto?.(document.querySelector("#user-avatar")));
   window.addEventListener("load", () => {
     refresh();
     setTimeout(() => observer.disconnect(), 1000);
