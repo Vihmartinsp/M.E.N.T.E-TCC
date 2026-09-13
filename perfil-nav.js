@@ -21,6 +21,27 @@
     return readJson(`${PROFILE_PREFIX}${String(user.email).trim().toLowerCase()}`, null);
   }
 
+  function ensureAvatarSystem() {
+    if (!document.querySelector('link[data-mente-avatar-css]')) {
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = "avatar-editor.css?v=1";
+      link.dataset.menteAvatarCss = "1";
+      document.head.appendChild(link);
+    }
+    if (window.MENTE_AVATAR) {
+      window.MENTE_AVATAR.refresh?.();
+      return;
+    }
+    if (document.querySelector('script[data-mente-avatar-system]')) return;
+    const script = document.createElement("script");
+    script.src = "avatar-system.js?v=1";
+    script.async = true;
+    script.dataset.menteAvatarSystem = "1";
+    script.onload = () => window.MENTE_AVATAR?.refresh?.();
+    document.head.appendChild(script);
+  }
+
   function renameProfileLinks() {
     document.querySelectorAll('a[href*="desempenho.html"].sidebar__link').forEach((link) => {
       if (link.dataset.menteProfileNormalized === "1") return;
@@ -31,6 +52,10 @@
   }
 
   function applyAvatar() {
+    if (window.MENTE_AVATAR?.hasCustom) {
+      window.MENTE_AVATAR.refresh?.();
+      return;
+    }
     const profile = currentProfile();
     const avatarId = profile?.avatar;
     if (!avatarId || !avatarEmoji[avatarId]) return;
@@ -46,12 +71,14 @@
   function refresh() {
     renameProfileLinks();
     applyAvatar();
+    ensureAvatarSystem();
   }
 
+  ensureAvatarSystem();
   refresh();
 
   // Algumas páginas criam a sidebar/topbar via JavaScript. Observamos apenas até
-  // esses elementos existirem e, principalmente, não reescrevemos nós já tratados.
+  // esses elementos existirem e nunca mantemos um observador permanente.
   const observer = new MutationObserver(() => {
     refresh();
     const navReady = document.querySelector('a[href*="desempenho.html"].sidebar__link');
@@ -62,6 +89,7 @@
 
   window.addEventListener("mente:profile-updated", refresh);
   window.addEventListener("mente:account-updated", refresh);
+  window.addEventListener("mente:avatar-updated", () => window.MENTE_AVATAR?.refresh?.());
   window.addEventListener("load", () => {
     refresh();
     setTimeout(() => observer.disconnect(), 1000);
