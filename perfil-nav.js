@@ -21,19 +21,29 @@
     return readJson(`${PROFILE_PREFIX}${String(user.email).trim().toLowerCase()}`, null);
   }
 
+  function avatarTargets() {
+    return [...document.querySelectorAll("#user-avatar, .user-menu__avatar")];
+  }
+
+  function scheduleRefresh() {
+    [0, 120, 350, 800, 1500, 2800].forEach((ms) => setTimeout(refresh, ms));
+  }
+
   function ensureAvatarSystem() {
     if (!document.querySelector('link[data-mente-avatar-css]')) {
       const link = document.createElement("link");
       link.rel = "stylesheet";
-      link.href = "avatar-editor.css?v=1";
+      link.href = "avatar-editor.css?v=2";
       link.dataset.menteAvatarCss = "1";
       document.head.appendChild(link);
     }
-    if (window.MENTE_AVATAR || document.querySelector('script[data-mente-avatar-system]')) return;
+    if (window.MENTE_AVATAR) return;
+    if (document.querySelector('script[data-mente-avatar-system]')) return;
     const script = document.createElement("script");
-    script.src = "avatar-system.js?v=1";
+    script.src = "avatar-system.js?v=2";
     script.async = true;
     script.dataset.menteAvatarSystem = "1";
+    script.onload = scheduleRefresh;
     document.head.appendChild(script);
   }
 
@@ -47,20 +57,27 @@
   }
 
   function applyAvatar() {
-    const el = document.querySelector("#user-avatar");
+    const targets = avatarTargets();
+    if (!targets.length) return;
+
     if (window.MENTE_AVATAR?.hasCustom) {
-      if (el && !el.querySelector(".mente-avatar-svg")) window.MENTE_AVATAR.renderInto(el);
+      targets.forEach((el) => {
+        if (!el.querySelector(".mente-avatar-svg")) window.MENTE_AVATAR.renderInto(el);
+      });
       return;
     }
+
     const profile = currentProfile();
     const avatarId = profile?.avatar;
-    if (!avatarId || !avatarEmoji[avatarId] || !el) return;
-    if (el.dataset.menteAvatar === avatarId) return;
+    if (!avatarId || !avatarEmoji[avatarId]) return;
     const [a,b] = avatarGradient[avatarId] || avatarGradient.brain;
-    el.dataset.menteAvatar = avatarId;
-    el.textContent = avatarEmoji[avatarId];
-    el.style.background = `linear-gradient(135deg,${a},${b})`;
-    el.style.fontSize = "18px";
+    targets.forEach((el) => {
+      if (el.dataset.menteAvatar === avatarId && !el.querySelector(".mente-avatar-svg")) return;
+      el.dataset.menteAvatar = avatarId;
+      el.textContent = avatarEmoji[avatarId];
+      el.style.background = `linear-gradient(135deg,${a},${b})`;
+      el.style.fontSize = "18px";
+    });
   }
 
   function refresh() {
@@ -71,24 +88,21 @@
 
   ensureAvatarSystem();
   refresh();
+  scheduleRefresh();
 
-  // Algumas páginas criam a sidebar/topbar via JavaScript. Observamos apenas até
-  // esses elementos existirem e nunca mantemos um observador permanente.
-  const observer = new MutationObserver(() => {
-    refresh();
-    const navReady = document.querySelector('a[href*="desempenho.html"].sidebar__link');
-    const avatarReady = document.querySelector("#user-avatar") || document.body.dataset.page === "desempenho";
-    if (navReady && avatarReady) observer.disconnect();
-  });
+  // Algumas páginas recriam a barra superior via JavaScript. Mantemos a observação
+  // por poucos segundos para capturar esses elementos sem deixar um observer permanente.
+  const observer = new MutationObserver(() => refresh());
   observer.observe(document.documentElement, { childList: true, subtree: true });
 
-  window.addEventListener("mente:profile-updated", refresh);
-  window.addEventListener("mente:account-updated", refresh);
-  window.addEventListener("mente:avatar-updated", () => window.MENTE_AVATAR?.renderInto?.(document.querySelector("#user-avatar")));
+  window.addEventListener("mente:profile-updated", scheduleRefresh);
+  window.addEventListener("mente:account-updated", scheduleRefresh);
+  window.addEventListener("mente:avatar-updated", scheduleRefresh);
+  window.addEventListener("mente:supabase-ready", scheduleRefresh);
   window.addEventListener("load", () => {
-    refresh();
-    setTimeout(() => observer.disconnect(), 1000);
+    scheduleRefresh();
+    setTimeout(() => observer.disconnect(), 4500);
   }, { once: true });
 
-  setTimeout(() => observer.disconnect(), 3000);
+  setTimeout(() => observer.disconnect(), 6000);
 })();
