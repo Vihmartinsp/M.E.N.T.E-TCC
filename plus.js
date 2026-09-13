@@ -11,8 +11,9 @@
     ["Roteiro de estudos com missões verificadas", true, true],
     ["Simulados em formatos prontos", true, true],
     ["Perfil, metas, XP e emblemas", true, true],
-    ["Avatares básicos", true, true],
-    ["6 avatares especiais", false, true],
+    ["Editor de avatar com peças básicas", true, true],
+    ["Itens de avatar desbloqueáveis por mérito", true, true],
+    ["Cabelos, cores, roupas, acessórios e fundos Plus", false, true],
     ["Personalização de quantidade e tempo do simulado", false, true],
     ["Diagnóstico avançado no perfil", false, true],
     ["Revisão Inteligente com fila de erros priorizada", false, true],
@@ -50,8 +51,8 @@
       </div><aside class="plus-status-card"><small>${preview ? "Modo de visualização" : "Seu plano atual"}</small><strong>${copy.title}</strong><p>${copy.text}</p><div class="plus-status-card__line"></div><b>${copy.detail}</b></aside></section>
 
       <section class="plus-section"><div class="plus-section-head"><div><h3>Dois planos, o mesmo objetivo educacional</h3><p>O conteúdo essencial continua acessível para todos; o Plus adiciona ferramentas extras.</p></div></div>
-        <div class="plus-plans"><article class="plus-plan ${!active ? "plus-plan--selected" : ""}"><span class="plus-plan__badge">CONVENCIONAL</span><h4>M.E.N.T.E</h4><div class="plus-plan__price"><strong>Gratuito</strong><span>recursos essenciais</span></div><p>Para estudar, praticar e acompanhar a evolução normalmente.</p><ul class="plus-feature-list"><li>Questões e explicações completas</li><li>Roteiro de estudos</li><li>Simulados prontos</li><li>Perfil, XP, metas e emblemas</li><li>Avatares básicos</li></ul></article>
-        <article class="plus-plan plus-plan--plus ${active ? "plus-plan--selected" : ""}"><span class="plus-plan__badge">PLUS</span><h4>M.E.N.T.E Plus</h4><div class="plus-plan__price"><strong>7 dias</strong><span>teste gratuito inicial</span></div><p>Para quem quer uma experiência mais personalizada e orientada pelos próprios erros.</p><ul class="plus-feature-list"><li>Tudo do Convencional</li><li>Avatares especiais</li><li>Simulado personalizável</li><li>Diagnóstico avançado</li><li>Revisão Inteligente</li></ul></article></div></section>
+        <div class="plus-plans"><article class="plus-plan ${!active ? "plus-plan--selected" : ""}"><span class="plus-plan__badge">CONVENCIONAL</span><h4>M.E.N.T.E</h4><div class="plus-plan__price"><strong>Gratuito</strong><span>recursos essenciais</span></div><p>Para estudar, praticar e acompanhar a evolução normalmente.</p><ul class="plus-feature-list"><li>Questões e explicações completas</li><li>Roteiro de estudos</li><li>Simulados prontos</li><li>Perfil, XP, metas e emblemas</li><li>Avatar personalizável com peças básicas</li><li>Cosméticos conquistados por mérito</li></ul></article>
+        <article class="plus-plan plus-plan--plus ${active ? "plus-plan--selected" : ""}"><span class="plus-plan__badge">PLUS</span><h4>M.E.N.T.E Plus</h4><div class="plus-plan__price"><strong>7 dias</strong><span>teste gratuito inicial</span></div><p>Para quem quer uma experiência mais personalizada e orientada pelos próprios erros.</p><ul class="plus-feature-list"><li>Tudo do Convencional</li><li>Mais cabelos, cores e roupas</li><li>Acessórios, fundos e molduras Plus</li><li>Simulado personalizável</li><li>Diagnóstico avançado</li><li>Revisão Inteligente</li></ul></article></div></section>
 
       <section class="plus-section"><div class="plus-section-head"><div><h3>Ganhe Plus pelo seu esforço</h3><p>Além do teste inicial, o M.E.N.T.E recompensa constância e participação. Quando você alcança um marco, os dias de Plus são liberados automaticamente.</p></div></div>
         <div class="plus-pillars">
@@ -66,7 +67,7 @@
       <section class="plus-section"><div class="plus-section-head"><div><h3>Comparação de recursos</h3><p>Estas diferenças já estão aplicadas no site.</p></div></div><div class="plus-compare"><table><thead><tr><th>Recurso</th><th>Convencional</th><th>M.E.N.T.E Plus</th></tr></thead><tbody>${rows.map(([label,free,plus]) => `<tr><td>${label}</td><td class="${free ? "plus-check" : "plus-muted"}">${free ? "✓" : "—"}</td><td class="${plus ? "plus-star" : "plus-muted"}">${plus ? "★" : "—"}</td></tr>`).join("")}</tbody></table></div></section>
 
       <section class="plus-section"><div class="plus-section-head"><div><h3>O que muda na prática?</h3><p>Recursos Plus já funcionais nesta versão.</p></div></div><div class="plus-pillars">
-        <article class="plus-pillar"><span>🎨</span><h4>Personalização</h4><p>Metade dos avatares atuais é básica e a outra metade é exclusiva do Plus.</p></article>
+        <article class="plus-pillar"><span>🎨</span><h4>Avatar personalizável</h4><p>Todo aluno monta seu próprio personagem. O Plus libera estilos extras de cabelo, cores, roupas, acessórios, fundos e molduras, enquanto itens especiais também podem ser conquistados estudando.</p></article>
         <article class="plus-pillar"><span>🧪</span><h4>Simulado</h4><p>Formatos prontos são gratuitos; quantidade e tempo personalizados são liberados no Plus.</p></article>
         <article class="plus-pillar"><span>📊</span><h4>Diagnóstico</h4><p>O perfil Plus mostra ponto forte, prioridade de revisão e próxima ação sugerida.</p></article>
         <article class="plus-pillar"><span>🧠</span><h4>Revisão Inteligente</h4><p>Erros registrados são organizados automaticamente, priorizando a matéria com menor desempenho.</p></article>
