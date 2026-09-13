@@ -1,0 +1,68 @@
+/* M.E.N.T.E — Avatar personalizável */
+.mente-avatar-svg{display:block;width:100%;height:100%}
+#user-avatar.mente-custom-avatar{overflow:hidden;padding:0!important;background:#eef4ff!important;border:1px solid rgba(255,255,255,.5)}
+#user-avatar.mente-custom-avatar .mente-avatar-svg{width:100%;height:100%}
+.profile-avatar.mente-custom-avatar{overflow:hidden;padding:0!important;background:transparent!important;box-shadow:0 12px 28px rgba(36,59,96,.18)}
+.profile-avatar.mente-custom-avatar>span{display:none!important}
+.profile-avatar.mente-custom-avatar .mente-avatar-svg{width:100%;height:100%}
+
+/* substitui a antiga grade de emojis sem apagar o restante do formulário */
+.profile-avatar-editor.is-customized{padding:0!important;border:0!important;background:transparent!important}
+.profile-avatar-editor.is-customized>.profile-avatar-editor__head,
+.profile-avatar-editor.is-customized>.profile-avatar-options{display:none!important}
+.profile-avatar-editor.is-customized>input[name="avatar"]{display:none!important}
+
+.mente-avatar-studio{--av-border:#dfe7f2;--av-ink:#17243a;--av-muted:#69778c;display:grid;grid-template-columns:minmax(235px,.78fr) minmax(360px,1.5fr);gap:22px;padding:22px;border:1px solid var(--av-border);border-radius:24px;background:linear-gradient(145deg,#fbfdff,#f5f8ff);box-shadow:0 18px 45px rgba(32,55,91,.08)}
+.mente-avatar-stage{position:sticky;top:18px;align-self:start;display:flex;flex-direction:column;align-items:center;gap:15px;padding:22px 18px;border:1px solid #e1e8f3;border-radius:22px;background:linear-gradient(180deg,#fff,#f6f8fc);overflow:hidden}
+.mente-avatar-stage::before{content:"";position:absolute;width:180px;height:180px;right:-70px;top:-70px;border-radius:50%;background:rgba(96,116,166,.08)}
+.mente-avatar-stage::after{content:"";position:absolute;width:110px;height:110px;left:-45px;bottom:-45px;border-radius:50%;background:rgba(79,70,229,.07)}
+.mente-avatar-preview{position:relative;z-index:1;width:min(230px,100%);aspect-ratio:1;border-radius:34%;filter:drop-shadow(0 16px 24px rgba(28,44,75,.14));transition:transform .22s ease}
+.mente-avatar-preview:hover{transform:translateY(-3px) rotate(-1deg)}
+.mente-avatar-stage__copy{position:relative;z-index:1;text-align:center}
+.mente-avatar-stage__copy strong{display:block;color:var(--av-ink);font-size:17px}
+.mente-avatar-stage__copy span{display:block;margin-top:5px;color:var(--av-muted);font-size:12px;line-height:1.45}
+.mente-avatar-mini-status{position:relative;z-index:1;display:flex;flex-wrap:wrap;justify-content:center;gap:7px}
+.mente-avatar-pill{display:inline-flex;align-items:center;gap:5px;padding:6px 9px;border-radius:999px;background:#eef4ff;color:#315b9d;font-size:10px;font-weight:900}
+.mente-avatar-pill.is-plus{background:#fff4ca;color:#785b00}
+.mente-avatar-pill.is-merit{background:#eafaf3;color:#12623f}
+.mente-avatar-stage__actions{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+.mente-avatar-stage__actions button{min-height:39px;padding:0 10px;border:1px solid #dce5f1;border-radius:11px;background:#fff;color:#334155;font:inherit;font-size:11px;font-weight:800;cursor:pointer;transition:.15s ease}
+.mente-avatar-stage__actions button:hover{transform:translateY(-1px);border-color:#b7c8e0;background:#f9fbff}
+.mente-avatar-stage__actions .mente-avatar-save{grid-column:1/-1;border-color:#315b9d;background:linear-gradient(135deg,#315b9d,#1769e0);color:#fff;box-shadow:0 8px 18px rgba(23,105,224,.2)}
+.mente-avatar-save[disabled]{opacity:.6;cursor:wait;transform:none!important}
+.mente-avatar-save-status{min-height:18px;margin:0;color:#52627a;font-size:11px;font-weight:700;text-align:center}
+.mente-avatar-save-status[data-state="success"]{color:#16835b}.mente-avatar-save-status[data-state="error"]{color:#b42318}
+
+.mente-avatar-workbench{min-width:0}
+.mente-avatar-workbench__head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:14px}
+.mente-avatar-workbench__head strong{display:block;color:var(--av-ink);font-size:17px}.mente-avatar-workbench__head span{display:block;margin-top:4px;color:var(--av-muted);font-size:12px;line-height:1.45}
+.mente-avatar-tabs{display:flex;gap:7px;overflow-x:auto;padding:2px 2px 10px;scrollbar-width:thin}
+.mente-avatar-tab{flex:0 0 auto;min-height:36px;padding:0 12px;border:1px solid #dfe6f0;border-radius:999px;background:#fff;color:#5d6c82;font:inherit;font-size:11px;font-weight:800;cursor:pointer}
+.mente-avatar-tab.is-active{border-color:#315b9d;background:#315b9d;color:#fff;box-shadow:0 7px 16px rgba(49,91,157,.2)}
+.mente-avatar-category{padding-top:4px}
+.mente-avatar-category__title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:2px 0 10px;color:#334155;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.6px}
+.mente-avatar-category__title small{color:#8592a5;font-size:10px;font-weight:700;text-transform:none;letter-spacing:0}
+.mente-avatar-options{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.mente-avatar-option{position:relative;min-height:75px;padding:10px 7px;border:1px solid #dfe6f0;border-radius:15px;background:#fff;color:#334155;font:inherit;cursor:pointer;transition:transform .14s ease,border-color .14s ease,box-shadow .14s ease,background .14s ease;overflow:hidden}
+.mente-avatar-option:hover:not(.is-locked){transform:translateY(-2px);border-color:#9fb7db;box-shadow:0 9px 20px rgba(48,76,119,.1)}
+.mente-avatar-option.is-selected{border:2px solid #1769e0;background:#f2f7ff;box-shadow:0 0 0 3px rgba(23,105,224,.08)}
+.mente-avatar-option.is-locked{cursor:pointer;background:#f8f9fc;color:#77849a}
+.mente-avatar-option.is-locked .mente-avatar-option__sample{filter:grayscale(.25);opacity:.68}
+.mente-avatar-option__sample{display:grid;place-items:center;width:34px;height:34px;margin:0 auto 6px;border-radius:11px;background:#eef3fa;font-size:18px;font-weight:900;overflow:hidden}
+.mente-avatar-option__sample.is-color{border:1px solid rgba(16,36,58,.08);font-size:0}
+.mente-avatar-option__sample.is-line{background:#f7f9fc;color:#28384f;font-size:15px}
+.mente-avatar-option__sample svg{display:block;width:34px;height:34px}
+.mente-avatar-option strong{display:block;overflow:hidden;color:inherit;font-size:10px;line-height:1.2;text-overflow:ellipsis;white-space:nowrap}
+.mente-avatar-option__badge{position:absolute;right:5px;top:5px;padding:2px 5px;border-radius:999px;background:#6f2fcf;color:#fff;font-size:7px;font-weight:900;letter-spacing:.3px}
+.mente-avatar-option__badge.is-merit{background:#16835b}.mente-avatar-option__badge.is-free{background:#e7edf7;color:#64748b}
+.mente-avatar-option__lock{position:absolute;left:5px;top:5px;display:grid;place-items:center;width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:10px}
+.mente-avatar-lock-note{display:flex;align-items:flex-start;gap:9px;margin-top:13px;padding:10px 12px;border:1px dashed #d7dfeb;border-radius:12px;background:#fff;color:#64748b;font-size:10px;line-height:1.45}
+.mente-avatar-lock-note b{color:#334155}
+
+.mente-avatar-toast{position:fixed;right:22px;bottom:22px;z-index:10020;display:flex;gap:11px;align-items:center;max-width:min(390px,calc(100vw - 32px));padding:13px 15px;border:1px solid #dfe6f0;border-radius:15px;background:#fff;box-shadow:0 20px 50px rgba(21,34,55,.18);color:#334155;animation:menteAvatarIn .22s ease}
+.mente-avatar-toast>span{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:#eef4ff;font-size:17px}.mente-avatar-toast strong{display:block;font-size:12px}.mente-avatar-toast small{display:block;margin-top:2px;color:#6b778b;font-size:10px;line-height:1.35}
+@keyframes menteAvatarIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+@media(max-width:1050px){.mente-avatar-studio{grid-template-columns:1fr}.mente-avatar-stage{position:relative;top:auto;display:grid;grid-template-columns:180px 1fr;align-items:center}.mente-avatar-preview{grid-row:1/5;width:180px}.mente-avatar-stage__actions{max-width:330px}.mente-avatar-options{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media(max-width:760px){.mente-avatar-studio{padding:14px;border-radius:18px}.mente-avatar-stage{display:flex;padding:16px}.mente-avatar-preview{width:170px}.mente-avatar-options{grid-template-columns:repeat(3,minmax(0,1fr))}.mente-avatar-option{min-height:72px}.mente-avatar-workbench__head{display:block}.mente-avatar-tabs{margin-top:8px}}
+@media(max-width:420px){.mente-avatar-options{grid-template-columns:repeat(2,minmax(0,1fr))}.mente-avatar-stage__actions{grid-template-columns:1fr}.mente-avatar-stage__actions .mente-avatar-save{grid-column:auto}}
