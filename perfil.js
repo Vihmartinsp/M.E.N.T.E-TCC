@@ -431,6 +431,9 @@
       </div>`;
 
     bindEditor(user);
+    // O perfil pode ser redesenhado após a sincronização online. Reaplica o
+    // avatar em camadas para ele não voltar ao antigo ícone predefinido.
+    setTimeout(() => window.MENTE_AVATAR?.refresh?.(), 0);
   }
 
   function bindEditor(user) {
