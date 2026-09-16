@@ -1,10 +1,12 @@
 /* M.E.N.T.E Avatar v3 — expansão inspirada nas referências enviadas */
 .mente-avatar-studio{grid-template-columns:minmax(250px,.72fr) minmax(420px,1.65fr);gap:24px;background:linear-gradient(145deg,#fbfdff,#f5f8ff 62%,#f9f6ff)}
+.mente-ui-icon{display:inline-block;width:16px;height:16px;flex:0 0 auto;vertical-align:-3px}
 .mente-avatar-stage{padding:24px 19px;border-radius:24px;background:linear-gradient(180deg,#fff,#f7f9fd)}
 .mente-avatar-preview{width:min(250px,100%);border-radius:38%;filter:drop-shadow(0 18px 28px rgba(30,48,82,.16))}
 .mente-avatar-workbench__head strong{font-size:18px}.mente-avatar-workbench__head span{max-width:650px;font-size:12px}
 .mente-avatar-tabs{gap:8px;padding-bottom:12px;scroll-snap-type:x proximity}
-.mente-avatar-tab{scroll-snap-align:start;min-height:38px;padding:0 13px;border-radius:12px;background:#fff;box-shadow:0 3px 10px rgba(31,53,88,.04)}
+.mente-avatar-tab{display:inline-flex;align-items:center;gap:6px;scroll-snap-align:start;min-height:38px;padding:0 13px;border-radius:12px;background:#fff;box-shadow:0 3px 10px rgba(31,53,88,.04)}
+.mente-avatar-tab .mente-ui-icon{width:15px;height:15px}
 .mente-avatar-tab.is-active{background:linear-gradient(135deg,#315b9d,#1769e0);border-color:#1769e0}
 .mente-avatar-category__title{margin-top:5px;margin-bottom:12px}
 .mente-avatar-options{grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
@@ -16,10 +18,16 @@
 .mente-avatar-option__sample.is-color{width:46px;height:46px;margin-top:6px;margin-bottom:14px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08),0 5px 12px rgba(38,52,72,.08)}
 .mente-avatar-option strong{font-size:10.5px;white-space:normal;line-height:1.15;min-height:24px;display:flex;align-items:center;justify-content:center;text-align:center}
 .mente-avatar-option__badge{right:6px;top:6px;padding:3px 6px;font-size:7px;box-shadow:0 3px 9px rgba(111,47,207,.15)}
-.mente-avatar-option__lock{left:6px;top:6px;z-index:2}
+.mente-avatar-option__lock{left:6px;top:6px;z-index:2;color:#50627b}
+.mente-avatar-option__lock .mente-ui-icon{width:11px;height:11px}
 .mente-avatar-option.is-locked::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 48%,rgba(248,249,252,.82));pointer-events:none}
 .mente-avatar-option.is-locked .mente-avatar-option__badge,.mente-avatar-option.is-locked .mente-avatar-option__lock,.mente-avatar-option.is-locked strong{position:relative;z-index:3}
 .mente-avatar-lock-note{margin-top:16px;padding:12px 14px;border-radius:14px;background:linear-gradient(135deg,#fff,#fafcff)}
+.mente-avatar-lock-note>.mente-ui-icon{width:17px;height:17px;color:#315b9d;margin-top:1px}
+.mente-avatar-pill .mente-ui-icon{width:13px;height:13px}
+.mente-avatar-stage__actions button{display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.mente-avatar-stage__actions button .mente-ui-icon{width:14px;height:14px}
+.mente-avatar-toast>span .mente-ui-icon{width:18px;height:18px;color:#315b9d}
 #user-avatar.mente-custom-avatar,.user-menu__avatar.mente-custom-avatar{border-radius:50%!important;display:grid!important;place-items:center!important;flex:none!important}
 .user-menu__avatar.mente-custom-avatar .mente-avatar-svg{width:100%;height:100%;display:block}
 
