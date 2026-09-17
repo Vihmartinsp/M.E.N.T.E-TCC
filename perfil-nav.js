@@ -47,7 +47,7 @@
     if (window.MENTE_AVATAR?.version >= 3) return;
     if (document.querySelector('script[data-mente-avatar-system]')) return;
     const script = document.createElement("script");
-    script.src = "avatar-system-v3.js?v=5";
+    script.src = "avatar-system-v3.js?v=6";
     script.async = true;
     script.dataset.menteAvatarSystem = "1";
     script.onload = scheduleRefresh;
