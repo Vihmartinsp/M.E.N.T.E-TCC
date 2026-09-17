@@ -2,9 +2,9 @@
 
 (() => {
   const MILESTONES = [
-    { level: 1, streak: 7, points: 100, reward: 3, label: "Primeira conquista" },
-    { level: 2, streak: 14, points: 250, reward: 7, label: "Consistência" },
-    { level: 3, streak: 30, points: 500, reward: 15, label: "Mestre da rotina" },
+    { level: 1, streak: 7, points: 500, reward: 3, label: "Primeira conquista" },
+    { level: 2, streak: 14, points: 1200, reward: 7, label: "Consistência" },
+    { level: 3, streak: 30, points: 2500, reward: 15, label: "Mestre da rotina" },
   ];
 
   let lastStatus = null;
@@ -151,11 +151,11 @@
   }
 
   ensureStyles();
+  window.MENTE_PLUS_MERIT = { refresh, milestones: MILESTONES.map((item)=>({...item})) };
   window.addEventListener("mente:plan-updated", () => {
-    if (lastStatus) {
-      setTimeout(() => { renderProgress(lastStatus); renderLiveAccess(lastStatus); }, 0);
-    }
+    if (lastStatus) setTimeout(() => { renderProgress(lastStatus); renderLiveAccess(lastStatus); }, 0);
   });
+  window.addEventListener("mente:points-updated", () => setTimeout(refresh, 180));
   window.addEventListener("mente:supabase-ready", () => setTimeout(refresh, 120), { once: true });
   window.addEventListener("load", () => setTimeout(refresh, 350), { once: true });
   setTimeout(refresh, 900);
