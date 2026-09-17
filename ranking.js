@@ -6,6 +6,7 @@
   if (!root) return;
 
   const state={client:null,user:null,rows:[],loading:false,error:null};
+  const PRESET_AVATARS={brain:"🧠",rocket:"🚀",graduate:"🎓",owl:"🦉",star:"⭐",target:"🎯",chart:"📈",geometry:"📐",calculator:"🧮",lightning:"⚡",diamond:"💎",crown:"👑"};
   const esc=(value)=>String(value??"").replace(/[&<>"']/g,(c)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const isPlus=()=>Boolean(window.MENTE_PLUS?.isActive?.());
   const displayName=(row)=>{
@@ -22,6 +23,42 @@
     return new Promise((resolve)=>{let done=false;const finish=()=>{if(done)return;done=true;resolve(window.menteSupabase||null)};window.addEventListener("mente:supabase-ready",finish,{once:true});setTimeout(finish,2200)});
   }
 
+  function avatarMarkup(row,name,className){
+    const url=String(row?.avatar_url||"").trim();
+    const fallback=initials(name);
+    if(/^https?:\/\//i.test(url)){
+      return `<span class="${className} has-profile-avatar" data-ranking-avatar-user="${esc(row.user_id)}" data-ranking-avatar-fallback="${esc(fallback)}"><img class="ranking-profile-image" src="${esc(url)}" alt="Avatar de ${esc(name)}"></span>`;
+    }
+    if(url.startsWith("preset:")){
+      const preset=url.slice(7);
+      const emoji=PRESET_AVATARS[preset];
+      if(emoji)return `<span class="${className} has-preset-avatar">${emoji}</span>`;
+    }
+    const hasConfig=row?.avatar_config&&typeof row.avatar_config==="object";
+    return `<span class="${className} ${hasConfig?"has-profile-avatar":""}" data-ranking-avatar-user="${esc(row.user_id)}" data-ranking-avatar-fallback="${esc(fallback)}">${esc(fallback)}</span>`;
+  }
+
+  function hydrateAvatars(){
+    const api=window.MENTE_AVATAR;
+    document.querySelectorAll("[data-ranking-avatar-user]").forEach((el)=>{
+      const row=state.rows.find((item)=>String(item.user_id)===String(el.dataset.rankingAvatarUser));
+      if(!row)return;
+      const img=el.querySelector("img.ranking-profile-image");
+      if(img&&!img.dataset.fallbackBound){
+        img.dataset.fallbackBound="1";
+        img.addEventListener("error",()=>{el.classList.remove("has-profile-avatar");el.textContent=el.dataset.rankingAvatarFallback||"A"},{once:true});
+      }
+      if(row.avatar_config&&api?.render&&el.dataset.avatarHydrated!=="1"){
+        try{
+          el.innerHTML=api.render(row.avatar_config,{label:`Avatar de ${displayName(row)}`});
+          el.dataset.avatarHydrated="1";
+          el.classList.add("has-profile-avatar");
+        }catch(error){console.warn("[M.E.N.T.E Ranking] Avatar indisponível",error)}
+      }
+    });
+  }
+
+  function scheduleAvatarHydration(){[0,120,350,800,1500,2600].forEach((ms)=>setTimeout(hydrateAvatars,ms))}
   function currentIndex(){return state.user?state.rows.findIndex((row)=>row.user_id===state.user.id):-1}
   function currentRow(){const i=currentIndex();return i>=0?state.rows[i]:null}
 
@@ -35,12 +72,12 @@
       <section class="ranking-explainer"><div><small>Ranking por evolução</small><strong>XP define a classificação — não os pontos disponíveis</strong><p>Assim, gastar pontos para revisar questões não faz você cair no ranking. Questões e jogos podem gerar XP, enquanto os jogos têm limite diário para evitar vantagem por repetição. Para preservar a privacidade, os outros estudantes aparecem com primeiro nome e inicial.</p></div><span class="ranking-explainer__chip">Atualização online</span></section>
 
       <section class="ranking-podium"><div class="ranking-podium__head"><div><h3>Pódio M.E.N.T.E</h3><p>Os três estudantes com maior XP acumulado.</p></div><button class="ranking-refresh" id="ranking-refresh" type="button">Atualizar ranking</button></div>
-        ${top.length?`<div class="podium-grid">${podiumOrder.map((row)=>{const pos=rows.indexOf(row)+1,name=displayName(row);return`<article class="podium-card ${pos===1?"is-first":""} ${state.user?.id===row.user_id?"is-current":""}"><span class="podium-position">${pos}º</span><div class="podium-avatar">${esc(initials(name))}</div><strong>${esc(name)}</strong><b>${Number(row.xp)||0} XP</b><span>Nível ${Number(row.nivel)||1}${state.user?.id===row.user_id?" · você":""}</span></article>`}).join("")}</div>`:'<div class="ranking-empty">O ranking começa a aparecer quando os alunos acumulam XP.</div>'}
+        ${top.length?`<div class="podium-grid">${podiumOrder.map((row)=>{const pos=rows.indexOf(row)+1,name=displayName(row);return`<article class="podium-card ${pos===1?"is-first":""} ${state.user?.id===row.user_id?"is-current":""}"><span class="podium-position">${pos}º</span>${avatarMarkup(row,name,"podium-avatar")}<strong>${esc(name)}</strong><b>${Number(row.xp)||0} XP</b><span>Nível ${Number(row.nivel)||1}${state.user?.id===row.user_id?" · você":""}</span></article>`}).join("")}</div>`:'<div class="ranking-empty">O ranking começa a aparecer quando os alunos acumulam XP.</div>'}
       </section>
 
       <div class="ranking-layout">
         <section class="ranking-list-card"><div class="ranking-list-card__head"><div><h3>Classificação geral</h3><p>Até 50 posições, ordenadas por XP acumulado.</p></div></div>
-          ${rows.length?`<div class="ranking-list">${rows.map((row,index)=>{const name=displayName(row);return`<div class="ranking-row ${state.user?.id===row.user_id?"is-current":""}"><span class="ranking-row__pos">${index+1}</span><div class="ranking-row__user"><span class="ranking-row__avatar">${esc(initials(name))}</span><div><strong>${esc(name)}</strong><small>${state.user?.id===row.user_id?"Sua posição atual":"Estudante M.E.N.T.E"}</small></div></div><span class="ranking-row__xp">${Number(row.xp)||0} XP</span><span class="ranking-row__level">Nível ${Number(row.nivel)||1}</span></div>`}).join("")}</div>`:'<div class="ranking-empty">Ainda não há estudantes classificados.</div>'}
+          ${rows.length?`<div class="ranking-list">${rows.map((row,index)=>{const name=displayName(row);return`<div class="ranking-row ${state.user?.id===row.user_id?"is-current":""}"><span class="ranking-row__pos">${index+1}</span><div class="ranking-row__user">${avatarMarkup(row,name,"ranking-row__avatar")}<div><strong>${esc(name)}</strong><small>${state.user?.id===row.user_id?"Sua posição atual":"Estudante M.E.N.T.E"}</small></div></div><span class="ranking-row__xp">${Number(row.xp)||0} XP</span><span class="ranking-row__level">Nível ${Number(row.nivel)||1}</span></div>`}).join("")}</div>`:'<div class="ranking-empty">Ainda não há estudantes classificados.</div>'}
         </section>
 
         <aside class="ranking-side">
@@ -51,6 +88,7 @@
     </div>`;
     document.querySelector("#ranking-refresh")?.addEventListener("click",load);
     document.querySelector("#ranking-plus-insight")?.addEventListener("click",()=>{if(!isPlus())window.MENTE_PLUS?.openUpgrade?.("A análise estratégica do Ranking M.E.N.T.E")});
+    scheduleAvatarHydration();
   }
 
   function renderPlusInsight(me,idx){
@@ -68,7 +106,7 @@
     try{
       state.client=state.client||await waitForClient();if(!state.client)throw new Error("Conexão indisponível");
       const {data:sessionData}=await state.client.auth.getSession();state.user=sessionData?.session?.user||null;
-      const {data,error}=await state.client.from("ranking").select("user_id,nome_publico,xp,nivel,updated_at").order("xp",{ascending:false}).order("updated_at",{ascending:true}).limit(50);
+      const {data,error}=await state.client.from("ranking").select("user_id,nome_publico,xp,nivel,avatar_url,avatar_config,updated_at").order("xp",{ascending:false}).order("updated_at",{ascending:true}).limit(50);
       if(error)throw error;state.rows=data||[];
     }catch(error){state.error=error;console.warn("[M.E.N.T.E Ranking]",error)}finally{state.loading=false;render()}
   }
@@ -76,4 +114,5 @@
   load();
   window.addEventListener("mente:plan-updated",()=>{if(!state.loading)render()});
   window.addEventListener("mente:points-updated",()=>setTimeout(load,300));
+  window.addEventListener("mente:avatar-updated",()=>setTimeout(load,180));
 })();
