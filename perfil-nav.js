@@ -9,6 +9,7 @@
   const avatarGradient = {
     brain:["#2E78EF","#173E78"],rocket:["#7C3AED","#4F46E5"],graduate:["#0F766E","#16835B"],owl:["#B45309","#F59E0B"],star:["#C2410C","#F7B32B"],target:["#BE185D","#DB2777"],chart:["#0284C7","#315B9D"],geometry:["#FF7A00","#D95D00"],calculator:["#9D4EDD","#6F2FCF"],lightning:["#F59E0B","#D97706"],diamond:["#0891B2","#2563EB"],crown:["#946C00","#F2C94C"]
   };
+  const STREAK_PAGES = new Set(["roteiro","explicacoes","simulados","jogos","ranking","desempenho","plus"]);
 
   function readJson(key, fallback) {
     try { return JSON.parse(localStorage.getItem(key) || "null") ?? fallback; }
@@ -54,6 +55,23 @@
     document.head.appendChild(script);
   }
 
+  function ensureStreakSystem() {
+    if (!STREAK_PAGES.has(document.body.dataset.page || "")) return;
+    if (!document.querySelector('link[data-mente-streak-css]')) {
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = "streak-widget.css?v=1";
+      link.dataset.menteStreakCss = "1";
+      document.head.appendChild(link);
+    }
+    if (document.querySelector('script[data-mente-streak-system]')) return;
+    const script = document.createElement("script");
+    script.src = "streak-widget.js?v=1";
+    script.async = true;
+    script.dataset.menteStreakSystem = "1";
+    document.head.appendChild(script);
+  }
+
   function renameProfileLinks() {
     document.querySelectorAll('a[href*="desempenho.html"].sidebar__link').forEach((link) => {
       if (link.dataset.menteProfileNormalized === "1") return;
@@ -91,9 +109,11 @@
     renameProfileLinks();
     applyAvatar();
     ensureAvatarSystem();
+    ensureStreakSystem();
   }
 
   ensureAvatarSystem();
+  ensureStreakSystem();
   refresh();
   scheduleRefresh();
 
