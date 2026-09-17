@@ -5,13 +5,16 @@ const pageInfo={
  roteiro:["Roteiro de Estudos","Um caminho personalizado para transformar dúvidas em domínio da Matemática."],
  explicacoes:["Explicações","Conceitos destrinchados em linguagem simples, com exemplos e conexões."],
  simulados:["Simulados","Treine com questões mais desafiadoras e controle de tempo."],
+ jogos:["Jogos Matemáticos","Revise conteúdos de forma rápida, divertida e com recompensas equilibradas."],
+ ranking:["Ranking M.E.N.T.E","Acompanhe sua evolução por XP e veja a comunidade avançando nos estudos."],
  desempenho:["Meu Desempenho","Entenda sua evolução e descubra qual deve ser o próximo passo."],
  plus:["M.E.N.T.E Plus","Personalização, análises e recursos avançados para ampliar sua experiência de estudo."],
 };
 const navGroups=[
   {label:"Estudo",items:[['questoes.html','⌕','Busca de Questões'],['roteiro.html','◇','Roteiro de Estudos'],['explicacoes.html','✦','Explicações']]},
-  {label:"Prática",items:[['simulados.html','✓','Simulados']]},
-  {label:"Perfil",items:[['desempenho.html','↗','Meu Desempenho'],['plus.html','★','M.E.N.T.E Plus'],['index.html','⌂','Página Inicial']]},
+  {label:"Prática",items:[['simulados.html','✓','Simulados'],['jogos.html','▦','Jogos Matemáticos']]},
+  {label:"Comunidade",items:[['ranking.html','↗','Ranking M.E.N.T.E']]},
+  {label:"Perfil",items:[['desempenho.html','◉','Meu Desempenho'],['plus.html','★','M.E.N.T.E Plus'],['index.html','⌂','Página Inicial']]},
 ];
 function user(){try{return JSON.parse(localStorage.getItem(DEMO_USER_KEY))}catch{return null}}
 function points(){return Number(localStorage.getItem(POINTS_KEY)||0)}
@@ -33,9 +36,10 @@ function ensureSidebarStyles(){
 function shell(content){
   ensureSidebarStyles();
   const current=location.pathname.split('/').pop();
+  const info=pageInfo[page]||["M.E.N.T.E","Sua jornada de estudos."];
   const u=user()||{name:'Visitante',email:'visitante@mente.local'};
   const navHtml=navGroups.map(group=>`<p class="sidebar__group">${group.label}</p>${group.items.map(([href,icon,label])=>`<a class="sidebar__link ${current===href?'is-active':''}" href="${href}"><span>${icon}</span>${label}</a>`).join('')}`).join('');
-  document.body.innerHTML=`<aside class="sidebar"><nav class="sidebar__nav">${navHtml}</nav><button class="sidebar__logout" id="logout-button">↪ Sair</button></aside><div class="page-shell"><header class="topbar"><button class="menu-toggle" id="menu-toggle">☰</button><div><p class="topbar__eyebrow">Sua jornada M.E.N.T.E</p><h1>${pageInfo[page][0]}</h1></div><div class="topbar__actions"><div class="score">★ <strong id="global-points">${points()}</strong><small> pontos</small></div><button class="user-menu"><span class="user-menu__avatar">${(u.name||u.email)[0].toUpperCase()}</span><span class="user-menu__copy"><small>Bem-vindo(a)</small><strong>${u.name||u.email.split('@')[0]}</strong></span></button></div></header>${content}</div><div class="sidebar-backdrop" id="sidebar-backdrop"></div>`;
+  document.body.innerHTML=`<aside class="sidebar"><nav class="sidebar__nav">${navHtml}</nav><button class="sidebar__logout" id="logout-button">↪ Sair</button></aside><div class="page-shell"><header class="topbar"><button class="menu-toggle" id="menu-toggle">☰</button><div><p class="topbar__eyebrow">Sua jornada M.E.N.T.E</p><h1>${info[0]}</h1></div><div class="topbar__actions"><div class="score">★ <strong id="global-points">${points()}</strong><small> pontos</small></div><button class="user-menu"><span class="user-menu__avatar">${(u.name||u.email)[0].toUpperCase()}</span><span class="user-menu__copy"><small>Bem-vindo(a)</small><strong>${u.name||u.email.split('@')[0]}</strong></span></button></div></header>${content}</div><div class="sidebar-backdrop" id="sidebar-backdrop"></div>`;
   document.querySelector('#logout-button').onclick=()=>{localStorage.removeItem(DEMO_USER_KEY);location.replace('login.html')};
   const toggle=document.querySelector('#menu-toggle');
   toggle.onclick=()=>document.body.classList.toggle('sidebar-open');
@@ -44,11 +48,15 @@ function shell(content){
 const modules=['Geometria','Funções','Estatística e Probabilidade','Matemática Financeira','Grandezas e Medidas','Gráficos e Tabelas'];
 function card(icon,title,text,extra=''){return `<article class="portal-card"><span class="portal-card__icon">${icon}</span><h3>${title}</h3><p>${text}</p>${extra}</article>`}
 const renderers={
- roteiro:()=>`<div class="roadmap">${modules.map((m,i)=>`<article class="portal-card roadmap-step"><strong>${i+1}</strong><div><span class="portal-card__tag">ETAPA ${i+1}</span><h3>${m}</h3><p>${['Fundamentos visuais, áreas, perímetros e sólidos.','Relações entre grandezas, gráficos e modelagem.','Leitura de dados, medidas de tendência e incerteza.','Porcentagens, juros e decisões financeiras.','Conversões, escalas, razões e proporcionalidade.','Leitura crítica e comparação de informações.'][i]}</p><div class="progress-track"><span style="width:${i===0?35:0}%"></span></div><a class="portal-button" href="explicacoes.html">Estudar explicação</a></div></article>`).join('')}</div>`,
+ roteiro:()=>`<div class="roadmap">${modules.map((m,i)=>`<article class="portal-card roadmap-step"><strong>${i+1}</strong><div><span class="portal-card__tag">ETAPA ${i+1}</span><h3>${m}</h3><p>${['Fundamentos visuais, áreas, perímetros e sólidos.','Relações entre grandezas, gráficos e modelagem.','Leitura de dados, medidas de tendência e incerteza.','Porcentagens, juros e decisões financeiras.','Unidades, escalas e relações direta ou inversamente proporcionais.','Leitura crítica e comparação de informações.'][i]}</p><div class="progress-track"><span style="width:${i===0?35:0}%"></span></div><a class="portal-button" href="explicacoes.html">Estudar explicação</a></div></article>`).join('')}</div>`,
  explicacoes:()=>`<div class="portal-grid">${modules.map((m,i)=>card('💡',m,['Formas, decomposição, áreas, semelhança e visão espacial.','Como reconhecer leis, taxas de variação, zeros e vértices.','Média, mediana, dispersão e cálculo de probabilidades.','Porcentagem como fator, juros simples e compostos.','Unidades, escalas e relações direta ou inversamente proporcionais.','Eixos, escalas, tendências e armadilhas de interpretação.'][i],'<button class="portal-button">Ler explicação</button>')).join('')}</div>`,
  simulados:()=>`<div class="portal-grid">${card('⏱️','Simulado diagnóstico','15 questões de nível intermediário para identificar lacunas.','<span class="portal-card__tag">30 MIN · +150 PTS</span><br><button class="portal-button sim-start">Começar</button>')}${card('🔥','Desafio ENEM','20 questões difíceis e contextualizadas de edições anteriores.','<span class="portal-card__tag">60 MIN · +300 PTS</span><br><button class="portal-button sim-start">Começar</button>')}${card('🎯','Treino por matéria','Monte um simulado apenas com os assuntos que precisa revisar.','<span class="portal-card__tag">PERSONALIZADO</span><br><a class="portal-button" href="questoes.html">Selecionar questões</a>')}</div>`,
- desempenho:()=>{const answers=Object.values(JSON.parse(localStorage.getItem('mente-answers')||'{}'));const correct=answers.filter(answer=>answer.correct).length;return `<div class="portal-grid">${card('⭐',`${points()} pontos`,'Ganhe 10 pontos por questão correta e bônus nos simulados.','<span class="portal-card__tag">PONTUAÇÃO TOTAL</span>')}${card('✅',`${answers.length} questões respondidas`,`${correct} acertos registrados. Continue praticando para construir consistência.`,`<div class="progress-track"><span style="width:${Math.min(answers.length/30*100,100)}%"></span></div>`)}${card('🔁','Revisão recomendada',answers.length?'Abra a aba Respondidas para rever enunciados, respostas e explicações.':'Comece por Geometria e Funções para gerar seu diagnóstico.','<a class="portal-button" href="questoes.html">Revisar questões</a>')}</div>`},
+ jogos:()=>'<div id="games-root"><div class="portal-card"><p>Carregando jogos matemáticos...</p></div></div>',
+ ranking:()=>'<div id="ranking-root"><div class="portal-card"><p>Carregando ranking...</p></div></div>',
+ desempenho:()=>{const answers=Object.values(JSON.parse(localStorage.getItem('mente-answers')||'{}'));const correct=answers.filter(answer=>answer.correct).length;return `<div class="portal-grid">${card('⭐',`${points()} pontos`,'Ganhe pontos estudando e use-os em recursos da plataforma.','<span class="portal-card__tag">PONTOS DISPONÍVEIS</span>')}${card('✅',`${answers.length} questões respondidas`,`${correct} acertos registrados. Continue praticando para construir consistência.`,`<div class="progress-track"><span style="width:${Math.min(answers.length/30*100,100)}%"></span></div>`)}${card('🔁','Revisão recomendada',answers.length?'Abra a aba Respondidas para rever enunciados, respostas e explicações.':'Comece por Geometria e Funções para gerar seu diagnóstico.','<a class="portal-button" href="questoes.html">Revisar questões</a>')}</div>`},
  plus:()=>`<div class="portal-grid">${card('★','M.E.N.T.E Plus','Carregando a experiência de planos e benefícios...','<span class="portal-card__tag">PLUS</span>')}</div>`
 };
-shell(`<main class="portal-main"><section class="portal-hero"><h2>${pageInfo[page][0]}</h2><p>${pageInfo[page][1]}</p></section>${renderers[page]()}</main>`);
+const info=pageInfo[page]||["M.E.N.T.E","Sua jornada de estudos."];
+const renderer=renderers[page]||(()=>'<div class="portal-card"><p>Conteúdo indisponível.</p></div>');
+shell(`<main class="portal-main"><section class="portal-hero"><h2>${info[0]}</h2><p>${info[1]}</p></section>${renderer()}</main>`);
 document.querySelectorAll('.sim-start').forEach(b=>b.onclick=()=>alert('O construtor do simulado está preparado. As alternativas e o cronômetro serão adicionados na próxima etapa.'));
