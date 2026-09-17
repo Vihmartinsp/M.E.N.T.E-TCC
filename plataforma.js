@@ -12,9 +12,9 @@ const pageInfo={
 };
 const navGroups=[
   {label:"Estudo",items:[['questoes.html','⌕','Busca de Questões'],['roteiro.html','◇','Roteiro de Estudos'],['explicacoes.html','✦','Explicações']]},
-  {label:"Prática",items:[['simulados.html','✓','Simulados'],['jogos.html','▦','Jogos Matemáticos']]},
+  {label:"Prática",items:[['simulados.html','✓','Simulados'],['plus.html','★','M.E.N.T.E Plus'],['jogos.html','▦','Jogos Matemáticos']]},
   {label:"Comunidade",items:[['ranking.html','↗','Ranking M.E.N.T.E']]},
-  {label:"Perfil",items:[['desempenho.html','◉','Meu Desempenho'],['plus.html','★','M.E.N.T.E Plus'],['index.html','⌂','Página Inicial']]},
+  {label:"Perfil",items:[['desempenho.html','◉','Meu Desempenho'],['index.html','⌂','Página Inicial']]},
 ];
 function user(){try{return JSON.parse(localStorage.getItem(DEMO_USER_KEY))}catch{return null}}
 function points(){return Number(localStorage.getItem(POINTS_KEY)||0)}
@@ -23,13 +23,17 @@ function ensureSidebarStyles(){
   const style=document.createElement('style');
   style.id='mente-sidebar-cleanup';
   style.textContent=`
-    .sidebar{padding-top:26px!important}
+    .sidebar{padding-top:18px!important;padding-bottom:16px!important}
     .sidebar__brand{display:none!important}
-    .sidebar__nav{display:flex;flex:1;flex-direction:column;overflow-y:auto;padding-right:2px}
-    .sidebar__group{margin:0 12px 9px!important;padding:0;color:#8292ab;font-size:10px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase}
-    .sidebar__group:not(:first-child){margin-top:18px!important;padding-top:18px;border-top:1px solid rgba(255,255,255,.11)}
-    .sidebar__link{flex:none;margin:2px 0!important}
-    .sidebar__logout{margin-top:16px;padding-top:16px!important;border-top:1px solid rgba(255,255,255,.13)!important}
+    .sidebar__nav{display:flex;flex:1;flex-direction:column;overflow-y:auto;padding-right:2px;scrollbar-width:thin}
+    .sidebar__group{margin:0 12px 6px!important;padding:0;color:#8292ab;font-size:9px;font-weight:800;letter-spacing:1.25px;text-transform:uppercase}
+    .sidebar__group:not(:first-child){margin-top:12px!important;padding-top:12px;border-top:1px solid rgba(255,255,255,.11)}
+    .sidebar__link{flex:none;min-height:40px!important;margin:1px 0!important;padding:0 12px!important;gap:10px!important;font-size:12.5px!important;border-radius:9px!important}
+    .sidebar__link>span:first-child{width:18px!important;min-width:18px!important;font-size:17px!important}
+    .sidebar__link[href*="plus.html"],.sidebar__link[href*="revisao-plus.html"]{min-height:40px!important;font-size:12.5px!important}
+    .sidebar__link[href*="revisao-plus.html"]>span:nth-child(2),.sidebar__link .plus-nav-label{width:auto!important;min-width:0!important;flex:1!important;color:inherit!important;font-size:12.5px!important;text-align:left!important;white-space:nowrap!important}
+    .sidebar__link .plus-nav-badge{flex:none!important;margin-left:auto!important;padding:2px 5px!important;font-size:8px!important;line-height:1.15!important}
+    .sidebar__logout{margin-top:10px;padding-top:12px!important;padding-bottom:8px!important;border-top:1px solid rgba(255,255,255,.13)!important;font-size:12px!important}
   `;
   document.head.appendChild(style);
 }
