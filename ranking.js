@@ -8,6 +8,13 @@
   const state={client:null,user:null,rows:[],loading:false,error:null};
   const esc=(value)=>String(value??"").replace(/[&<>"']/g,(c)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const isPlus=()=>Boolean(window.MENTE_PLUS?.isActive?.());
+  const displayName=(row)=>{
+    const raw=String(row?.nome_publico||"Aluno").trim();
+    if(state.user?.id===row?.user_id)return raw;
+    const parts=raw.split(/\s+/).filter(Boolean);
+    if(parts.length<2)return parts[0]||"Aluno";
+    return `${parts[0]} ${parts[parts.length-1][0]?.toUpperCase()||""}.`;
+  };
   const initials=(name)=>String(name||"Aluno").trim().split(/\s+/).slice(0,2).map(p=>p[0]?.toUpperCase()||"").join("")||"A";
 
   function waitForClient(){
@@ -25,15 +32,15 @@
     const rows=state.rows,top=rows.slice(0,3),idx=currentIndex(),me=currentRow(),position=idx>=0?idx+1:null;
     const podiumOrder=top.length>=3?[top[1],top[0],top[2]]:top;
     root.innerHTML=`<div class="ranking-page">
-      <section class="ranking-explainer"><div><small>Ranking por evolução</small><strong>XP define a classificação — não os pontos disponíveis</strong><p>Assim, gastar pontos para revisar questões não faz você cair no ranking. Questões e jogos podem gerar XP, enquanto os jogos têm limite diário para evitar vantagem por repetição.</p></div><span class="ranking-explainer__chip">Atualização online</span></section>
+      <section class="ranking-explainer"><div><small>Ranking por evolução</small><strong>XP define a classificação — não os pontos disponíveis</strong><p>Assim, gastar pontos para revisar questões não faz você cair no ranking. Questões e jogos podem gerar XP, enquanto os jogos têm limite diário para evitar vantagem por repetição. Para preservar a privacidade, os outros estudantes aparecem com primeiro nome e inicial.</p></div><span class="ranking-explainer__chip">Atualização online</span></section>
 
       <section class="ranking-podium"><div class="ranking-podium__head"><div><h3>Pódio M.E.N.T.E</h3><p>Os três estudantes com maior XP acumulado.</p></div><button class="ranking-refresh" id="ranking-refresh" type="button">Atualizar ranking</button></div>
-        ${top.length?`<div class="podium-grid">${podiumOrder.map((row)=>{const pos=rows.indexOf(row)+1;return`<article class="podium-card ${pos===1?"is-first":""} ${state.user?.id===row.user_id?"is-current":""}"><span class="podium-position">${pos}º</span><div class="podium-avatar">${esc(initials(row.nome_publico))}</div><strong>${esc(row.nome_publico||"Aluno")}</strong><b>${Number(row.xp)||0} XP</b><span>Nível ${Number(row.nivel)||1}${state.user?.id===row.user_id?" · você":""}</span></article>`}).join("")}</div>`:'<div class="ranking-empty">O ranking começa a aparecer quando os alunos acumulam XP.</div>'}
+        ${top.length?`<div class="podium-grid">${podiumOrder.map((row)=>{const pos=rows.indexOf(row)+1,name=displayName(row);return`<article class="podium-card ${pos===1?"is-first":""} ${state.user?.id===row.user_id?"is-current":""}"><span class="podium-position">${pos}º</span><div class="podium-avatar">${esc(initials(name))}</div><strong>${esc(name)}</strong><b>${Number(row.xp)||0} XP</b><span>Nível ${Number(row.nivel)||1}${state.user?.id===row.user_id?" · você":""}</span></article>`}).join("")}</div>`:'<div class="ranking-empty">O ranking começa a aparecer quando os alunos acumulam XP.</div>'}
       </section>
 
       <div class="ranking-layout">
         <section class="ranking-list-card"><div class="ranking-list-card__head"><div><h3>Classificação geral</h3><p>Até 50 posições, ordenadas por XP acumulado.</p></div></div>
-          ${rows.length?`<div class="ranking-list">${rows.map((row,index)=>`<div class="ranking-row ${state.user?.id===row.user_id?"is-current":""}"><span class="ranking-row__pos">${index+1}</span><div class="ranking-row__user"><span class="ranking-row__avatar">${esc(initials(row.nome_publico))}</span><div><strong>${esc(row.nome_publico||"Aluno")}</strong><small>${state.user?.id===row.user_id?"Sua posição atual":"Estudante M.E.N.T.E"}</small></div></div><span class="ranking-row__xp">${Number(row.xp)||0} XP</span><span class="ranking-row__level">Nível ${Number(row.nivel)||1}</span></div>`).join("")}</div>`:'<div class="ranking-empty">Ainda não há estudantes classificados.</div>'}
+          ${rows.length?`<div class="ranking-list">${rows.map((row,index)=>{const name=displayName(row);return`<div class="ranking-row ${state.user?.id===row.user_id?"is-current":""}"><span class="ranking-row__pos">${index+1}</span><div class="ranking-row__user"><span class="ranking-row__avatar">${esc(initials(name))}</span><div><strong>${esc(name)}</strong><small>${state.user?.id===row.user_id?"Sua posição atual":"Estudante M.E.N.T.E"}</small></div></div><span class="ranking-row__xp">${Number(row.xp)||0} XP</span><span class="ranking-row__level">Nível ${Number(row.nivel)||1}</span></div>`}).join("")}</div>`:'<div class="ranking-empty">Ainda não há estudantes classificados.</div>'}
         </section>
 
         <aside class="ranking-side">
@@ -50,7 +57,7 @@
     const active=isPlus();let distanceText="Entre no ranking para liberar sua análise.",levelText="Complete atividades para gerar XP.";
     if(me){
       const xp=Number(me.xp)||0;const next=idx>0?state.rows[idx-1]:null;const distance=next?Math.max(1,(Number(next.xp)||0)-xp+1):0;const toLevel=xp%100===0?100:100-(xp%100);
-      distanceText=next?`Faltam ${distance} XP para ultrapassar ${next.nome_publico||"a posição acima"}.`:"Você está no topo do ranking atual.";
+      distanceText=next?`Faltam ${distance} XP para ultrapassar ${displayName(next)}.`:"Você está no topo do ranking atual.";
       levelText=`Faltam ${toLevel} XP para a próxima faixa de nível.`;
     }
     return `<section class="ranking-plus-insight ${active?"":"ranking-plus-locked"}" id="ranking-plus-insight"><small>Análise Plus</small><h3>Próximo movimento</h3><p>Uma leitura rápida para transformar posição em meta de estudo.</p><div class="ranking-plus-insight__metric"><b>${active?"Distância no ranking":"Análise bloqueada"}</b><span>${active?esc(distanceText):"Veja quanto XP falta para alcançar a próxima posição."}</span></div><div class="ranking-plus-insight__metric"><b>${active?"Meta de nível":"Meta inteligente"}</b><span>${active?esc(levelText):"Receba uma meta baseada no seu XP atual."}</span></div></section>`;
