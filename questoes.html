@@ -17,7 +17,16 @@
     <link rel="stylesheet" href="questoes-cards-static.css?v=1">
     <link rel="stylesheet" href="roteiro-missoes.css?v=1">
     <style>
+      .sidebar{padding-top:18px!important;padding-bottom:16px!important}
       .sidebar__brand{display:none!important}
+      .sidebar__nav{display:flex;flex:1;flex-direction:column;overflow-y:auto;padding-right:2px}
+      .sidebar__group{margin:0 12px 6px!important}
+      .sidebar__group:not(:first-child){margin-top:12px!important;padding-top:12px;border-top:1px solid rgba(255,255,255,.11)}
+      .sidebar__link{min-height:40px!important;margin:1px 0!important;padding:0 12px!important;gap:10px!important;font-size:12.5px!important}
+      .sidebar__link[href*="plus.html"],.sidebar__link[href*="revisao-plus.html"]{min-height:40px!important;font-size:12.5px!important}
+      .sidebar__link[href*="revisao-plus.html"]>span:nth-child(2){width:auto!important;min-width:0!important;flex:1!important;color:inherit!important;font-size:12.5px!important;text-align:left!important;white-space:nowrap!important}
+      .sidebar__link .plus-nav-badge{flex:none!important;margin-left:auto!important;padding:2px 5px!important;font-size:8px!important;line-height:1.15!important}
+      .sidebar__logout{margin-top:10px!important;padding-top:12px!important;padding-bottom:8px!important}
       #tutorial{display:none!important;pointer-events:none!important}
       .intro__database{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
       #database-status{display:none!important}
@@ -68,6 +77,7 @@
         <a class="sidebar__link" href="./explicacoes.html"><span aria-hidden="true">✦</span> Explicações</a>
         <p class="sidebar__group">Prática</p>
         <a class="sidebar__link" href="./simulados.html"><span aria-hidden="true">✓</span> Simulados</a>
+        <a class="sidebar__link" href="./plus.html"><span aria-hidden="true">★</span> M.E.N.T.E Plus</a>
         <a class="sidebar__link" href="./jogos.html"><span aria-hidden="true">▦</span> Jogos Matemáticos</a>
         <p class="sidebar__group">Comunidade</p>
         <a class="sidebar__link" href="./ranking.html"><span aria-hidden="true">↗</span> Ranking M.E.N.T.E</a>
