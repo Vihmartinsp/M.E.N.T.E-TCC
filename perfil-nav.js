@@ -60,13 +60,13 @@
     if (!document.querySelector('link[data-mente-streak-css]')) {
       const link = document.createElement("link");
       link.rel = "stylesheet";
-      link.href = "streak-widget.css?v=1";
+      link.href = "streak-widget.css?v=2";
       link.dataset.menteStreakCss = "1";
       document.head.appendChild(link);
     }
     if (document.querySelector('script[data-mente-streak-system]')) return;
     const script = document.createElement("script");
-    script.src = "streak-widget.js?v=1";
+    script.src = "streak-widget.js?v=2";
     script.async = true;
     script.dataset.menteStreakSystem = "1";
     document.head.appendChild(script);
