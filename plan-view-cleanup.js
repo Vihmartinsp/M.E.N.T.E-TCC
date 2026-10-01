@@ -69,12 +69,14 @@
 
   normalizeStoredPreview();
   document.addEventListener('DOMContentLoaded', enforce, { once: true });
+  document.addEventListener('click', () => setTimeout(schedule, 0));
   window.addEventListener('mente:plan-updated', schedule);
   window.addEventListener('mente:role-ready', schedule);
   window.addEventListener('load', schedule, { once: true });
 
   const observer = new MutationObserver(schedule);
   observer.observe(document.documentElement, { childList: true, subtree: true });
+  setTimeout(() => observer.disconnect(), 8000);
 
   setTimeout(enforce, 0);
   setTimeout(enforce, 500);
