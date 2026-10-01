@@ -6,6 +6,7 @@
   const denied = document.querySelector("#admin-denied");
   const content = document.querySelector("#admin-content");
   const sync = document.querySelector("#admin-sync-status");
+  const STAFF_ROLES = new Set(["admin", "super_admin"]);
 
   if (!loading || !content) return;
 
@@ -49,17 +50,27 @@
     finally { clearTimeout(timer); }
   }
 
-  async function enforceSuperAdmin() {
+  async function enforceStaffAccess() {
     if (!client) { setSync("Banco indisponível", "slow"); return; }
     try {
       const { data: sessionData, error: sessionError } = await withTimeout(client.auth.getSession());
       if (sessionError) throw sessionError;
       const user = sessionData.session?.user;
       if (!user) { location.replace("./login.html"); return; }
-      const { data, error } = await withTimeout(client.from("user_roles").select("role").eq("user_id", user.id).maybeSingle());
+
+      const { data, error } = await withTimeout(
+        client.from("user_roles").select("role").eq("user_id", user.id).maybeSingle()
+      );
       if (error) throw error;
-      if (data?.role !== "super_admin") { location.replace("./questoes.html"); return; }
+
+      const role = String(data?.role || "aluno").toLowerCase();
+      if (!STAFF_ROLES.has(role)) {
+        location.replace("./questoes.html");
+        return;
+      }
+
       document.body.dataset.adminVerified = "true";
+      document.body.dataset.adminRole = role;
     } catch (error) {
       console.warn("[M.E.N.T.E Admin] Validação administrativa demorou:", error);
       setSync("Validando conta...", "slow");
@@ -67,15 +78,15 @@
   }
 
   function loadAdminPlus() {
-    if (document.querySelector('script[data-admin-plus-loader]')) return;
+    if (document.querySelector('script[src*="admin-plus.js"], script[data-admin-plus-loader]')) return;
     const script = document.createElement("script");
-    script.src = "admin-plus.js?v=1";
+    script.src = "admin-plus.js?v=2";
     script.defer = true;
     script.dataset.adminPlusLoader = "1";
     document.head.appendChild(script);
   }
 
-  enforceSuperAdmin();
+  enforceStaffAccess();
   loadAdminPlus();
 
   const autoRefreshTimer = setInterval(() => {
