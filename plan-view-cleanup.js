@@ -7,7 +7,7 @@
   function normalizeStoredPreview() {
     try {
       const saved = localStorage.getItem(PREVIEW_KEY);
-      if (!['convencional', 'plus'].includes(saved)) {
+      if (saved && !['convencional', 'plus'].includes(saved)) {
         localStorage.setItem(PREVIEW_KEY, 'convencional');
       }
     } catch {}
