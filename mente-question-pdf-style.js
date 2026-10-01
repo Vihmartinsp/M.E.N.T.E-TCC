@@ -47,15 +47,20 @@
   function wrongAlternativesHtml(text) {
     if (!text) return "";
     const matches = [...String(text).matchAll(/Alternativa\s+([A-E]):\s*([\s\S]*?)(?=Alternativa\s+[A-E]:|$)/gi)];
-    if (!matches.length) return `<p>${esc(text)}</p>`;
+    if (!matches.length) return `<p class="mente-pdf-step-line">${esc(text)}</p>`;
     return matches.map((match) => (
-      `<p class="mente-pdf-wrong-line"><strong>Alternativa ${esc(match[1].toUpperCase())}:</strong> ${esc(match[2].trim())}</p>`
+      `<p class="mente-pdf-step-line mente-pdf-wrong-line"><strong>Alternativa ${esc(match[1].toUpperCase())}:</strong> <span>${esc(match[2].trim())}</span></p>`
     )).join("");
   }
 
   function coloredLine(label, value, colorClass) {
     if (!value) return "";
     return `<p class="mente-pdf-colored-line"><strong class="${colorClass}">${esc(label)}:</strong> <span>${esc(value)}</span></p>`;
+  }
+
+  function stepLine(label, value) {
+    if (!value) return "";
+    return `<p class="mente-pdf-step-line"><strong>${esc(label)}:</strong> <span>${esc(value)}</span></p>`;
   }
 
   function explanationHtml(question, answer) {
@@ -81,23 +86,23 @@
 
         <section class="mente-pdf-step">
           <h4>2. O que precisamos perceber?</h4>
-          <div class="mente-pdf-bullets mente-pdf-teal">${esc(question.perceive).replace(/•/g, "<br>•")}</div>
+          <div class="mente-pdf-bullets">${esc(question.perceive).replace(/•/g, "<br>•")}</div>
         </section>
 
         <section class="mente-pdf-step">
           <h4>3. Onde está a armadilha?</h4>
-          ${coloredLine("Armadilha", question.trapDetail || question.trap, "mente-pdf-red-label")}
+          ${stepLine("Armadilha", question.trapDetail || question.trap)}
         </section>
 
         <section class="mente-pdf-step">
           <h4>4. Agora vamos montar a resolução</h4>
-          ${coloredLine("Estratégia", question.strategy, "mente-pdf-purple-label")}
-          ${coloredLine("Montagem", question.setup, "mente-pdf-indigo-label")}
+          ${stepLine("Estratégia", question.strategy)}
+          ${stepLine("Montagem", question.setup)}
         </section>
 
         <section class="mente-pdf-step">
           <h4>5. Resolução matemática</h4>
-          ${coloredLine("Cálculo", question.resolution, "mente-pdf-cyan-label")}
+          ${stepLine("Cálculo", question.resolution)}
         </section>
 
         <section class="mente-pdf-step">
@@ -107,12 +112,12 @@
 
         <section class="mente-pdf-step">
           <h4>7. Por que a alternativa correta está correta?</h4>
-          ${coloredLine("Resposta correta", question.correctExplanation, "mente-pdf-green-label")}
+          ${stepLine("Resposta correta", question.correctExplanation)}
         </section>
 
         <section class="mente-pdf-step">
           <h4>8. Dica M.E.N.T.E</h4>
-          ${coloredLine("Dica M.E.N.T.E", question.tip, "mente-pdf-purple-label")}
+          ${stepLine("Dica M.E.N.T.E", question.tip)}
         </section>
       </div>`;
   }
@@ -122,8 +127,6 @@
     const question = currentQuestion();
     if (!root || !question) return;
 
-    // O bloco em cartões Objetivo/Dados/Pista/Armadilha/Estratégia foi retirado
-    // de todas as questões. As mesmas cores aparecem de forma padronizada na explicação.
     root.querySelectorAll(".mente-reading").forEach((element) => element.remove());
 
     const feedback = root.querySelector("#mente-final-feedback");
