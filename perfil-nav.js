@@ -72,6 +72,15 @@
     document.head.appendChild(script);
   }
 
+  function ensurePlanViewCleanup() {
+    if (document.querySelector('script[data-mente-plan-view-cleanup]')) return;
+    const script = document.createElement("script");
+    script.src = "plan-view-cleanup.js?v=1";
+    script.async = true;
+    script.dataset.mentePlanViewCleanup = "1";
+    document.head.appendChild(script);
+  }
+
   function renameProfileLinks() {
     document.querySelectorAll('a[href*="desempenho.html"].sidebar__link').forEach((link) => {
       if (link.dataset.menteProfileNormalized === "1") return;
@@ -110,10 +119,12 @@
     applyAvatar();
     ensureAvatarSystem();
     ensureStreakSystem();
+    ensurePlanViewCleanup();
   }
 
   ensureAvatarSystem();
   ensureStreakSystem();
+  ensurePlanViewCleanup();
   refresh();
   scheduleRefresh();
 
