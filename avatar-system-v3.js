@@ -1,222 +1,685 @@
 "use strict";
 
 (() => {
-  const VERSION = 7;
+  const VERSION = 8;
+  const ENGINE = "dicebear-avataaars-v10";
+  const API_ROOT = "https://api.dicebear.com/10.x/avataaars/svg";
   const USER_KEY = "mente-demo-user";
-  const LOCAL_PREFIX = "mente-avatar-config-v1:";
-  const PROFILE_PREFIX = "mente-profile-v2:";
+  const LOCAL_PREFIX = "mente-avatar-config-v2:";
+  const LEGACY_LOCAL_PREFIX = "mente-avatar-config-v1:";
 
   const DEFAULT_CONFIG = Object.freeze({
-    skin: "warm",
-    face: "oval",
-    hair: "waves",
-    hairColor: "espresso",
-    brows: "soft",
-    eyes: "almond",
-    eyeColor: "brown",
-    nose: "button",
-    mouth: "smile",
-    faceDetail: "blush",
-    outfit: "hoodie-blue",
-    headwear: "none",
-    glasses: "none",
-    jewelry: "none",
-    background: "sky",
-    frame: "clean"
+    engine: ENGINE,
+    seed: "mente-avatar",
+    topVariant: "shortWaved",
+    hairColor: "4a312c",
+    skinColor: "edb98a",
+    eyesVariant: "happy",
+    eyebrowsVariant: "defaultNatural",
+    mouthVariant: "smile",
+    facialHairVariant: "beardLight",
+    facialHairColor: "4a312c",
+    facialHairProbability: 0,
+    accessoriesVariant: "round",
+    accessoriesColor: "262e33",
+    accessoriesProbability: 0,
+    clothesVariant: "hoodie",
+    clothesColor: "5199e4",
+    clothesGraphicVariant: "diamond",
+    backgroundColor: "dbeafe",
+    frame: "circle"
   });
 
-  const CATEGORIES = [
-    { key:"skin", label:"Pele", icon:"skin", hint:"Todos os tons são livres" },
-    { key:"face", label:"Rosto", icon:"face", hint:"Formato do rosto" },
-    { key:"hair", label:"Cabelo", icon:"hair", hint:"Cortes femininos e masculinos" },
-    { key:"hairColor", label:"Cor do cabelo", icon:"droplet", hint:"Tons naturais e especiais" },
-    { key:"brows", label:"Sobrancelhas", icon:"brows", hint:"Mude a expressão" },
-    { key:"eyes", label:"Olhos", icon:"eye", hint:"Formatos de olhos" },
-    { key:"eyeColor", label:"Cor dos olhos", icon:"iris", hint:"Escolha a cor" },
-    { key:"nose", label:"Nariz", icon:"nose", hint:"Pequenos detalhes fazem diferença" },
-    { key:"mouth", label:"Boca", icon:"mouth", hint:"Sorrisos e expressões" },
-    { key:"faceDetail", label:"Detalhes", icon:"sparkles", hint:"Blush, sardas e adesivos" },
-    { key:"outfit", label:"Roupa", icon:"shirt", hint:"Monte seu estilo" },
-    { key:"headwear", label:"Cabeça", icon:"cap", hint:"Bonés, laços e tiaras" },
-    { key:"glasses", label:"Óculos", icon:"glasses", hint:"Armações e estilos" },
-    { key:"jewelry", label:"Acessórios", icon:"gem", hint:"Colares e brincos" },
-    { key:"background", label:"Fundo", icon:"image", hint:"Cor do cartão" },
-    { key:"frame", label:"Moldura", icon:"frame", hint:"Finalize seu avatar" }
+  const SCHEMA = [
+    {
+      key: "topVariant",
+      label: "Cabelo / cabeça",
+      wide: true,
+      options: [
+        ["shortWaved", "Curto ondulado"], ["shortCurly", "Curto cacheado"], ["shortFlat", "Curto clássico"],
+        ["shortRound", "Curto arredondado"], ["theCaesar", "César"], ["theCaesarAndSidePart", "Lateral com volume"],
+        ["shavedSides", "Laterais raspadas"], ["sides", "Laterais curtas"], ["bob", "Chanel"],
+        ["longButNotTooLong", "Médio / longo"], ["straight01", "Longo liso"], ["straight02", "Liso com volume"],
+        ["straightAndStrand", "Liso com mecha"], ["curly", "Cacheado"], ["curvy", "Ondulado"],
+        ["frizzle", "Cacheado volumoso"], ["fro", "Crespo afro"], ["froBand", "Afro com faixa"],
+        ["dreads01", "Dreads curtos"], ["dreads02", "Dreads longos"], ["bun", "Coque"],
+        ["miaWallace", "Franja reta"], ["frida", "Preso com flores"], ["hat", "Chapéu"],
+        ["winterHat1", "Gorro"], ["winterHat02", "Gorro 2"], ["hijab", "Hijab"], ["turban", "Turbante"]
+      ]
+    },
+    {
+      key: "hairColor",
+      label: "Cor do cabelo",
+      color: true,
+      options: [
+        ["2c1b18", "Preto"], ["4a312c", "Castanho escuro"], ["724133", "Castanho"], ["a55728", "Castanho claro"],
+        ["b58143", "Caramelo"], ["d6b370", "Loiro"], ["c93305", "Ruivo"], ["e8e1e1", "Cinza claro"],
+        ["ecdcbf", "Platinado"], ["f59797", "Rosa suave"]
+      ]
+    },
+    {
+      key: "skinColor",
+      label: "Tom de pele",
+      color: true,
+      options: [
+        ["ffdbb4", "Muito clara"], ["edb98a", "Clara"], ["d08b5b", "Média"],
+        ["ae5d29", "Morena"], ["614335", "Escura"], ["f8d25c", "Dourada"]
+      ]
+    },
+    {
+      key: "eyesVariant",
+      label: "Olhos",
+      options: [
+        ["default", "Naturais"], ["happy", "Felizes"], ["side", "De lado"], ["squint", "Sorridentes"],
+        ["surprised", "Surpresos"], ["wink", "Piscando"], ["winkWacky", "Piscada divertida"], ["hearts", "Corações"],
+        ["closed", "Fechados"], ["eyeRoll", "Olhando para cima"]
+      ]
+    },
+    {
+      key: "eyebrowsVariant",
+      label: "Sobrancelhas",
+      options: [
+        ["defaultNatural", "Naturais"], ["default", "Clássicas"], ["flatNatural", "Retas"],
+        ["raisedExcitedNatural", "Arqueadas naturais"], ["raisedExcited", "Arqueadas"],
+        ["upDownNatural", "Expressivas"], ["frownNatural", "Marcadas"], ["sadConcernedNatural", "Suaves"]
+      ]
+    },
+    {
+      key: "mouthVariant",
+      label: "Boca / expressão",
+      options: [
+        ["smile", "Sorriso"], ["twinkle", "Sorriso delicado"], ["default", "Neutra"], ["serious", "Séria"],
+        ["disbelief", "Surpresa leve"], ["grimace", "Tímida"], ["concerned", "Preocupada"], ["tongue", "Língua de fora"]
+      ]
+    },
+    {
+      key: "facialHairVariant",
+      probabilityKey: "facialHairProbability",
+      label: "Barba / bigode",
+      optional: true,
+      options: [
+        ["beardLight", "Barba leve"], ["beardMedium", "Barba média"], ["beardMajestic", "Barba cheia"],
+        ["moustacheFancy", "Bigode fino"], ["moustacheMagnum", "Bigode marcado"]
+      ]
+    },
+    {
+      key: "facialHairColor",
+      label: "Cor da barba",
+      color: true,
+      options: [
+        ["2c1b18", "Preto"], ["4a312c", "Castanho escuro"], ["724133", "Castanho"],
+        ["a55728", "Castanho claro"], ["d6b370", "Loiro"], ["c93305", "Ruivo"]
+      ]
+    },
+    {
+      key: "accessoriesVariant",
+      probabilityKey: "accessoriesProbability",
+      label: "Óculos / acessórios",
+      optional: true,
+      options: [
+        ["round", "Redondos"], ["prescription01", "Armação clássica"], ["prescription02", "Armação moderna"],
+        ["wayfarers", "Wayfarer"], ["sunglasses", "Óculos de sol"], ["kurt", "Armação retrô"], ["eyepatch", "Tapa-olho"]
+      ]
+    },
+    {
+      key: "accessoriesColor",
+      label: "Cor dos óculos",
+      color: true,
+      options: [
+        ["262e33", "Preto"], ["3c4f5c", "Grafite"], ["5199e4", "Azul"], ["ff488e", "Rosa"],
+        ["929598", "Prata"], ["ffffff", "Branco"]
+      ]
+    },
+    {
+      key: "clothesVariant",
+      label: "Roupa",
+      options: [
+        ["hoodie", "Moletom"], ["shirtCrewNeck", "Camiseta gola redonda"], ["shirtVNeck", "Camiseta gola V"],
+        ["shirtScoopNeck", "Camiseta gola ampla"], ["collarAndSweater", "Suéter com gola"], ["blazerAndShirt", "Blazer e camisa"],
+        ["blazerAndSweater", "Blazer e suéter"], ["overall", "Jardineira"], ["graphicShirt", "Camiseta estampada"]
+      ]
+    },
+    {
+      key: "clothesColor",
+      label: "Cor da roupa",
+      color: true,
+      options: [
+        ["262e33", "Preto"], ["3c4f5c", "Grafite"], ["5199e4", "Azul"], ["65c9ff", "Azul claro"],
+        ["a7ffc4", "Verde"], ["ffafb9", "Rosa"], ["ff5c5c", "Vermelho"], ["ffffb1", "Amarelo"],
+        ["e6e6e6", "Cinza claro"], ["ffffff", "Branco"]
+      ]
+    },
+    {
+      key: "clothesGraphicVariant",
+      label: "Estampa",
+      options: [
+        ["diamond", "Diamante"], ["bear", "Urso"], ["pizza", "Pizza"], ["deer", "Cervo"],
+        ["cumbia", "Cumbia"], ["hola", "Hola"], ["bat", "Morcego"], ["skullOutline", "Caveira contorno"]
+      ]
+    },
+    {
+      key: "backgroundColor",
+      label: "Fundo",
+      color: true,
+      options: [
+        ["dbeafe", "Azul suave"], ["e0f2fe", "Céu"], ["dcfce7", "Menta"], ["fef3c7", "Creme"],
+        ["fce7f3", "Rosa suave"], ["ede9fe", "Lavanda"], ["fee2e2", "Coral suave"], ["f1f5f9", "Cinza claro"]
+      ]
+    },
+    {
+      key: "frame",
+      label: "Moldura",
+      options: [["circle", "Circular"], ["rounded", "Arredondada"], ["soft-square", "Quadrada suave"]]
+    }
   ];
 
-  const OPTIONS = {
-    skin: [
-      ["porcelain","Porcelana","#F7D9C4"],["light","Clara","#EFC5A4"],["peach","Pêssego","#E9AE86"],
-      ["warm","Quente","#D99B6C"],["golden","Dourada","#BF7D50"],["brown","Marrom","#895837"],["deep","Profunda","#56351F"]
-    ].map(([id,label,sample])=>({id,label,sample})),
-    face: [["oval","Oval"],["round","Redondo"],["soft-square","Quadrado suave"],["heart","Coração"],["diamond","Diamante"],["long","Alongado"]].map(([id,label])=>({id,label})),
-    hair: [
-      ["short","Curto clássico"],["quiff","Curto com volume"],["side-swept","Curto lateral"],["crop","Curto repicado"],
-      ["pixie","Pixie natural"],["short-curls","Curto cacheado"],["bob","Chanel"],["lob","Médio reto"],
-      ["straight","Longo liso"],["waves","Longo ondulado"],["curls","Longo cacheado"],["ringlets","Cacheado volumoso"],["afro","Crespo natural"],
-      ["bangs","Franja reta"],["curtain","Franja cortina"],["pony","Rabo alto"],["low-pony","Rabo baixo"],
-      ["bun","Coque alto"],["half-up","Meio preso","plus"],["braid","Trança lateral"],["twin-braids","Duas tranças"],
-      ["space-buns","Coques duplos","plus"],["side-pony","Rabo lateral","plus"]
-    ].map(([id,label,access])=>({id,label,access})),
-    hairColor: [
-      ["black","Preto","#17191F"],["espresso","Café","#3A241C"],["chestnut","Castanho","#70412A"],["caramel","Caramelo","#A9683B"],
-      ["blonde","Loiro","#E2BE79"],["copper","Ruivo","#B85234"],["gray","Cinza","#9A99A0"],["white","Branco","#E9E5E2"],
-      ["blue","Azul","#315B9D","plus"],["pink","Rosa","#E97991","plus"],["purple","Roxo","#7447B8","plus"]
-    ].map(([id,label,sample,access])=>({id,label,sample,access})),
-    brows: [["soft","Suaves"],["straight","Retas"],["arched","Arqueadas"],["thick","Marcadas"],["feather","Naturais"],["short","Curtas"]].map(([id,label])=>({id,label})),
-    eyes: [["round","Redondos"],["almond","Amendoados"],["doe","Grandes"],["cat","Gatinho"],["soft","Suaves"],["happy","Felizes"],["focused","Focados"],["sparkle","Brilhantes","plus"]].map(([id,label,access])=>({id,label,access})),
-    eyeColor: [
-      ["dark","Pretos","#241A17"],["brown","Castanhos","#6A3D26"],["hazel","Mel","#8D6B34"],["green","Verdes","#587447"],
-      ["blue","Azuis","#456B97"],["gray","Cinza","#747C86"],["violet","Violeta","#6E4D91","plus"]
-    ].map(([id,label,sample,access])=>({id,label,sample,access})),
-    nose: [["button","Botão"],["tiny","Pequeno"],["straight","Reto"],["rounded","Arredondado"],["broad","Largo"],["narrow","Fino"]].map(([id,label])=>({id,label})),
-    mouth: [["smile","Sorriso"],["grin","Animado"],["soft","Delicado"],["lips","Lábios"],["calm","Calmo"],["cheeky","Confiante"],["open","Sorriso aberto"]].map(([id,label])=>({id,label})),
-    faceDetail: [
-      ["none","Sem detalhe"],["blush","Blush"],["freckles","Sardas"],["freckles-light","Sardinhas"],["hearts","Corações","points100"],
-      ["stars","Estrelinhas","plus"],["beauty-mark","Pintinha"]
-    ].map(([id,label,access])=>({id,label,access})),
-    outfit: [
-      ["tee-white","Camiseta branca"],["tee-black","Camiseta preta"],["tee-pink","Camiseta rosa"],["tee-green","Camiseta verde"],
-      ["hoodie-cream","Moletom creme"],["hoodie-pink","Moletom rosa"],["hoodie-blue","Moletom azul"],["sweater-knit","Suéter trançado"],
-      ["shirt-blue","Camisa azul"],["plaid","Xadrez"],["denim","Jaqueta jeans","plus"],["varsity","Jaqueta universitária","plus"],
-      ["sailor","Gola marinheiro","plus"],["dress-pink","Vestido rosa","plus"],["overalls","Jardineira","plus"],["champion","Campeão M.E.N.T.E","level5"]
-    ].map(([id,label,access])=>({id,label,access})),
-    headwear: [
-      ["none","Sem item"],["cap-beige","Boné bege"],["cap-black","Boné preto"],["beanie-red","Gorro vermelho"],["bucket","Bucket hat"],
-      ["beret","Boina"],["headband","Tiara"],["bow-red","Laço vermelho"],["bow-pink","Laço rosa"],["study-cap","Boné de sequência","streak7"],
-      ["crown","Coroa","plus"],["bunny","Orelhas de coelho","plus"]
-    ].map(([id,label,access])=>({id,label,access})),
-    glasses: [
-      ["none","Sem óculos"],["round-black","Redondo preto"],["round-gold","Redondo dourado"],["square","Quadrado"],["pink","Rosa"],
-      ["cat-eye","Gatinho","plus"],["hearts","Corações","plus"],["sun","Óculos de sol","plus"]
-    ].map(([id,label,access])=>({id,label,access})),
-    jewelry: [
-      ["none","Sem acessório"],["pearl","Colar de pérolas"],["gold-pendant","Pingente dourado"],["moon","Lua prateada"],["hoops-gold","Argolas douradas"],
-      ["hoops-silver","Argolas prateadas"],["cherries","Cerejinhas","plus"],["heart-earrings","Corações","plus"],["headphones","Fones","plus"]
-    ].map(([id,label,access])=>({id,label,access})),
-    background: [
-      ["sky","Céu","#DDEBFF"],["mint","Menta","#DCF7EC"],["peach-bg","Pêssego","#FFE6D8"],["lavender-bg","Lavanda","#EEE5FF"],
-      ["cream","Creme","#FFF4DE"],["scholar","Conquista 100","#D9F3FF","points100"],["sunset","Pôr do sol","#F4B1B8","plus"],["galaxy","Galáxia","#463A8C","plus"]
-    ].map(([id,label,sample,access])=>({id,label,sample,access})),
-    frame: [["clean","Clássica","#FFFFFF"],["silver","Prata","#B7C3D3"],["gold","Ouro por nível","#E4B83F","level5"],["neon","Plus Neon","#7C3AED","plus"]].map(([id,label,sample,access])=>({id,label,sample,access}))
+  const LEGACY_MAP = {
+    skin: { porcelain:"ffdbb4", light:"ffdbb4", peach:"edb98a", warm:"edb98a", golden:"d08b5b", brown:"ae5d29", deep:"614335" },
+    hair: { short:"shortFlat", quiff:"theCaesarAndSidePart", "side-swept":"shortWaved", crop:"shortRound", pixie:"shortWaved", "short-curls":"shortCurly", bob:"bob", lob:"longButNotTooLong", straight:"straight01", waves:"curvy", curls:"curly", ringlets:"frizzle", afro:"fro", bangs:"miaWallace", curtain:"straightAndStrand", pony:"longButNotTooLong", "low-pony":"longButNotTooLong", bun:"bun", "half-up":"frida", braid:"dreads01", "twin-braids":"dreads02", "space-buns":"bun", "side-pony":"longButNotTooLong" },
+    hairColor: { black:"2c1b18", espresso:"4a312c", chestnut:"724133", caramel:"a55728", blonde:"d6b370", copper:"c93305", gray:"e8e1e1", white:"ecdcbf", pink:"f59797", blue:"2c1b18", purple:"4a312c" },
+    brows: { soft:"defaultNatural", straight:"flatNatural", arched:"raisedExcitedNatural", thick:"frownNatural", feather:"defaultNatural", short:"default" },
+    eyes: { round:"default", almond:"default", doe:"happy", cat:"side", soft:"happy", happy:"happy", focused:"squint", sparkle:"hearts" },
+    mouth: { smile:"smile", grin:"twinkle", soft:"smile", lips:"default", calm:"default", cheeky:"twinkle", open:"smile" },
+    outfit: { "tee-white":"shirtCrewNeck", "tee-black":"shirtCrewNeck", "tee-pink":"shirtScoopNeck", "tee-green":"shirtCrewNeck", "hoodie-cream":"hoodie", "hoodie-pink":"hoodie", "hoodie-blue":"hoodie", "sweater-knit":"collarAndSweater", "shirt-blue":"blazerAndShirt", plaid:"shirtCrewNeck", denim:"blazerAndShirt", varsity:"blazerAndSweater", sailor:"shirtScoopNeck", "dress-pink":"shirtScoopNeck", overalls:"overall", champion:"graphicShirt" },
+    glasses: { "round-black":"round", "round-gold":"round", square:"prescription01", pink:"prescription02", "cat-eye":"wayfarers", hearts:"round", sun:"sunglasses" },
+    background: { sky:"dbeafe", mint:"dcfce7", "peach-bg":"fee2e2", "lavender-bg":"ede9fe", cream:"fef3c7", scholar:"e0f2fe", sunset:"fce7f3", galaxy:"ede9fe" }
   };
 
-  const COLORS = {
-    skin:{porcelain:"#F7D9C4",light:"#EFC5A4",peach:"#E9AE86",warm:"#D99B6C",golden:"#BF7D50",brown:"#895837",deep:"#56351F"},
-    hair:{black:"#17191F",espresso:"#3A241C",chestnut:"#70412A",caramel:"#A9683B",blonde:"#E2BE79",copper:"#B85234",gray:"#9A99A0",white:"#E9E5E2",blue:"#315B9D",pink:"#E97991",purple:"#7447B8"},
-    eyes:{dark:"#241A17",brown:"#6A3D26",hazel:"#8D6B34",green:"#587447",blue:"#456B97",gray:"#747C86",violet:"#6E4D91"}
+  const state = {
+    config: { ...DEFAULT_CONFIG },
+    savedConfig: null,
+    user: null,
+    hasCustom: false,
+    saving: false,
+    localUpdatedAt: 0,
+    remoteLoaded: false
   };
-  const BACKGROUNDS = {sky:["#E8F1FF","#BFD5FF"],mint:["#E9F9F1","#C5EFD9"],"peach-bg":["#FFF0E7","#FFD3BC"],"lavender-bg":["#F3EDFF","#DACBFF"],cream:["#FFF9EE","#F7E5C7"],scholar:["#E2F7FF","#A8DFFF"],sunset:["#FFD9C9","#F4A8C7"],galaxy:["#2F2C68","#7252B8"]};
-  const state={config:{...DEFAULT_CONFIG},savedConfig:null,hasCustom:false,user:null,metrics:{points:0,streak:0,level:1},activeTab:"skin",remoteLoaded:false,saving:false};
 
-  function readJson(key,fallback=null){try{return JSON.parse(localStorage.getItem(key)||"null")??fallback}catch{return fallback}}
-  function saveJson(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch{}}
-  function currentUser(){return readJson(USER_KEY,null)}
-  function localKey(email){return `${LOCAL_PREFIX}${String(email||"local").trim().toLowerCase()}`}
-  function profileKey(email){return `${PROFILE_PREFIX}${String(email||"local").trim().toLowerCase()}`}
-  function option(category,id){return(OPTIONS[category]||[]).find(item=>item.id===id)}
-  function normalizeLegacy(raw){if(!raw||typeof raw!=="object")return raw;const next={...raw};if(raw.accessory){if(["glasses","round-glasses"].includes(raw.accessory))next.glasses=raw.accessory==="glasses"?"square":"round-black";if(raw.accessory==="star-clip")next.faceDetail="stars";if(raw.accessory==="study-cap")next.headwear="study-cap";if(raw.accessory==="headphones")next.jewelry="headphones";if(raw.accessory==="crown")next.headwear="crown"}if(raw.background==="peach")next.background="peach-bg";return next}
-  function validConfig(raw){raw=normalizeLegacy(raw);if(!raw||typeof raw!=="object")return null;const clean={...DEFAULT_CONFIG};for(const category of CATEGORIES){if(option(category.key,raw[category.key]))clean[category.key]=raw[category.key]}return clean}
-  function isPlus(){return Boolean(window.MENTE_PLUS?.isActive?.())||document.documentElement.dataset.mentePlan==="plus"}
-  function accessStatus(item){const access=item?.access||"free";if(access==="free")return{unlocked:true,badge:"Livre",kind:"free",reason:""};if(access==="plus")return isPlus()?{unlocked:true,badge:"PLUS",kind:"plus",reason:""}:{unlocked:false,badge:"PLUS",kind:"plus",reason:"Exclusivo do M.E.N.T.E Plus"};if(access==="points100")return state.metrics.points>=100?{unlocked:true,badge:"MÉRITO",kind:"merit",reason:""}:{unlocked:false,badge:"MÉRITO",kind:"merit",reason:`Desbloqueie ao alcançar 100 pontos (${state.metrics.points}/100)`};if(access==="streak7")return state.metrics.streak>=7?{unlocked:true,badge:"MÉRITO",kind:"merit",reason:""}:{unlocked:false,badge:"MÉRITO",kind:"merit",reason:`Desbloqueie com 7 dias de sequência (${state.metrics.streak}/7)`};if(access==="level5")return state.metrics.level>=5?{unlocked:true,badge:"MÉRITO",kind:"merit",reason:""}:{unlocked:false,badge:"MÉRITO",kind:"merit",reason:`Desbloqueie no nível 5 (nível ${state.metrics.level})`};return{unlocked:true,badge:"Livre",kind:"free",reason:""}}
-  function uid(){return`av${Math.random().toString(36).slice(2,8)}`}
-  function escAttr(value){return String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+  function readJson(key, fallback = null) {
+    try { return JSON.parse(localStorage.getItem(key) || "null") ?? fallback; }
+    catch { return fallback; }
+  }
 
-  function adjustHex(hex,amount){const clean=String(hex||"#000000").replace("#","");const value=parseInt(clean.length===3?clean.split("").map(char=>char+char).join(""):clean,16)||0;const channel=shift=>Math.max(0,Math.min(255,shift+amount));return`#${[channel(value>>16),channel((value>>8)&255),channel(value&255)].map(part=>part.toString(16).padStart(2,"0")).join("")}`}
-  function uiIcon(name){const icons={
-    skin:'<path d="M12 3c3.9 0 7 3.2 7 7.1 0 5.2-3.1 10.7-7 10.7s-7-5.5-7-10.7C5 6.2 8.1 3 12 3Z"/><path d="M8.8 10.3h.1M15.1 10.3h.1M9.4 15c1.7 1.3 3.5 1.3 5.2 0"/>',
-    face:'<path d="M12 3.2c4 0 7.1 3.1 7.1 7.1 0 5.3-3.1 10.5-7.1 10.5s-7.1-5.2-7.1-10.5c0-4 3.1-7.1 7.1-7.1Z"/><path d="M8.7 10.2h.1M15.2 10.2h.1M9.6 15.2c1.6 1 3.2 1 4.8 0"/>',
-    hair:'<path d="M4.2 12.2C4.2 6.5 7.4 3 12 3s7.8 3.5 7.8 9.2v6.4M4.2 12.2c1.2-.3 2.8-1.2 4.1-2.8 1.7 1.2 3.9 1.2 5.7-.4 1.5 1.4 3.2 2.1 5.8 2.5M6.2 11.6v7M17.8 11.4v7.2"/>',
-    droplet:'<path d="M12 2.7s6 6.5 6 11.2a6 6 0 1 1-12 0C6 9.2 12 2.7 12 2.7Z"/><path d="M9 15.1a3.2 3.2 0 0 0 3 2.1"/>',
-    brows:'<path d="M3.5 10c2.7-2.1 5.4-2.2 8-.4M20.5 10c-2.7-2.1-5.4-2.2-8-.4"/><path d="M4.7 14.4c1.9 1.4 3.8 1.4 5.7 0M19.3 14.4c-1.9 1.4-3.8 1.4-5.7 0"/>',
-    eye:'<path d="M2.5 12s3.4-5 9.5-5 9.5 5 9.5 5-3.4 5-9.5 5-9.5-5-9.5-5Z"/><circle cx="12" cy="12" r="2.8"/>',
-    iris:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.2"/><path d="M12 4V2M12 22v-2M4 12H2M22 12h-2"/>',
-    nose:'<path d="M12 4.2c-.2 4.3-2.4 8.8-2.1 11.2.3 2.2 4.8 2.5 5.4.2M8.1 18.3c2.6 1.8 5.2 1.8 7.8 0"/>',
-    mouth:'<path d="M4 12c2.2-1 4.5-3.5 8-.8 3.5-2.7 5.8-.2 8 .8-2.5 4.9-13.5 4.9-16 0Z"/><path d="M6 12.6h12"/>',
-    sparkles:'<path d="m12 2 1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5L12 2ZM19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8L19 14ZM5 13l.8 2.2L8 16l-2.2.8L5 19l-.8-2.2L2 16l2.2-.8L5 13Z"/>',
-    shirt:'<path d="m8 4 4 2 4-2 5 4.2-3 3.1-1.5-1V21h-9V10.3l-1.5 1-3-3.1L8 4Z"/>',
-    cap:'<path d="M5 12.5V10a7 7 0 0 1 14 0v2.5M5 12.5c4.9-1.4 9.5-1.4 14 0M19 12.5c1.4.2 2.3.7 3 1.5-3.5.8-6 .8-8 0"/>',
-    glasses:'<circle cx="7" cy="12" r="4"/><circle cx="17" cy="12" r="4"/><path d="M11 11h2M3 10 1.5 9M21 10l1.5-1"/>',
-    gem:'<path d="m7 4-4 5 9 11 9-11-4-5H7Z"/><path d="m3 9 9 3 9-3M7 4l5 8 5-8"/>',
-    image:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8" cy="9" r="1.5"/><path d="m4 18 5-5 3 3 2-2 6 5"/>',
-    frame:'<rect x="3" y="3" width="18" height="18" rx="3"/><rect x="7" y="7" width="10" height="10" rx="1"/>',
-    star:'<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2-5.5-2.9-5.5 2.9 1-6.2L3 9.6l6.2-.9L12 3Z"/>',
-    flame:'<path d="M13 2.5c.5 4-3.5 5.2-3.5 8.5 0 1.1.6 2 1.5 2.6-.2-2.2 1.3-3.3 2.8-4.8 2.8 2.3 4.2 4.4 4.2 7A6 6 0 0 1 6 16c0-4.9 2.9-8.9 7-13.5Z"/>',
-    shuffle:'<path d="M3 7h3.5c4.5 0 5 10 9.5 10h5M18 14l3 3-3 3M3 17h3.5c1.7 0 2.9-1.5 4-3.3M14 7.6c.6-.4 1.2-.6 2-.6h5M18 4l3 3-3 3"/>',
-    rotate:'<path d="M20 7v5h-5M4.7 17A8 8 0 0 0 20 12M4 12a8 8 0 0 1 14.7-4.3"/>',
-    lock:'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/>',
-    unlock:'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 7.4-2.1M12 14v3"/>',
-    check:'<path d="m4 12 5 5L20 6"/>',
-    award:'<circle cx="12" cy="9" r="6"/><path d="m8 14-2 7 6-3 6 3-2-7M12 6v6M9 9h6"/>',
-    plus:'<path d="M12 5v14M5 12h14"/>'
-  };return`<svg class="mente-ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${icons[name]||icons.sparkles}</svg>`}
+  function writeJson(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); }
+    catch {}
+  }
 
-  function faceShape(id,skin){if(id==="round")return`<circle cx="100" cy="88" r="48" fill="${skin}"/>`;if(id==="soft-square")return`<rect x="55" y="38" width="90" height="106" rx="34" fill="${skin}"/>`;if(id==="heart")return`<path d="M100 145C72 143 54 119 54 83c0-30 18-47 46-47s46 17 46 47c0 37-18 60-46 62z" fill="${skin}"/>`;if(id==="diamond")return`<path d="M100 35c28 0 48 19 48 49 0 31-19 53-48 62-29-9-48-31-48-62 0-30 20-49 48-49z" fill="${skin}"/>`;if(id==="long")return`<ellipse cx="100" cy="88" rx="42" ry="57" fill="${skin}"/>`;return`<ellipse cx="100" cy="88" rx="46" ry="53" fill="${skin}"/>`}
-  function curlCluster(points,fill,dark,shine){return`<g>${points.map(([x,y,r,turn=0])=>`<g transform="rotate(${turn} ${x} ${y})"><ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*.9}" fill="${fill}" stroke="${dark}" stroke-width="1"/><path d="M${x-r*.52} ${y+r*.06}c${r*.08}-${r*.5} ${r*.62}-${r*.68} ${r*.88}-${r*.3} ${r*.24} ${r*.36}-${r*.08} ${r*.72}-${r*.46} ${r*.6}-${r*.31}-.1-${r*.3}-.48-${r*.02}-.68" fill="none" stroke="${shine}" stroke-width="${Math.max(1.2,r*.16)}" stroke-linecap="round" opacity=".38"/><circle cx="${x-r*.24}" cy="${y-r*.28}" r="${Math.max(1.2,r*.12)}" fill="${shine}" opacity=".2"/></g>`).join("")}</g>`}
-  function hairBack(style,color,gid){const fill=`url(#${gid}hair)`,dark=adjustHex(color,-24),shine=adjustHex(color,32),strand=paths=>`<g fill="none" stroke="${shine}" stroke-width="2.2" stroke-linecap="round" opacity=".22">${paths}</g>`;
-    if(["straight","bangs","curtain"].includes(style))return`<path d="M45 82C45 39 66 16 100 16s55 23 55 66l7 83c-8 8-19 14-31 17l-8-96H77l-8 96c-12-3-23-9-31-17z" fill="${fill}" stroke="${dark}" stroke-width="1.3"/>${strand('<path d="M60 55c-5 34-2 76-3 108M140 55c5 34 2 76 3 108M72 38c-8 30-6 80-5 119M128 38c8 30 6 80 5 119"/>')}`;
-    if(style==="lob")return`<path d="M46 79c0-40 21-62 54-62s54 22 54 62l3 62c-8 8-18 12-31 13l-4-70H78l-4 70c-13-1-23-5-31-13z" fill="${fill}" stroke="${dark}" stroke-width="1.3"/>${strand('<path d="M62 51c-4 31-2 59-1 88M138 51c4 31 2 59 1 88"/>')}`;
-    if(style==="bob")return`<path d="M47 78c0-39 20-61 53-61s53 22 53 61l3 45c-8 10-20 16-34 17l-3-58H81l-3 58c-14-1-26-7-34-17z" fill="${fill}" stroke="${dark}" stroke-width="1.3"/>${strand('<path d="M62 50c-3 26-1 51 1 72M138 50c3 26 1 51-1 72"/>')}`;
-    if(style==="waves")return`<path d="M45 79c0-40 22-63 55-63s55 23 55 63c0 18 10 25 4 39-4 10-13 12-10 24 3 11-4 25-20 34-8-11-3-21-6-31-4-13-10-20-5-31 5-12 7-19 5-32H77c-2 13 0 20 5 32 5 11-1 18-5 31-3 10 2 20-6 31-16-9-23-23-20-34 3-12-6-14-10-24-6-14 4-21 4-39z" fill="${fill}" stroke="${dark}" stroke-width="1.3"/>${strand('<path d="M60 48c-8 27 9 37 1 59-6 17 8 23 1 42M140 48c8 27-9 37-1 59 6 17-8 23-1 42"/>')}`;
-    if(style==="curls")return`<g fill="${fill}" stroke="${dark}" stroke-width="1"><path d="M47 80c0-40 21-64 53-64s53 24 53 64l4 74c-7 13-18 20-32 23l-7-94H82l-7 94c-14-3-25-10-32-23z"/><g><circle cx="52" cy="87" r="12"/><circle cx="50" cy="109" r="12"/><circle cx="54" cy="133" r="12"/><circle cx="58" cy="157" r="12"/><circle cx="148" cy="87" r="12"/><circle cx="150" cy="109" r="12"/><circle cx="146" cy="133" r="12"/><circle cx="142" cy="157" r="12"/></g></g>${strand('<path d="M57 77c-9 8-8 19 1 25-11 8-11 19-1 26-10 8-9 19 1 25M143 77c9 8 8 19-1 25 11 8 11 19 1 26 10 8 9 19-1 25"/>')}`;
-    if(style==="ringlets"){const curls=[[53,68,11,-12],[49,84,11,8],[48,101,11,-7],[49,118,11,10],[51,135,11,-8],[56,151,10,12],[64,161,9,-8],[147,68,11,12],[151,84,11,-8],[152,101,11,7],[151,118,11,-10],[149,135,11,8],[144,151,10,-12],[136,161,9,8],[61,52,11,10],[68,39,11,-9],[80,28,11,8],[94,21,11,-7],[108,22,11,10],[122,29,11,-8],[134,40,11,7],[142,53,11,-9]];return`<path d="M47 80C47 39 68 17 100 17s53 22 53 63l4 67c-7 13-18 21-31 25l-7-91H81l-7 91c-13-4-24-12-31-25z" fill="${dark}" opacity=".98"/>${curlCluster(curls,fill,dark,shine)}`}
-    if(style==="afro")return`<g fill="${fill}" stroke="${dark}" stroke-width="1"><circle cx="100" cy="61" r="48"/><circle cx="55" cy="68" r="22"/><circle cx="67" cy="39" r="24"/><circle cx="91" cy="28" r="24"/><circle cx="117" cy="29" r="24"/><circle cx="139" cy="44" r="23"/><circle cx="148" cy="70" r="21"/></g>${strand('<path d="M52 67c8-7 16-7 24 0M75 40c8-7 16-7 24 0M102 31c8-7 16-7 24 0M128 50c8-7 16-7 23 0"/>')}`;
-    if(style==="pony")return`<path d="M134 45c24 1 39 16 38 38-1 15-10 23-8 38 2 17-4 32-20 46-12-13-13-28-5-43 8-16-2-24-2-38 0-18 2-27-3-41z" fill="${fill}" stroke="${dark}" stroke-width="1.4"/>${strand('<path d="M151 60c8 21-5 33 1 56 3 11 0 23-6 33"/>')}`;
-    if(style==="low-pony")return`<path d="M139 78c24 8 31 28 21 49-7 14-18 25-18 40-16-10-22-27-14-43 8-17 8-29 1-40z" fill="${fill}" stroke="${dark}" stroke-width="1.4"/>${strand('<path d="M145 94c8 18-6 36-5 56"/>')}`;
-    if(style==="side-pony")return`<path d="M143 68c24 5 34 22 27 42-4 13-16 20-17 33-1 12 7 18 13 22-22 2-34-10-31-27 3-20 13-31 5-49z" fill="${fill}" stroke="${dark}" stroke-width="1.4"/>${strand('<path d="M151 82c6 17-6 30-7 47-1 11 4 19 11 24"/>')}`;
-    if(style==="bun")return`<path d="M76 32c-4-14 8-27 25-27 18 0 30 13 25 29 10 8 4 22-8 23H83c-13-2-17-17-7-25z" fill="${fill}" stroke="${dark}" stroke-width="1.4"/>${strand('<path d="M84 29c7-12 24-15 34-3M83 39c12-8 25-7 36 2"/>')}`;
-    if(style==="half-up")return`${hairBack("waves",color,gid)}<path d="M82 30c-2-12 7-21 19-21 14 0 22 10 18 23 7 6 3 17-7 19H89c-10-2-14-14-7-21z" fill="${fill}" stroke="${dark}" stroke-width="1.2"/>`;
-    if(style==="space-buns")return`<path d="M42 45c-8-10-1-25 13-28 13-3 25 5 24 18 8 7 3 19-8 22H53c-8-1-13-5-11-12zM158 45c8-10 1-25-13-28-13-3-25 5-24 18-8 7-3 19 8 22h18c8-1 13-5 11-12z" fill="${fill}" stroke="${dark}" stroke-width="1.3"/>${strand('<path d="M49 41c5-12 17-16 25-8M151 41c-5-12-17-16-25-8"/>')}`;
-    if(style==="braid")return`<path d="M142 75c11 10 14 23 7 35 10 9 8 23-2 31 7 10 3 23-8 29-12-7-14-19-7-29-9-9-9-21-1-31-8-13-5-26 11-35z" fill="${fill}" stroke="${dark}" stroke-width="1.3"/><path d="M137 90c12 7 12 15 1 22 12 7 12 15 1 23 11 8 10 16 0 23" fill="none" stroke="${shine}" stroke-width="3" opacity=".28"/>`;
-    if(style==="twin-braids")return`<g fill="${fill}" stroke="${dark}" stroke-width="1.2"><path d="M58 75c-11 10-14 23-7 35-10 9-8 23 2 31-7 10-3 23 8 29 12-7 14-19 7-29 9-9 9-21 1-31 8-13 5-26-11-35z"/><path d="M142 75c11 10 14 23 7 35 10 9 8 23-2 31 7 10 3 23-8 29-12-7-14-19-7-29-9-9-9-21-1-31-8-13-5-26 11-35z"/></g><g fill="none" stroke="${shine}" stroke-width="3" opacity=".26"><path d="M63 90c-12 7-12 15-1 22-12 7-12 15-1 23-11 8-10 16 0 23M137 90c12 7 12 15 1 22 12 7 12 15 1 23 11 8 10 16 0 23"/></g>`;
-    return""}
-  function hairFront(style,color,gid){const fill=`url(#${gid}hair)`,dark=adjustHex(color,-24),shine=adjustHex(color,38),stroke=paths=>`<g fill="none" stroke="${shine}" stroke-width="2" stroke-linecap="round" opacity=".28">${paths}</g>`,swept=`<path d="M51 69c3-33 24-53 51-53 28 0 45 18 48 49-13-2-26-10-35-23-14 14-34 23-64 27z" fill="${fill}" stroke="${dark}" stroke-width="1.2"/>`;
-    if(style==="short")return`${swept}<path d="M57 58c10-22 29-34 51-35-9 7-14 15-17 24-9 7-20 11-34 11z" fill="${shine}" opacity=".12"/>${stroke('<path d="M67 50c11-14 24-22 39-25M89 50c14-10 25-17 33-20M113 43c9 7 17 11 26 13"/>')}`;
-    if(style==="quiff")return`<path d="M50 70c2-27 15-44 35-50 0-12 13-19 26-16-2 5-2 9 1 12 20 4 34 21 38 47-14-1-27-7-37-18-13 14-35 22-63 25z" fill="${fill}" stroke="${dark}" stroke-width="1.2"/>${stroke('<path d="M68 54c8-19 23-31 42-37M91 51c11-13 26-20 40-18M115 44c8 7 15 11 23 14"/>')}`;
-    if(style==="side-swept")return`<path d="M50 69c4-34 26-53 55-52 27 1 43 18 46 47-18-1-32-7-43-18-8 13-25 22-40 22-6 9-12 15-18 18 2-7 2-12 0-17z" fill="${fill}" stroke="${dark}" stroke-width="1.2"/>${stroke('<path d="M63 57c14-18 35-29 61-31M83 60c16-13 32-20 48-21M111 45c9 8 18 13 29 15"/>')}`;
-    if(style==="crop")return`<path d="M51 68c5-30 24-47 51-48 25-1 42 14 48 40-11-1-19-4-27-9l-8 7-10-8-12 9-11-8-13 10-18 7z" fill="${fill}" stroke="${dark}" stroke-width="1.2"/>${stroke('<path d="m65 49 11-12 4 15 14-18 3 17 17-15 1 17 14-9M85 32l5-12 7 13M117 34l8-9"/>')}`;
-    if(style==="pixie")return`<path d="M52 67c7-29 26-45 51-45 24 0 40 14 47 39-17-3-29-9-38-18-8 11-21 18-36 16-8 6-16 9-24 8z" fill="${fill}" stroke="${dark}" stroke-width="1.2"/><path d="M54 60c7 3 12 10 11 20 8-7 12-15 11-24" fill="${fill}"/>${stroke('<path d="M66 51c11-15 27-23 44-24M89 51c13-10 26-15 39-13"/>')}`;
-    if(style==="short-curls")return`<g fill="${fill}" stroke="${dark}" stroke-width="1"><circle cx="58" cy="58" r="14"/><circle cx="66" cy="39" r="15"/><circle cx="86" cy="27" r="16"/><circle cx="108" cy="26" r="17"/><circle cx="130" cy="36" r="16"/><circle cx="143" cy="54" r="15"/><circle cx="52" cy="74" r="12"/><circle cx="148" cy="72" r="12"/></g>${stroke('<path d="M58 57c8-8 16-8 23 0M78 38c8-8 16-8 24 0M104 31c8-7 16-7 24 0M127 48c7-7 14-7 21 0"/>')}`;
-    if(style==="ringlets"){const frame=[[58,62,10,-8],[53,78,10,8],[52,96,10,-8],[53,114,10,8],[55,132,10,-9],[60,148,9,9],[142,62,10,8],[147,78,10,-8],[148,96,10,8],[147,114,10,-8],[145,132,10,9],[140,148,9,-9],[66,47,10,8],[75,35,10,-8],[87,27,10,7],[100,24,10,-7],[113,28,10,7],[125,36,10,-8],[135,48,10,8]];return`${curlCluster(frame,fill,dark,shine)}<path d="M63 58c8-19 21-29 37-31 16 2 29 12 37 31-8-3-15-8-22-15-5 6-10 9-15 9s-10-3-15-9c-7 7-14 12-22 15z" fill="${fill}" stroke="${dark}" stroke-width="1"/>`}
-    if(style==="afro")return`<path d="M48 74c1-36 22-58 52-58 31 0 51 22 52 58-11-7-21-16-27-28-7 8-16 11-25 10-10 1-18-2-25-10-6 12-16 21-27 28z" fill="${fill}" stroke="${dark}" stroke-width="1.2"/>${stroke('<path d="M59 57c8-9 17-10 26-3M82 36c9-8 19-8 28 0M108 35c9-7 18-6 26 2M127 55c8-7 15-6 21 1"/>')}`;
-    if(style==="bangs")return`<path d="M48 72c2-36 22-56 52-56 31 0 50 21 52 56-9-6-17-15-21-26-7 7-14 9-22 4-8 8-17 10-26 4-8 9-20 15-35 18z" fill="${fill}" stroke="${dark}" stroke-width="1.2"/><path d="M62 45c10-16 23-23 38-23 16 0 29 7 39 23l-3 20-9 8-9-6-9 7-9-8-10 8-9-7-10 6-9-8z" fill="${fill}"/>${stroke('<path d="M75 43v22M88 37l2 29M101 34v31M114 38l-3 28M128 44l-4 21"/>')}`;
-    if(style==="curtain")return`<path d="M48 72c2-36 22-56 52-56 31 0 50 21 52 56-12-4-22-12-29-25-6 5-12 7-18 7l-5-23-5 23c-7 0-13-2-19-7-7 13-16 21-28 25z" fill="${fill}" stroke="${dark}" stroke-width="1.2"/><path d="M100 27c-9 12-17 25-29 38-5 6-8 14-8 25 13-6 23-18 27-31l10-32zm0 0c9 12 17 25 29 38 5 6 8 14 8 25-13-6-23-18-27-31l-10-32z" fill="${fill}"/>${stroke('<path d="M94 33c-8 12-15 24-24 34M106 33c8 12 15 24 24 34"/>')}`;
-    if(["bob","lob","straight","waves","curls"].includes(style)){const side=style==="curls"?`<path d="M53 58c-7 12-5 21 3 27-9 8-8 18 0 25M147 58c7 12 5 21-3 27 9 8 8 18 0 25" fill="none" stroke="${fill}" stroke-width="12" stroke-linecap="round"/>`:"";return`<path d="M48 72c2-36 22-56 52-56 31 0 50 21 52 56-12-4-22-12-29-25-7 6-14 8-23 7-9 1-16-1-23-7-7 13-17 21-29 25z" fill="${fill}" stroke="${dark}" stroke-width="1.2"/><path d="M100 22c-13 7-23 19-31 37M100 22c13 7 23 19 31 37" fill="none" stroke="${shine}" stroke-width="2.2" opacity=".25"/>${side}`}
-    if(["pony","low-pony","bun","half-up","braid","twin-braids","space-buns","side-pony"].includes(style))return`<path d="M51 70c3-33 23-52 49-52 28 0 46 19 49 50-13-3-25-11-34-24-8 8-18 13-29 15-10 7-22 11-35 11z" fill="${fill}" stroke="${dark}" stroke-width="1.2"/>${stroke('<path d="M66 56c12-18 30-29 52-30M90 56c14-11 28-17 42-18"/>')}`;
-    return swept}
-  function browsSvg(id,color){const c=color||"#3A241C";if(id==="straight")return`<path d="M70 72h22M108 72h22" stroke="${c}" stroke-width="4" stroke-linecap="round"/>`;if(id==="arched")return`<path d="M69 74q11-11 24-3M107 71q13-8 24 3" fill="none" stroke="${c}" stroke-width="4" stroke-linecap="round"/>`;if(id==="thick")return`<path d="M68 74q12-8 25-1M107 73q13-7 25 1" fill="none" stroke="${c}" stroke-width="6" stroke-linecap="round"/>`;if(id==="feather")return`<path d="M69 75l7-5 6 4 6-5 5 4M107 73l6-4 6 5 7-5 6 6" fill="none" stroke="${c}" stroke-width="3.2" stroke-linecap="round"/>`;if(id==="short")return`<path d="M72 73q8-6 17-1M111 72q9-5 17 1" fill="none" stroke="${c}" stroke-width="4" stroke-linecap="round"/>`;return`<path d="M69 74q11-7 23-1M108 73q12-6 23 1" fill="none" stroke="${c}" stroke-width="3.7" stroke-linecap="round"/>`}
-  function eyesSvg(id,color){const iris=COLORS.eyes[color]||COLORS.eyes.brown,ink="#2C2220";const eye=(cx,kind)=>{if(kind==="happy")return`<path d="M${cx-9} 87q9-9 18 0" fill="none" stroke="${ink}" stroke-width="3.5" stroke-linecap="round"/>`;if(kind==="focused")return`<path d="M${cx-10} 84q10 7 20 0" fill="none" stroke="${ink}" stroke-width="3"/><circle cx="${cx}" cy="87" r="5" fill="${iris}"/><circle cx="${cx}" cy="87" r="2.5" fill="#171311"/>`;if(kind==="soft")return`<path d="M${cx-10} 86q10-7 20 0q-10 8-20 0z" fill="#fff" stroke="${ink}" stroke-width="2"/><circle cx="${cx}" cy="87" r="4.8" fill="${iris}"/><circle cx="${cx}" cy="87" r="2.3" fill="#171311"/>`;if(kind==="cat")return`<path d="M${cx-11} 87q10-10 21-1q-11 9-21 1z" fill="#fff" stroke="${ink}" stroke-width="2"/><path d="M${cx+8} 84l6-4" stroke="${ink}" stroke-width="2"/><circle cx="${cx}" cy="87" r="5.3" fill="${iris}"/><circle cx="${cx}" cy="87" r="2.5" fill="#171311"/>`;if(kind==="doe")return`<ellipse cx="${cx}" cy="87" rx="11" ry="9" fill="#fff" stroke="${ink}" stroke-width="2"/><circle cx="${cx}" cy="88" r="6.2" fill="${iris}"/><circle cx="${cx}" cy="88" r="3" fill="#171311"/><circle cx="${cx-2}" cy="85" r="1.8" fill="#fff"/>`;if(kind==="round")return`<circle cx="${cx}" cy="87" r="9" fill="#fff" stroke="${ink}" stroke-width="2"/><circle cx="${cx}" cy="87" r="5.7" fill="${iris}"/><circle cx="${cx}" cy="87" r="2.8" fill="#171311"/><circle cx="${cx-2}" cy="84" r="1.7" fill="#fff"/>`;if(kind==="sparkle")return`<path d="M${cx} 78l2.8 6.4 6.2 2.6-6.2 2.8-2.8 6.2-2.7-6.2-6.3-2.8 6.3-2.6z" fill="${ink}"/><circle cx="${cx+2}" cy="84" r="1.5" fill="#fff"/>`;return`<path d="M${cx-11} 87q11-9 22 0q-11 8-22 0z" fill="#fff" stroke="${ink}" stroke-width="2"/><circle cx="${cx}" cy="87" r="5.5" fill="${iris}"/><circle cx="${cx}" cy="87" r="2.7" fill="#171311"/><circle cx="${cx-2}" cy="84" r="1.6" fill="#fff"/>`};return eye(79,id)+eye(121,id)}
-  function noseSvg(id,skin){const stroke=skin==="#56351F"?"#3B2418":"#A56950";if(id==="tiny")return`<path d="M100 91l-2 8 5 1" fill="none" stroke="${stroke}" stroke-width="1.8" stroke-linecap="round" opacity=".5"/>`;if(id==="straight")return`<path d="M100 88v13m-4 2q4 3 8 0" fill="none" stroke="${stroke}" stroke-width="2" stroke-linecap="round" opacity=".55"/>`;if(id==="rounded")return`<path d="M100 89c-1 5-4 10-4 13 0 4 8 4 9 0" fill="none" stroke="${stroke}" stroke-width="2" stroke-linecap="round" opacity=".55"/>`;if(id==="broad")return`<path d="M92 102q8 5 16 0M94 101q-2 0-3 2M106 101q2 0 3 2" fill="none" stroke="${stroke}" stroke-width="2" stroke-linecap="round" opacity=".58"/>`;if(id==="narrow")return`<path d="M101 89l-3 13 5 1" fill="none" stroke="${stroke}" stroke-width="1.6" stroke-linecap="round" opacity=".52"/>`;return`<path d="M95 102q5 4 10 0M96 102q-2 0-3 2M104 102q2 0 3 2" fill="none" stroke="${stroke}" stroke-width="1.8" stroke-linecap="round" opacity=".55"/>`}
-  function mouthSvg(id){if(id==="grin")return`<path d="M83 111q17 16 34 0" fill="#fff" stroke="#7D4138" stroke-width="3" stroke-linecap="round"/><path d="M87 116h26" stroke="#E6B5AA" stroke-width="2"/>`;if(id==="soft")return`<path d="M87 112q13 7 26 0" fill="none" stroke="#9B4D55" stroke-width="3" stroke-linecap="round"/>`;if(id==="lips")return`<path d="M84 112q8-7 16 0 8-7 16 0-8 9-16 8-8 1-16-8z" fill="#B95D62" opacity=".95"/>`;if(id==="calm")return`<path d="M90 114h20" stroke="#7D4138" stroke-width="3" stroke-linecap="round"/>`;if(id==="cheeky")return`<path d="M86 111q15 10 29-2" fill="none" stroke="#7D4138" stroke-width="3" stroke-linecap="round"/>`;if(id==="open")return`<path d="M84 109q16 19 32 0" fill="#7A2E32" stroke="#7D4138" stroke-width="2.5"/><path d="M88 112h24" stroke="#fff" stroke-width="4"/><ellipse cx="100" cy="120" rx="9" ry="4" fill="#E88187"/>`;return`<path d="M86 109q14 14 29 0" fill="none" stroke="#7D4138" stroke-width="3.2" stroke-linecap="round"/>`}
-  function faceDetailSvg(id){if(id==="blush")return`<ellipse cx="69" cy="104" rx="10" ry="5" fill="#EF8F91" opacity=".22"/><ellipse cx="131" cy="104" rx="10" ry="5" fill="#EF8F91" opacity=".22"/>`;if(id==="freckles")return`<g fill="#9A5D42" opacity=".65">${[72,78,84,116,122,128].map((x,i)=>`<circle cx="${x}" cy="101" r="${i%2?1.4:1.1}"/>`).join("")}</g>`;if(id==="freckles-light")return`<g fill="#C47A58" opacity=".6">${[73,79,85,91,109,115,121,127].map((x,i)=>`<circle cx="${x}" cy="102" r="${i%3===0?1.2:.9}"/>`).join("")}</g>`;if(id==="hearts")return`<g fill="#F29AA5"><path d="M67 103c-5-5-11 2-5 8l5 5 5-5c6-6 0-13-5-8z"/><path d="M133 103c-5-5-11 2-5 8l5 5 5-5c6-6 0-13-5-8z"/></g>`;if(id==="stars")return`<g fill="#F7B32B"><path d="M66 99l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path d="M134 99l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></g>`;if(id==="beauty-mark")return`<circle cx="126" cy="106" r="1.7" fill="#674236"/>`;return""}
-  function outfitSvg(id,gid){const colors={"tee-white":"#F8F5F0","tee-black":"#2B292A","tee-pink":"#E89BA7","tee-green":"#769170","hoodie-cream":"#EEDFCB","hoodie-pink":"#D98E97","hoodie-blue":"#6E98C9","sweater-knit":"#E5D2B5","shirt-blue":"#93B9DF",plaid:"#B88D72",denim:"#7298BB",varsity:"#252529",sailor:"#F5EFE6","dress-pink":"#E79BB0",overalls:"#779AC0",champion:"#D8A919"};const base=colors[id]||"#6E98C9",body=`<path d="M40 200c3-35 22-56 60-56s57 21 60 56z" fill="${base}"/>`;if(id.startsWith("hoodie"))return`${body}<path d="M70 149q30 25 60 0" fill="none" stroke="rgba(255,255,255,.42)" stroke-width="6"/><path d="M87 149v21M113 149v21" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>`;if(id==="sweater-knit")return`${body}<path d="M58 162q12 8 24 0t24 0t24 0M58 176q12 8 24 0t24 0t24 0" fill="none" stroke="#C6AA86" stroke-width="2.4" opacity=".65"/>`;if(id==="shirt-blue")return`${body}<path d="M80 145l20 17 20-17" fill="#EAF3FF" opacity=".75"/><path d="M100 157v43" stroke="#E5EEF8" stroke-width="2"/><circle cx="100" cy="173" r="2" fill="#fff"/>`;if(id==="plaid")return`${body}<g stroke="#8C6754" stroke-width="3" opacity=".45"><path d="M60 150v48M83 146v54M107 146v54M132 151v47M46 167h108M43 186h114"/></g>`;if(id==="denim")return`${body}<path d="M74 146v54M126 146v54" stroke="#E5EFF7" stroke-width="3"/><path d="M64 163h20M116 163h20" stroke="#E5EFF7" stroke-width="2"/><circle cx="100" cy="164" r="2" fill="#D9B36B"/>`;if(id==="varsity")return`${body}<path d="M70 146v54M130 146v54" stroke="#F1E9D5" stroke-width="6"/><text x="100" y="183" text-anchor="middle" fill="#fff" font-size="24" font-weight="900">M</text>`;if(id==="sailor")return`${body}<path d="M63 146l37 29 37-29" fill="#173E78"/><path d="M80 151l20 16 20-16" fill="none" stroke="#fff" stroke-width="3"/><path d="M100 166l-10 16 10 7 10-7z" fill="#B95D62"/>`;if(id==="dress-pink")return`${body}<path d="M75 147q25 23 50 0" fill="#F5D3DB"/><path d="M87 151l13 10 13-10" fill="none" stroke="#B95D62" stroke-width="3"/>`;if(id==="overalls")return`<path d="M40 200c3-35 22-56 60-56s57 21 60 56z" fill="#F8F5F0"/><path d="M67 151h66v49H67z" fill="#779AC0"/><path d="M72 146l10 22M128 146l-10 22" stroke="#779AC0" stroke-width="9"/><rect x="87" y="163" width="26" height="17" rx="3" fill="#6D8EAF"/>`;if(id==="champion")return`<defs><linearGradient id="${gid}shirt" x1="0" x2="1"><stop stop-color="#E7B928"/><stop offset="1" stop-color="#FFDA62"/></linearGradient></defs><path d="M40 200c3-35 22-56 60-56s57 21 60 56z" fill="url(#${gid}shirt)"/><path d="M82 151l18 13 18-13" fill="none" stroke="#fff" stroke-width="4"/><path d="M95 171l5 10 5-10" fill="#173E78"/>`;return`${body}<path d="M80 145q20 18 40 0" fill="none" stroke="rgba(255,255,255,.58)" stroke-width="4"/>`}
-  function headwearSvg(id){if(id==="cap-beige")return`<path d="M58 47q42-30 84 0l-6 16q-34-16-70 2z" fill="#D9C0A0"/><path d="M101 55q29-2 46 9-18 8-40 4z" fill="#C8AE8F"/>`;if(id==="cap-black")return`<path d="M58 47q42-30 84 0l-6 16q-34-16-70 2z" fill="#272526"/><path d="M101 55q29-2 46 9-18 8-40 4z" fill="#151415"/>`;if(id==="beanie-red")return`<path d="M61 50q39-35 78 0v18H61z" fill="#A9483F"/><path d="M63 47h74v14H63z" fill="#B85A50"/><path d="M100 16l8 10-8 9-8-9z" fill="#A9483F"/>`;if(id==="bucket")return`<path d="M58 47q42-25 84 0l-8 22H66z" fill="#E5D0AF"/><path d="M51 68q49 12 98 0-8 17-49 17S59 85 51 68z" fill="#D8C19F"/>`;if(id==="beret")return`<path d="M61 49q24-29 58-21 21 5 29 22-41 7-87-1z" fill="#5C4036"/><path d="M112 24l7-10" stroke="#5C4036" stroke-width="4" stroke-linecap="round"/>`;if(id==="headband")return`<path d="M58 62q42-42 84 0" fill="none" stroke="#222" stroke-width="9"/>`;if(id==="bow-red"||id==="bow-pink"){const c=id==="bow-red"?"#B84A42":"#E9A0AF";return`<path d="M98 41c-16-18-33-14-29 5 3 14 18 14 29 5 11 9 26 9 29-5 4-19-13-23-29-5z" fill="${c}"/><circle cx="98" cy="47" r="8" fill="${c}" stroke="#fff" stroke-width="2"/>`}if(id==="study-cap")return`<path d="M58 49q42-31 84 0l-5 14q-36-17-74 1z" fill="#315B9D"/><path d="M100 56q30-3 48 8-17 8-40 4z" fill="#173E78"/>`;if(id==="crown")return`<path d="M70 43l9-22 20 15 18-19 13 26z" fill="#F2C94C" stroke="#fff" stroke-width="2"/><circle cx="79" cy="21" r="3" fill="#FF7A00"/><circle cx="117" cy="18" r="3" fill="#7C3AED"/>`;if(id==="bunny")return`<path d="M74 49c-8-24-5-42 7-45 12 10 13 29 5 48zM114 52c-8-19-6-38 5-48 12 4 15 22 8 45z" fill="#F8F5F0" stroke="#E7D7D7" stroke-width="3"/><path d="M78 15c-4 11-3 22 2 31M121 15c4 11 3 22-2 31" stroke="#EFA9B7" stroke-width="6" stroke-linecap="round"/>`;return""}
-  function glassesSvg(id){if(id==="round-black"||id==="round-gold"){const c=id==="round-gold"?"#C49A45":"#2C2B2D";return`<g fill="none" stroke="${c}" stroke-width="3"><circle cx="79" cy="88" r="15"/><circle cx="121" cy="88" r="15"/><path d="M94 86h12"/></g>`}if(id==="square")return`<g fill="none" stroke="#4B3D38" stroke-width="3"><rect x="61" y="78" width="35" height="25" rx="8"/><rect x="104" y="78" width="35" height="25" rx="8"/><path d="M96 87h8"/></g>`;if(id==="pink")return`<g fill="none" stroke="#E58FA5" stroke-width="4"><rect x="61" y="78" width="35" height="25" rx="10"/><rect x="104" y="78" width="35" height="25" rx="10"/><path d="M96 87h8"/></g>`;if(id==="cat-eye")return`<path d="M60 83q18-9 36 1l-6 17H67zM104 84q18-10 36-1l-7 18h-23z" fill="none" stroke="#1E1B1C" stroke-width="3"/>`;if(id==="hearts")return`<g fill="none" stroke="#D96F86" stroke-width="3"><path d="M79 80c-8-8-19 1-11 11l11 12 11-12c8-10-3-19-11-11z"/><path d="M121 80c-8-8-19 1-11 11l11 12 11-12c8-10-3-19-11-11z"/><path d="M91 88h18"/></g>`;if(id==="sun")return`<path d="M60 79h36l-4 23H66zM104 79h36l-6 23h-26z" fill="#2B292A"/><path d="M96 86h8" stroke="#2B292A" stroke-width="4"/>`;return""}
-  function jewelrySvg(id){if(id==="pearl")return`<path d="M72 145q28 26 56 0" fill="none" stroke="#F9F5EE" stroke-width="5" stroke-dasharray="3 5"/><circle cx="100" cy="164" r="5" fill="#F9F5EE" stroke="#D6CFC5"/>`;if(id==="gold-pendant")return`<path d="M78 145q22 25 44 0" fill="none" stroke="#D2A24C" stroke-width="2.3"/><circle cx="100" cy="164" r="6" fill="#D2A24C"/>`;if(id==="moon")return`<path d="M78 145q22 25 44 0" fill="none" stroke="#AEB4BD" stroke-width="2.3"/><path d="M104 160a7 7 0 1 1-8 8 8 8 0 0 0 8-8z" fill="#AEB4BD"/>`;if(id==="hoops-gold"||id==="hoops-silver"){const c=id==="hoops-gold"?"#D9A444":"#B7C3D3";return`<g fill="none" stroke="${c}" stroke-width="3"><circle cx="53" cy="98" r="7"/><circle cx="147" cy="98" r="7"/></g>`}if(id==="cherries")return`<g><path d="M50 94q5-12 12-15M150 94q-5-12-12-15" stroke="#4B7A48" stroke-width="2"/><circle cx="50" cy="101" r="5" fill="#C94D52"/><circle cx="57" cy="101" r="5" fill="#B83E45"/><circle cx="143" cy="101" r="5" fill="#C94D52"/><circle cx="150" cy="101" r="5" fill="#B83E45"/></g>`;if(id==="heart-earrings")return`<g fill="#F29AA5"><path d="M53 95c-5-5-11 2-5 8l5 5 5-5c6-6 0-13-5-8z"/><path d="M147 95c-5-5-11 2-5 8l5 5 5-5c6-6 0-13-5-8z"/></g>`;if(id==="headphones")return`<path d="M53 88q2-55 47-55t47 55" fill="none" stroke="#343339" stroke-width="9" stroke-linecap="round"/><rect x="44" y="84" width="16" height="31" rx="7" fill="#222126"/><rect x="140" y="84" width="16" height="31" rx="7" fill="#222126"/>`;return""}
-  function frameStyle(id){if(id==="silver")return{stroke:"#B7C3D3",width:6,dash:""};if(id==="gold")return{stroke:"#E4B83F",width:8,dash:""};if(id==="neon")return{stroke:"#7C3AED",width:7,dash:"5 4"};return{stroke:"rgba(255,255,255,.9)",width:5,dash:""}}
-  function renderSvg(input=state.config,opts={}){const config=validConfig(input)||{...DEFAULT_CONFIG},skin=COLORS.skin[config.skin]||COLORS.skin.warm,hair=COLORS.hair[config.hairColor]||COLORS.hair.espresso,bg=BACKGROUNDS[config.background]||BACKGROUNDS.sky,gid=uid(),frame=frameStyle(config.frame),label=escAttr(opts.label||"Avatar M.E.N.T.E personalizado"),hairLight=adjustHex(hair,34),hairDark=adjustHex(hair,-32),galaxy=config.background==="galaxy"?`<g fill="#fff" opacity=".75"><circle cx="28" cy="39" r="2"/><circle cx="169" cy="48" r="2"/><circle cx="157" cy="150" r="1.7"/><circle cx="31" cy="145" r="1.5"/><path d="M166 28l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></g>`:"";return`<svg class="mente-avatar-svg" viewBox="0 0 200 200" role="img" aria-label="${label}" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="${gid}bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${bg[0]}"/><stop offset="1" stop-color="${bg[1]}"/></linearGradient><linearGradient id="${gid}hair" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${hairLight}"/><stop offset=".42" stop-color="${hair}"/><stop offset="1" stop-color="${hairDark}"/></linearGradient></defs><circle cx="100" cy="100" r="96" fill="url(#${gid}bg)"/>${galaxy}<circle cx="42" cy="42" r="20" fill="#fff" opacity=".13"/><circle cx="164" cy="145" r="28" fill="#fff" opacity=".1"/>${hairBack(config.hair,hair,gid)}${outfitSvg(config.outfit,gid)}<rect x="88" y="128" width="24" height="27" rx="10" fill="${skin}"/><ellipse cx="52" cy="91" rx="8" ry="12" fill="${skin}"/><ellipse cx="148" cy="91" rx="8" ry="12" fill="${skin}"/>${faceShape(config.face,skin)}${browsSvg(config.brows,hair)}${eyesSvg(config.eyes,config.eyeColor)}${noseSvg(config.nose,skin)}${mouthSvg(config.mouth)}${faceDetailSvg(config.faceDetail)}${hairFront(config.hair,hair,gid)}${jewelrySvg(config.jewelry)}${glassesSvg(config.glasses)}${headwearSvg(config.headwear)}<circle cx="100" cy="100" r="95" fill="none" stroke="${frame.stroke}" stroke-width="${frame.width}" ${frame.dash?`stroke-dasharray="${frame.dash}"`:""}/></svg>`}
+  function currentUser() {
+    return readJson(USER_KEY, null);
+  }
 
-  function loadLocal(){state.user=currentUser();const local=state.user?.email?validConfig(readJson(localKey(state.user.email),null)):null;if(local){state.config=local;state.savedConfig={...local};state.hasCustom=true;return}const oldProfile=state.user?.email?readJson(profileKey(state.user.email),null):null;state.hasCustom=false;state.savedConfig=null;if(oldProfile?.avatarConfig){const migrated=validConfig(oldProfile.avatarConfig);if(migrated){state.config=migrated;state.savedConfig={...migrated};state.hasCustom=true}}}
-  function applyToElement(el,config=state.config){if(!el)return;el.classList.add("mente-custom-avatar");el.innerHTML=renderSvg(config,{label:"Meu avatar M.E.N.T.E"});el.style.background="transparent";el.style.overflow="hidden";el.style.padding="0";el.style.fontSize="0"}
-  function applyGlobal(force=false){if(!state.hasCustom&&!force)return;document.querySelectorAll("#user-avatar, .user-menu__avatar, #profile-avatar").forEach(el=>applyToElement(el))}
-  function toast(title,copy,icon="sparkles"){document.querySelector(".mente-avatar-toast")?.remove();const el=document.createElement("div");el.className="mente-avatar-toast";el.innerHTML=`<span>${uiIcon(icon)}</span><div><strong>${title}</strong><small>${copy}</small></div>`;document.body.appendChild(el);setTimeout(()=>el.remove(),3600)}
-  function sampleMarkup(category,item){if(/^#/.test(String(item.sample||"")))return`<span class="mente-avatar-option__sample is-color" style="background:${item.sample}"></span>`;const thumb=renderSvg({...state.config,[category]:item.id},{label:item.label});return`<span class="mente-avatar-option__sample is-avatar">${thumb}</span>`}
-  function optionMarkup(category,item){const access=accessStatus(item),selected=state.config[category]===item.id,badge=item.access?`<span class="mente-avatar-option__badge ${access.kind==="merit"?"is-merit":""}">${access.badge}</span>`:"";return`<button type="button" class="mente-avatar-option ${selected?"is-selected":""} ${access.unlocked?"":"is-locked"}" data-avatar-category="${category}" data-avatar-value="${item.id}" title="${escAttr(access.reason||item.label)}" aria-pressed="${selected}">${!access.unlocked?`<span class="mente-avatar-option__lock">${uiIcon("lock")}</span>`:""}${badge}${sampleMarkup(category,item)}<strong>${item.label}</strong></button>`}
-  function studioMarkup(){const category=CATEGORIES.find(item=>item.key===state.activeTab)||CATEGORIES[0];return`<div class="mente-avatar-studio" data-mente-avatar-studio><aside class="mente-avatar-stage"><div class="mente-avatar-preview" data-avatar-preview>${renderSvg(state.config,{label:"Prévia do avatar"})}</div><div class="mente-avatar-stage__copy"><strong>Seu personagem M.E.N.T.E</strong><span>Monte o rosto, o cabelo, as roupas e os acessórios do seu jeito.</span></div><div class="mente-avatar-mini-status"><span class="mente-avatar-pill">${uiIcon("star")} ${state.metrics.points} pontos</span><span class="mente-avatar-pill is-merit">${uiIcon("flame")} ${state.metrics.streak} dias</span>${isPlus()?`<span class="mente-avatar-pill is-plus">${uiIcon("star")} PLUS</span>`:""}</div><div class="mente-avatar-stage__actions"><button type="button" data-avatar-random>${uiIcon("shuffle")} Aleatório</button><button type="button" data-avatar-reset>${uiIcon("rotate")} Padrão</button><button type="button" class="mente-avatar-save" data-avatar-save>${uiIcon("check")} Salvar avatar</button></div><p class="mente-avatar-save-status" data-avatar-status aria-live="polite"></p></aside><section class="mente-avatar-workbench"><div class="mente-avatar-workbench__head"><div><strong>Personalize cada detalhe</strong><span>Escolha entre cortes femininos, masculinos e neutros, além de rostos, olhos, roupas e acessórios.</span></div></div><div class="mente-avatar-tabs" role="tablist">${CATEGORIES.map(item=>`<button type="button" class="mente-avatar-tab ${item.key===state.activeTab?"is-active":""}" data-avatar-tab="${item.key}">${uiIcon(item.icon)}<span>${item.label}</span></button>`).join("")}</div><div class="mente-avatar-category"><div class="mente-avatar-category__title"><span>${category.label}</span><small>${category.hint}</small></div><div class="mente-avatar-options">${OPTIONS[category.key].map(item=>optionMarkup(category.key,item)).join("")}</div><div class="mente-avatar-lock-note">${uiIcon("unlock")}<span><b>Desbloqueios:</b> itens verdes são conquistados estudando; itens roxos são Plus. Tons de pele e formatos básicos do rosto ficam livres para todos.</span></div></div></section></div>`}
-  function updatePreview(){const preview=document.querySelector("[data-avatar-preview]");if(preview)preview.innerHTML=renderSvg(state.config,{label:"Prévia do avatar"})}
-  function renderWorkbench(){const host=document.querySelector(".profile-avatar-editor");if(!host)return false;host.classList.add("is-customized");const studio=host.querySelector("[data-mente-avatar-studio]");if(!studio)host.insertAdjacentHTML("beforeend",studioMarkup());else studio.outerHTML=studioMarkup();bindStudio(host);applyGlobal();return true}
-  function choose(category,id){const item=option(category,id);if(!item)return;const access=accessStatus(item);if(!access.unlocked){if(item.access==="plus")window.MENTE_PLUS?.openUpgrade?.(`${item.label} no editor de avatar`);else toast("Item por mérito",access.reason,"award");return}state.config={...state.config,[category]:id};updatePreview();document.querySelectorAll(`[data-avatar-category="${category}"]`).forEach(button=>{const selected=button.dataset.avatarValue===id;button.classList.toggle("is-selected",selected);button.setAttribute("aria-pressed",String(selected))})}
-  function randomUnlocked(category,preferred=[]){const unlocked=(OPTIONS[category]||[]).filter(item=>accessStatus(item).unlocked),filtered=preferred.length?unlocked.filter(item=>preferred.includes(item.id)):unlocked,pool=filtered.length?filtered:unlocked;return pool.length?pool[Math.floor(Math.random()*pool.length)].id:null}
-  function randomConfig(){const roll=Math.random(),mode=roll<.45?"masculino":roll<.9?"feminino":"neutro",next={...state.config};for(const category of CATEGORIES){const id=randomUnlocked(category.key);if(id)next[category.key]=id}const profiles={
-    masculino:{hair:["short","quiff","side-swept","crop","pixie","short-curls","afro"],mouth:["smile","grin","calm","cheeky","open"],faceDetail:["none","freckles","freckles-light","beauty-mark"],outfit:["tee-white","tee-black","tee-green","hoodie-cream","hoodie-blue","sweater-knit","shirt-blue","plaid","denim","varsity","champion"],headwear:["none","cap-beige","cap-black","beanie-red","bucket","beret","study-cap"],glasses:["none","round-black","round-gold","square","sun"],jewelry:["none","gold-pendant","moon","hoops-gold","hoops-silver","headphones"]},
-    feminino:{hair:["pixie","short-curls","bob","lob","straight","waves","curls","ringlets","afro","bangs","curtain","pony","low-pony","bun","half-up","braid","twin-braids","space-buns","side-pony"],mouth:["smile","grin","soft","lips","calm","cheeky","open"],faceDetail:["none","blush","freckles","freckles-light","hearts","stars","beauty-mark"],outfit:["tee-white","tee-black","tee-pink","tee-green","hoodie-cream","hoodie-pink","hoodie-blue","sweater-knit","shirt-blue","plaid","denim","varsity","sailor","dress-pink","overalls","champion"],headwear:["none","cap-beige","cap-black","beanie-red","bucket","beret","headband","bow-red","bow-pink","study-cap","crown","bunny"],glasses:["none","round-black","round-gold","square","pink","cat-eye","hearts","sun"],jewelry:["none","pearl","gold-pendant","moon","hoops-gold","hoops-silver","cherries","heart-earrings","headphones"]},
-    neutro:{hair:["short","quiff","side-swept","crop","pixie","short-curls","bob","lob","waves","curls","ringlets","afro","curtain","pony","bun","braid"],mouth:["smile","grin","soft","calm","cheeky","open"],faceDetail:["none","freckles","freckles-light","beauty-mark"],outfit:["tee-white","tee-black","tee-pink","tee-green","hoodie-cream","hoodie-pink","hoodie-blue","sweater-knit","shirt-blue","plaid","denim","varsity","overalls","champion"],headwear:["none","cap-beige","cap-black","beanie-red","bucket","beret","headband","study-cap","crown"],glasses:["none","round-black","round-gold","square","pink","cat-eye","sun"],jewelry:["none","pearl","gold-pendant","moon","hoops-gold","hoops-silver","headphones"]}
-  };for(const[category,ids]of Object.entries(profiles[mode])){const id=randomUnlocked(category,ids);if(id)next[category]=id}state.config=next;renderWorkbench();const status=document.querySelector("[data-avatar-status]"),label={masculino:"masculina",feminino:"feminina",neutro:"neutra"}[mode];if(status)status.textContent=`Sugestão ${label} gerada`}
-  async function saveAvatar(){if(state.saving)return;state.saving=true;const status=document.querySelector("[data-avatar-status]"),button=document.querySelector("[data-avatar-save]");if(button)button.disabled=true;if(status){status.textContent="Salvando seu avatar...";status.dataset.state=""}state.user=currentUser()||state.user;const config=validConfig(state.config)||{...DEFAULT_CONFIG};if(state.user?.email)saveJson(localKey(state.user.email),config);state.savedConfig={...config};state.hasCustom=true;applyGlobal(true);let online=false;try{const client=window.menteSupabase;if(client){const{data:sessionData}=await client.auth.getSession(),authUser=sessionData?.session?.user;if(authUser){const{error}=await client.from("profiles").update({avatar_config:config,avatar_url:"custom:v7",avatar_updated_at:new Date().toISOString()}).eq("id",authUser.id);if(error)throw error;online=true}}if(status){status.textContent=online?"Avatar salvo e sincronizado":"Avatar salvo neste dispositivo";status.dataset.state="success"}toast("Avatar atualizado",online?"Seu novo visual já aparece em toda a plataforma.":"Seu novo visual foi salvo neste dispositivo.","check");try{window.dispatchEvent(new CustomEvent("mente:avatar-updated",{detail:{config:{...config}}}))}catch{}}catch(error){console.warn("[M.E.N.T.E Avatar] Falha ao sincronizar avatar:",error);if(status){status.textContent="Avatar salvo localmente; sincronização pendente.";status.dataset.state="error"}}finally{state.saving=false;if(button)button.disabled=false}}
-  function bindStudio(host){host.querySelectorAll("[data-avatar-tab]").forEach(button=>button.addEventListener("click",()=>{state.activeTab=button.dataset.avatarTab||"skin";renderWorkbench()}));host.querySelectorAll("[data-avatar-category]").forEach(button=>button.addEventListener("click",()=>choose(button.dataset.avatarCategory,button.dataset.avatarValue)));host.querySelector("[data-avatar-random]")?.addEventListener("click",randomConfig);host.querySelector("[data-avatar-reset]")?.addEventListener("click",()=>{state.config={...DEFAULT_CONFIG};renderWorkbench()});host.querySelector("[data-avatar-save]")?.addEventListener("click",saveAvatar)}
-  function scheduleUi(){[60,220,650,1300,2400].forEach(ms=>setTimeout(()=>{renderWorkbench();applyGlobal()},ms))}
-  async function loadRemote(){const client=window.menteSupabase;if(!client)return;try{const{data:sessionData}=await client.auth.getSession(),authUser=sessionData?.session?.user;if(!authUser)return;const{data,error}=await client.from("profiles").select("avatar_config,avatar_url,pontos,sequencia,nivel").eq("id",authUser.id).maybeSingle();if(error)throw error;state.metrics.points=Math.max(0,Number(data?.pontos)||0);state.metrics.streak=Math.max(0,Number(data?.sequencia)||0);state.metrics.level=Math.max(1,Number(data?.nivel)||1);const remoteConfig=validConfig(data?.avatar_config);if(remoteConfig){state.config=remoteConfig;state.savedConfig={...remoteConfig};state.hasCustom=true;state.user=currentUser()||{id:authUser.id,email:authUser.email};if(authUser.email)saveJson(localKey(authUser.email),remoteConfig)}state.remoteLoaded=true;scheduleUi();applyGlobal()}catch(error){console.warn("[M.E.N.T.E Avatar] Avatar online indisponível; usando configuração local.",error)}}
-  function init(){loadLocal();applyGlobal();scheduleUi();loadRemote()}
-  window.MENTE_AVATAR={version:VERSION,render:renderSvg,renderInto:(element,config)=>applyToElement(element,validConfig(config)||state.config),get config(){return{...state.config}},get hasCustom(){return state.hasCustom},refresh:()=>{scheduleUi();applyGlobal();loadRemote()}};
-  window.addEventListener("mente:supabase-ready",loadRemote);window.addEventListener("mente:plan-updated",scheduleUi);window.addEventListener("mente:profile-updated",()=>setTimeout(()=>{renderWorkbench();applyGlobal()},120));window.addEventListener("mente:account-updated",()=>{loadLocal();scheduleUi();loadRemote()});window.addEventListener("mente:avatar-updated",()=>setTimeout(()=>applyGlobal(true),30));if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init,{once:true});else init();window.addEventListener("load",()=>{scheduleUi();applyGlobal()},{once:true});
+  function userIdentity() {
+    const user = state.user || currentUser();
+    return String(user?.id || user?.email || "mente-visitante").trim().toLowerCase();
+  }
+
+  function localKey(user = state.user) {
+    const identity = String(user?.email || user?.id || "local").trim().toLowerCase();
+    return `${LOCAL_PREFIX}${identity}`;
+  }
+
+  function legacyLocalKey(user = state.user) {
+    const identity = String(user?.email || user?.id || "local").trim().toLowerCase();
+    return `${LEGACY_LOCAL_PREFIX}${identity}`;
+  }
+
+  function schemaEntry(key) {
+    return SCHEMA.find((entry) => entry.key === key) || null;
+  }
+
+  function allowed(entry, value) {
+    return entry?.options?.some(([id]) => id === value) || false;
+  }
+
+  function makeSeed() {
+    return `mente-${userIdentity().replace(/[^a-z0-9_-]+/g, "-").slice(0, 80) || "avatar"}`;
+  }
+
+  function migrateLegacy(raw) {
+    if (!raw || typeof raw !== "object") return null;
+    if (raw.engine === ENGINE) return raw;
+
+    const next = { ...DEFAULT_CONFIG, seed: makeSeed() };
+    let touched = false;
+
+    if (raw.skin && LEGACY_MAP.skin[raw.skin]) { next.skinColor = LEGACY_MAP.skin[raw.skin]; touched = true; }
+    if (raw.hair && LEGACY_MAP.hair[raw.hair]) { next.topVariant = LEGACY_MAP.hair[raw.hair]; touched = true; }
+    if (raw.hairColor && LEGACY_MAP.hairColor[raw.hairColor]) { next.hairColor = LEGACY_MAP.hairColor[raw.hairColor]; touched = true; }
+    if (raw.brows && LEGACY_MAP.brows[raw.brows]) { next.eyebrowsVariant = LEGACY_MAP.brows[raw.brows]; touched = true; }
+    if (raw.eyes && LEGACY_MAP.eyes[raw.eyes]) { next.eyesVariant = LEGACY_MAP.eyes[raw.eyes]; touched = true; }
+    if (raw.mouth && LEGACY_MAP.mouth[raw.mouth]) { next.mouthVariant = LEGACY_MAP.mouth[raw.mouth]; touched = true; }
+    if (raw.outfit && LEGACY_MAP.outfit[raw.outfit]) { next.clothesVariant = LEGACY_MAP.outfit[raw.outfit]; touched = true; }
+    if (raw.glasses && raw.glasses !== "none" && LEGACY_MAP.glasses[raw.glasses]) {
+      next.accessoriesVariant = LEGACY_MAP.glasses[raw.glasses];
+      next.accessoriesProbability = 100;
+      touched = true;
+    }
+    if (raw.background && LEGACY_MAP.background[raw.background]) { next.backgroundColor = LEGACY_MAP.background[raw.background]; touched = true; }
+    if (raw.frame && ["clean", "silver", "gold", "neon"].includes(raw.frame)) { next.frame = "circle"; touched = true; }
+    if (raw.headwear && raw.headwear !== "none") {
+      const headwearMap = { "cap-beige":"hat", "cap-black":"hat", "beanie-red":"winterHat1", bucket:"hat", beret:"hat", headband:"froBand", "study-cap":"hat", crown:"frida", bunny:"frida" };
+      if (headwearMap[raw.headwear]) { next.topVariant = headwearMap[raw.headwear]; touched = true; }
+    }
+
+    return touched ? next : null;
+  }
+
+  function normalizeConfig(raw) {
+    const migrated = migrateLegacy(raw);
+    const source = migrated || raw;
+    if (!source || typeof source !== "object") return null;
+
+    const clean = { ...DEFAULT_CONFIG, engine: ENGINE, seed: String(source.seed || makeSeed()).slice(0, 120) };
+    for (const entry of SCHEMA) {
+      if (entry.key === "frame") {
+        if (allowed(entry, source.frame)) clean.frame = source.frame;
+        continue;
+      }
+      if (allowed(entry, source[entry.key])) clean[entry.key] = source[entry.key];
+      if (entry.probabilityKey) {
+        const n = Number(source[entry.probabilityKey]);
+        clean[entry.probabilityKey] = Number.isFinite(n) && n > 0 ? 100 : 0;
+      }
+    }
+    return clean;
+  }
+
+  function configForStorage(config = state.config) {
+    return { ...normalizeConfig(config), engine: ENGINE };
+  }
+
+  function saveLocal(config = state.config, updatedAt = Date.now()) {
+    state.user = currentUser() || state.user;
+    const payload = { config: configForStorage(config), updatedAt };
+    writeJson(localKey(), payload);
+    state.localUpdatedAt = updatedAt;
+  }
+
+  function loadLocal() {
+    state.user = currentUser() || state.user;
+    const modern = readJson(localKey(), null);
+    const modernConfig = normalizeConfig(modern?.config || modern);
+    if (modernConfig) {
+      state.config = modernConfig;
+      state.savedConfig = { ...modernConfig };
+      state.hasCustom = true;
+      state.localUpdatedAt = Number(modern?.updatedAt) || 0;
+      return;
+    }
+
+    const legacy = readJson(legacyLocalKey(), null);
+    const legacyConfig = normalizeConfig(legacy);
+    if (legacyConfig) {
+      state.config = legacyConfig;
+      state.savedConfig = { ...legacyConfig };
+      state.hasCustom = true;
+      state.localUpdatedAt = Date.now();
+      saveLocal(legacyConfig, state.localUpdatedAt);
+    }
+  }
+
+  function paramValue(config, entry) {
+    if (!entry.optional) return config[entry.key];
+    return Number(config[entry.probabilityKey]) > 0 ? config[entry.key] : "none";
+  }
+
+  function buildAvatarUrl(input = state.config) {
+    const config = normalizeConfig(input) || { ...DEFAULT_CONFIG, seed: makeSeed() };
+    const params = new URLSearchParams();
+    params.set("seed", config.seed || makeSeed());
+    params.set("topVariant", config.topVariant);
+    params.set("hairColor", config.hairColor);
+    params.set("skinColor", config.skinColor);
+    params.set("eyesVariant", config.eyesVariant);
+    params.set("eyebrowsVariant", config.eyebrowsVariant);
+    params.set("mouthVariant", config.mouthVariant);
+    params.set("clothesVariant", config.clothesVariant);
+    params.set("clothesColor", config.clothesColor);
+    params.set("backgroundColor", config.backgroundColor);
+
+    if (config.clothesVariant === "graphicShirt") params.set("clothesGraphicVariant", config.clothesGraphicVariant);
+
+    if (Number(config.facialHairProbability) > 0) {
+      params.set("facialHairVariant", config.facialHairVariant);
+      params.set("facialHairColor", config.facialHairColor);
+      params.set("facialHairProbability", "100");
+    } else {
+      params.set("facialHairProbability", "0");
+    }
+
+    if (Number(config.accessoriesProbability) > 0) {
+      params.set("accessoriesVariant", config.accessoriesVariant);
+      params.set("accessoriesColor", config.accessoriesColor);
+      params.set("accessoriesProbability", "100");
+    } else {
+      params.set("accessoriesProbability", "0");
+    }
+
+    return `${API_ROOT}?${params.toString()}`;
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+      "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+    }[char]));
+  }
+
+  function frameClass(frame) {
+    return `mente-avatar-frame--${["circle", "rounded", "soft-square"].includes(frame) ? frame : "circle"}`;
+  }
+
+  function fallbackMarkup() {
+    return '<span class="mente-avatar-fallback" aria-hidden="true">M</span>';
+  }
+
+  function imageMarkup(config = state.config, alt = "") {
+    const normalized = normalizeConfig(config) || { ...DEFAULT_CONFIG, seed: makeSeed() };
+    return `<img class="mente-avatar-img" src="${escapeHtml(buildAvatarUrl(normalized))}" alt="${escapeHtml(alt)}" decoding="async" referrerpolicy="no-referrer">`;
+  }
+
+  function applyToElement(element, config = state.config, alt = "") {
+    if (!element) return;
+    const normalized = normalizeConfig(config) || { ...DEFAULT_CONFIG, seed: makeSeed() };
+    element.classList.add("mente-custom-avatar");
+    element.classList.remove("mente-avatar-frame--circle", "mente-avatar-frame--rounded", "mente-avatar-frame--soft-square");
+    element.classList.add(frameClass(normalized.frame));
+    element.dataset.menteAvatarEngine = ENGINE;
+    element.style.background = "transparent";
+    element.style.overflow = "hidden";
+    element.style.padding = "0";
+    element.style.fontSize = "0";
+
+    const img = document.createElement("img");
+    img.className = "mente-avatar-img";
+    img.src = buildAvatarUrl(normalized);
+    img.alt = alt;
+    img.decoding = "async";
+    img.referrerPolicy = "no-referrer";
+    img.addEventListener("error", () => {
+      if (!element.isConnected) return;
+      element.innerHTML = fallbackMarkup();
+      element.dataset.menteAvatarFallback = "1";
+    }, { once: true });
+    element.replaceChildren(img);
+  }
+
+  function applyGlobal(force = false) {
+    if (!state.hasCustom && !force) return;
+    document.querySelectorAll("#user-avatar, .user-menu__avatar, #profile-avatar, #admin-avatar").forEach((el) => applyToElement(el, state.config, ""));
+  }
+
+  function controlMarkup(entry) {
+    const selected = paramValue(state.config, entry);
+    const none = entry.optional ? '<option value="none">Nenhum</option>' : "";
+    const options = entry.options.map(([id, label]) => `<option value="${escapeHtml(id)}"${selected === id ? " selected" : ""}>${escapeHtml(label)}</option>`).join("");
+    const sample = entry.color ? `<span class="mente-avatar-control__swatch" style="background:#${escapeHtml(state.config[entry.key])}"></span>` : "";
+    return `<label class="mente-avatar-control${entry.wide ? " is-wide" : ""}" data-avatar-control="${entry.key}">
+      <span>${escapeHtml(entry.label)}</span>
+      <div class="mente-avatar-control__field">${sample}<select data-avatar-select="${entry.key}" aria-label="${escapeHtml(entry.label)}">${none}${options}</select></div>
+    </label>`;
+  }
+
+  function studioMarkup() {
+    return `<div class="mente-avatar-studio" data-mente-avatar-studio>
+      <aside class="mente-avatar-stage">
+        <div class="mente-avatar-preview ${frameClass(state.config.frame)}" data-avatar-preview>${imageMarkup(state.config, "Prévia do avatar")}</div>
+        <div class="mente-avatar-stage__copy">
+          <strong>Seu personagem M.E.N.T.E</strong>
+          <span>Personalize cabelo, rosto, roupa, acessórios e cores sem deixar a página pesada.</span>
+        </div>
+        <div class="mente-avatar-stage__actions">
+          <button type="button" data-avatar-random>Aleatório</button>
+          <button type="button" data-avatar-reset>Restaurar padrão</button>
+          <button type="button" class="mente-avatar-save" data-avatar-save>Salvar avatar</button>
+        </div>
+        <p class="mente-avatar-save-status" data-avatar-status aria-live="polite"></p>
+      </aside>
+
+      <section class="mente-avatar-workbench">
+        <div class="mente-avatar-workbench__head">
+          <div><strong>Personalize cada detalhe</strong><span>As opções usam o estilo Avataaars do DiceBear. Suas mudanças ficam salvas neste dispositivo e o botão Salvar sincroniza com sua conta.</span></div>
+          <span class="mente-avatar-engine-badge">Avataaars</span>
+        </div>
+        <div class="mente-avatar-controls">${SCHEMA.map(controlMarkup).join("")}</div>
+        <div class="mente-avatar-editor-note"><strong>Dica:</strong> “Nenhum” desativa barba ou óculos sem gerar combinações quebradas. A moldura altera apenas o recorte do avatar.</div>
+      </section>
+    </div>`;
+  }
+
+  function renderWorkbench() {
+    const host = document.querySelector(".profile-avatar-editor");
+    if (!host) return false;
+    host.classList.add("is-customized");
+    const current = host.querySelector("[data-mente-avatar-studio]");
+    const markup = studioMarkup();
+    if (current) current.outerHTML = markup;
+    else host.insertAdjacentHTML("beforeend", markup);
+    bindStudio(host);
+    applyGlobal();
+    return true;
+  }
+
+  function updatePreview() {
+    const preview = document.querySelector("[data-avatar-preview]");
+    if (!preview) return;
+    preview.classList.remove("mente-avatar-frame--circle", "mente-avatar-frame--rounded", "mente-avatar-frame--soft-square");
+    preview.classList.add(frameClass(state.config.frame));
+    applyToElement(preview, state.config, "Prévia do avatar");
+  }
+
+  function updateSwatch(key) {
+    const swatch = document.querySelector(`[data-avatar-control="${key}"] .mente-avatar-control__swatch`);
+    if (swatch) swatch.style.background = `#${state.config[key]}`;
+  }
+
+  function setControl(entry, value) {
+    if (!entry) return;
+    const next = { ...state.config };
+    if (entry.optional && value === "none") {
+      next[entry.probabilityKey] = 0;
+    } else if (allowed(entry, value)) {
+      next[entry.key] = value;
+      if (entry.optional) next[entry.probabilityKey] = 100;
+    } else {
+      return;
+    }
+    state.config = normalizeConfig(next) || { ...DEFAULT_CONFIG, seed: makeSeed() };
+    state.hasCustom = true;
+    saveLocal(state.config, Date.now());
+    updateSwatch(entry.key);
+    updatePreview();
+    applyGlobal(true);
+    const status = document.querySelector("[data-avatar-status]");
+    if (status) {
+      status.textContent = "Alterações salvas neste dispositivo";
+      status.dataset.state = "";
+    }
+  }
+
+  const RANDOM_PROFILES = {
+    masculino: {
+      topVariant: ["shortWaved", "shortCurly", "shortFlat", "shortRound", "theCaesar", "theCaesarAndSidePart", "shavedSides", "sides", "fro", "dreads01"],
+      facialHairChance: 0.38
+    },
+    feminino: {
+      topVariant: ["bob", "longButNotTooLong", "straight01", "straight02", "straightAndStrand", "curly", "curvy", "frizzle", "fro", "froBand", "bun", "miaWallace"],
+      facialHairChance: 0
+    },
+    neutro: {
+      topVariant: ["shortWaved", "shortCurly", "bob", "longButNotTooLong", "straightAndStrand", "curly", "curvy", "fro", "bun", "dreads01"],
+      facialHairChance: 0.12
+    }
+  };
+
+  function randomItem(items) {
+    return items[Math.floor(Math.random() * items.length)];
+  }
+
+  function randomConfig() {
+    const roll = Math.random();
+    const mode = roll < 0.45 ? "masculino" : roll < 0.90 ? "feminino" : "neutro";
+    const profile = RANDOM_PROFILES[mode];
+    const next = { ...DEFAULT_CONFIG, seed: `${makeSeed()}-${Math.random().toString(36).slice(2, 8)}` };
+
+    for (const entry of SCHEMA) {
+      if (entry.key === "frame") continue;
+      if (entry.optional) continue;
+      const ids = entry.options.map(([id]) => id);
+      if (ids.length) next[entry.key] = randomItem(ids);
+    }
+
+    next.topVariant = randomItem(profile.topVariant);
+    next.facialHairProbability = Math.random() < profile.facialHairChance ? 100 : 0;
+    next.accessoriesProbability = Math.random() < 0.35 ? 100 : 0;
+    next.frame = randomItem(["circle", "rounded", "soft-square"]);
+    if (next.facialHairProbability) next.facialHairVariant = randomItem(schemaEntry("facialHairVariant").options.map(([id]) => id));
+    if (next.accessoriesProbability) next.accessoriesVariant = randomItem(schemaEntry("accessoriesVariant").options.map(([id]) => id));
+
+    state.config = normalizeConfig(next) || { ...DEFAULT_CONFIG, seed: makeSeed() };
+    state.hasCustom = true;
+    saveLocal(state.config, Date.now());
+    renderWorkbench();
+    const status = document.querySelector("[data-avatar-status]");
+    if (status) status.textContent = `Sugestão ${mode === "masculino" ? "masculina" : mode === "feminino" ? "feminina" : "neutra"} gerada`;
+  }
+
+  function resetAvatar() {
+    state.config = { ...DEFAULT_CONFIG, seed: makeSeed() };
+    state.hasCustom = true;
+    saveLocal(state.config, Date.now());
+    renderWorkbench();
+    const status = document.querySelector("[data-avatar-status]");
+    if (status) status.textContent = "Avatar restaurado para o padrão";
+  }
+
+  async function saveAvatar() {
+    if (state.saving) return;
+    state.saving = true;
+    const status = document.querySelector("[data-avatar-status]");
+    const button = document.querySelector("[data-avatar-save]");
+    if (button) button.disabled = true;
+    if (status) {
+      status.textContent = "Salvando seu avatar...";
+      status.dataset.state = "";
+    }
+
+    const now = Date.now();
+    state.hasCustom = true;
+    saveLocal(state.config, now);
+    applyGlobal(true);
+
+    let online = false;
+    try {
+      const client = window.menteSupabase;
+      if (client) {
+        const { data: sessionData, error: sessionError } = await client.auth.getSession();
+        if (sessionError) throw sessionError;
+        const authUser = sessionData?.session?.user;
+        if (authUser) {
+          const config = configForStorage(state.config);
+          const { error } = await client.from("profiles").update({
+            avatar_config: config,
+            avatar_url: "custom:dicebear-v10",
+            avatar_updated_at: new Date(now).toISOString()
+          }).eq("id", authUser.id);
+          if (error) throw error;
+          online = true;
+        }
+      }
+
+      state.savedConfig = { ...state.config };
+      if (status) {
+        status.textContent = online ? "Avatar salvo e sincronizado" : "Avatar salvo neste dispositivo";
+        status.dataset.state = "success";
+      }
+      try { window.dispatchEvent(new CustomEvent("mente:avatar-updated", { detail: { config: { ...state.config }, engine: ENGINE } })); }
+      catch {}
+    } catch (error) {
+      console.warn("[M.E.N.T.E Avatar] Falha ao sincronizar avatar:", error);
+      if (status) {
+        status.textContent = "Avatar salvo localmente; sincronização pendente.";
+        status.dataset.state = "error";
+      }
+    } finally {
+      state.saving = false;
+      if (button) button.disabled = false;
+    }
+  }
+
+  function bindStudio(host) {
+    host.querySelectorAll("[data-avatar-select]").forEach((select) => {
+      select.addEventListener("change", () => setControl(schemaEntry(select.dataset.avatarSelect), select.value));
+    });
+    host.querySelector("[data-avatar-random]")?.addEventListener("click", randomConfig);
+    host.querySelector("[data-avatar-reset]")?.addEventListener("click", resetAvatar);
+    host.querySelector("[data-avatar-save]")?.addEventListener("click", saveAvatar);
+  }
+
+  function scheduleUi() {
+    [60, 240, 700, 1500].forEach((ms) => setTimeout(() => {
+      renderWorkbench();
+      applyGlobal();
+    }, ms));
+  }
+
+  async function loadRemote() {
+    const client = window.menteSupabase;
+    if (!client) return;
+    try {
+      const { data: sessionData, error: sessionError } = await client.auth.getSession();
+      if (sessionError) throw sessionError;
+      const authUser = sessionData?.session?.user;
+      if (!authUser) return;
+
+      state.user = currentUser() || { id: authUser.id, email: authUser.email };
+      const { data, error } = await client.from("profiles")
+        .select("avatar_config,avatar_url,avatar_updated_at")
+        .eq("id", authUser.id)
+        .maybeSingle();
+      if (error) throw error;
+
+      const remoteConfig = normalizeConfig(data?.avatar_config);
+      const remoteUpdatedAt = data?.avatar_updated_at ? Date.parse(data.avatar_updated_at) : 0;
+      if (remoteConfig && (!state.hasCustom || remoteUpdatedAt >= state.localUpdatedAt)) {
+        state.config = remoteConfig;
+        state.savedConfig = { ...remoteConfig };
+        state.hasCustom = true;
+        saveLocal(remoteConfig, remoteUpdatedAt || Date.now());
+      }
+      state.remoteLoaded = true;
+      scheduleUi();
+      applyGlobal();
+    } catch (error) {
+      console.warn("[M.E.N.T.E Avatar] Avatar online indisponível; usando configuração local.", error);
+    }
+  }
+
+  function init() {
+    loadLocal();
+    if (!state.config.seed || state.config.seed === DEFAULT_CONFIG.seed) state.config.seed = makeSeed();
+    applyGlobal();
+    scheduleUi();
+    loadRemote();
+  }
+
+  window.MENTE_AVATAR = {
+    version: VERSION,
+    engine: ENGINE,
+    buildUrl: (config) => buildAvatarUrl(normalizeConfig(config) || state.config),
+    render: (config) => imageMarkup(normalizeConfig(config) || state.config, ""),
+    renderInto: (element, config) => applyToElement(element, normalizeConfig(config) || state.config, ""),
+    get config() { return { ...state.config }; },
+    get hasCustom() { return state.hasCustom; },
+    refresh: () => { loadLocal(); scheduleUi(); applyGlobal(); loadRemote(); }
+  };
+
+  window.addEventListener("mente:supabase-ready", loadRemote);
+  window.addEventListener("mente:profile-updated", () => setTimeout(() => { renderWorkbench(); applyGlobal(); }, 120));
+  window.addEventListener("mente:account-updated", () => { loadLocal(); scheduleUi(); loadRemote(); });
+  window.addEventListener("mente:avatar-updated", () => setTimeout(() => applyGlobal(true), 30));
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init, { once: true });
+  else init();
+  window.addEventListener("load", () => { scheduleUi(); applyGlobal(); }, { once: true });
 })();
