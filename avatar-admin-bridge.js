@@ -21,14 +21,14 @@
     if (!document.querySelector('link[data-mente-avatar-v3-css]')) {
       const link = document.createElement("link");
       link.rel = "stylesheet";
-      link.href = "avatar-editor-v3.css?v=4";
+      link.href = "avatar-editor-v3.css?v=5";
       link.dataset.menteAvatarV3Css = "1";
       document.head.appendChild(link);
     }
-    if (window.MENTE_AVATAR?.version >= 3) { apply(); return; }
+    if (window.MENTE_AVATAR?.version >= 8) { apply(); return; }
     if (document.querySelector('script[data-mente-avatar-system]')) return;
     const script = document.createElement("script");
-    script.src = "avatar-system-v3.js?v=7";
+    script.src = "avatar-system-v3.js?v=8";
     script.async = true;
     script.dataset.menteAvatarSystem = "1";
     script.onload = () => { apply(); setTimeout(apply, 450); };
