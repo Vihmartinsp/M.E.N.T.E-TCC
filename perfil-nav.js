@@ -41,14 +41,14 @@
     if (!document.querySelector('link[data-mente-avatar-v3-css]')) {
       const link = document.createElement("link");
       link.rel = "stylesheet";
-      link.href = "avatar-editor-v3.css?v=4";
+      link.href = "avatar-editor-v3.css?v=5";
       link.dataset.menteAvatarV3Css = "1";
       document.head.appendChild(link);
     }
-    if (window.MENTE_AVATAR?.version >= 3) return;
+    if (window.MENTE_AVATAR?.version >= 8) return;
     if (document.querySelector('script[data-mente-avatar-system]')) return;
     const script = document.createElement("script");
-    script.src = "avatar-system-v3.js?v=7";
+    script.src = "avatar-system-v3.js?v=8";
     script.async = true;
     script.dataset.menteAvatarSystem = "1";
     script.onload = scheduleRefresh;
@@ -87,7 +87,7 @@
 
     if (window.MENTE_AVATAR?.hasCustom) {
       targets.forEach((el) => {
-        if (!el.querySelector(".mente-avatar-svg")) window.MENTE_AVATAR.renderInto(el);
+        if (!el.querySelector(".mente-avatar-img")) window.MENTE_AVATAR.renderInto(el);
       });
       return;
     }
@@ -97,7 +97,7 @@
     if (!avatarId || !avatarEmoji[avatarId]) return;
     const [a,b] = avatarGradient[avatarId] || avatarGradient.brain;
     targets.forEach((el) => {
-      if (el.dataset.menteAvatar === avatarId && !el.querySelector(".mente-avatar-svg")) return;
+      if (el.dataset.menteAvatar === avatarId && !el.querySelector(".mente-avatar-img")) return;
       el.dataset.menteAvatar = avatarId;
       el.textContent = avatarEmoji[avatarId];
       el.style.background = `linear-gradient(135deg,${a},${b})`;
@@ -117,8 +117,6 @@
   refresh();
   scheduleRefresh();
 
-  // Algumas páginas recriam a barra superior via JavaScript. Mantemos a observação
-  // por poucos segundos para capturar esses elementos sem deixar um observer permanente.
   const observer = new MutationObserver(() => refresh());
   observer.observe(document.documentElement, { childList: true, subtree: true });
 
