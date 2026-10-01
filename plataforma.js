@@ -37,6 +37,14 @@ function ensureSidebarStyles(){
   `;
   document.head.appendChild(style);
 }
+function ensureAdminEntry(){
+  if(document.querySelector('script[src*="admin-entry.js"]'))return;
+  const script=document.createElement('script');
+  script.src='admin-entry.js?v=6';
+  script.defer=true;
+  script.dataset.menteAdminEntry='1';
+  document.head.appendChild(script);
+}
 function shell(content){
   ensureSidebarStyles();
   const current=location.pathname.split('/').pop();
@@ -63,4 +71,5 @@ const renderers={
 const info=pageInfo[page]||["M.E.N.T.E","Sua jornada de estudos."];
 const renderer=renderers[page]||(()=>'<div class="portal-card"><p>Conteúdo indisponível.</p></div>');
 shell(`<main class="portal-main"><section class="portal-hero"><h2>${info[0]}</h2><p>${info[1]}</p></section>${renderer()}</main>`);
+ensureAdminEntry();
 document.querySelectorAll('.sim-start').forEach(b=>b.onclick=()=>alert('O construtor do simulado está preparado. As alternativas e o cronômetro serão adicionados na próxima etapa.'));
