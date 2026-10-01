@@ -1,6 +1,8 @@
 "use strict";
 
 (() => {
+  const STAFF_ROLES = new Set(["admin", "super_admin"]);
+
   function ensureMeritScript() {
     if (document.querySelector('script[src*="plus-merito.js"]')) return;
     const script = document.createElement("script");
@@ -33,13 +35,18 @@
     document.querySelectorAll('[data-admin-entry], .mente-account-menu a[href="./admin.html"]').forEach((el) => el.remove());
   }
 
-  function decorateSuperAdmin() {
+  function decorateStaff(role) {
+    if (!STAFF_ROLES.has(role)) return;
+    const isSuper = role === "super_admin";
+    const roleText = isSuper ? "👑 Super Admin" : "◆ Administrador(a)";
+    const titleText = isSuper ? "Super Admin M.E.N.T.E" : "Administrador(a) M.E.N.T.E";
+
     const copy = document.querySelector(".user-menu__copy");
     if (copy) {
       const small = copy.querySelector("small");
-      if (small && small.textContent !== "👑 Super Admin") small.textContent = "👑 Super Admin";
+      if (small && small.textContent !== roleText) small.textContent = roleText;
       const button = copy.closest(".user-menu");
-      if (button && button.title !== "Super Admin M.E.N.T.E") button.title = "Super Admin M.E.N.T.E";
+      if (button && button.title !== titleText) button.title = titleText;
     }
 
     const menu = document.querySelector(".mente-account-menu");
@@ -48,15 +55,17 @@
       link.href = "./admin.html";
       link.setAttribute("role", "menuitem");
       link.dataset.adminEntry = "1";
-      link.innerHTML = '<span>👑</span> Painel administrativo';
+      link.innerHTML = isSuper
+        ? '<span>👑</span> Painel administrativo'
+        : '<span>◆</span> Painel administrativo';
       const logout = menu.querySelector("[data-mente-logout]");
       if (logout) menu.insertBefore(link, logout); else menu.appendChild(link);
     }
   }
 
-  function decorateWithRetries() {
+  function decorateWithRetries(role) {
     const delays = [0, 250, 700, 1500, 3000];
-    delays.forEach((delay) => setTimeout(decorateSuperAdmin, delay));
+    delays.forEach((delay) => setTimeout(() => decorateStaff(role), delay));
   }
 
   async function init() {
@@ -68,11 +77,11 @@
     window.menteUserRole = role;
     try { window.dispatchEvent(new CustomEvent("mente:role-ready", { detail: { role } })); } catch {}
 
-    if (role !== "super_admin") {
+    if (!STAFF_ROLES.has(role)) {
       removeAdminEntry();
       return;
     }
-    decorateWithRetries();
+    decorateWithRetries(role);
   }
 
   init().catch((error) => {
