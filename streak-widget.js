@@ -92,7 +92,7 @@
     if (claimed) {
       return '<button class="mente-streak-card__claim is-claimed" type="button" disabled><span>✓</span> +10 resgatados</button>';
     }
-    return `<button class="mente-streak-card__claim" type="button" id="mente-streak-claim"${state.claiming ? " disabled" : "}>${state.claiming ? "Resgatando..." : "Resgatar +10 pts"}</button>`;
+    return `<button class="mente-streak-card__claim" type="button" id="mente-streak-claim"${state.claiming ? " disabled" : ""}>${state.claiming ? "Resgatando..." : "Resgatar +10 pts"}</button>`;
   }
 
   function render() {
