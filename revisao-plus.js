@@ -22,6 +22,23 @@
     error: null
   };
 
+  // Agenda de repetição espaçada: isolada por usuário, sem alterar respostas ou pontos.
+  function scheduleKey() { return "mente-plus-revisao-v1:" + (state.user?.id || "visitante"); }
+  function scheduleMap() { return readJson(scheduleKey(), {}); }
+  function saveSchedule(map) { try { localStorage.setItem(scheduleKey(), JSON.stringify(map)); return true; } catch { return false; } }
+  function dayISO(date = new Date()) { return [date.getFullYear(), String(date.getMonth()+1).padStart(2,"0"), String(date.getDate()).padStart(2,"0")].join("-"); }
+  function nextDate(days) { const d=new Date(); d.setHours(12,0,0,0); d.setDate(d.getDate()+days); return dayISO(d); }
+  function scheduledStatus(id) { return scheduleMap()[String(id)] || null; }
+  function updateReviewSchedule(id, mastered) {
+    const map=scheduleMap();
+    const old=map[String(id)] || {};
+    const steps=[1,3,7,14,30];
+    const stage=mastered ? Math.min(Number(old.stage || 0)+1,steps.length) : 0;
+    map[String(id)]={stage, due:nextDate(mastered ? steps[stage-1] : 1), updated:dayISO()};
+    if (!saveSchedule(map)) { alert("Não foi possível salvar a agenda neste navegador."); return; }
+    render();
+  }
+
   function readJson(key, fallback) {
     try { return JSON.parse(localStorage.getItem(key) || "null") ?? fallback; }
     catch { return fallback; }
@@ -99,7 +116,12 @@
     const accuracy = total ? Math.round(correct / total * 100) : 0;
     const wrong = rows.filter((item) => item.correct === false);
 
+    const agenda = scheduleMap();
     const orderedWrong = [...wrong].sort((a,b) => {
+      const ad=agenda[String(a.question.id)]?.due || "";
+      const bd=agenda[String(b.question.id)]?.due || "";
+      const aDue=!ad || ad<=dayISO(), bDue=!bd || bd<=dayISO();
+      if(aDue !== bDue) return aDue ? -1 : 1;
       const aPriority = Number((a.question.category || a.question.subject) === priority?.name);
       const bPriority = Number((b.question.category || b.question.subject) === priority?.name);
       if (bPriority !== aPriority) return bPriority - aPriority;
@@ -171,7 +193,7 @@
     const q = item.question;
     const subject = q.category || q.subject || "Matemática";
     const visual = subjectVisual(subject);
-    return `<article class="review-task ${compact ? "is-later" : ""}"><div class="review-task-number">${index + 1}</div><div class="review-task-copy"><div class="review-task-tags"><span style="--subject:${visual.color}">${esc(visual.icon)} ${esc(subject)}</span>${!compact && index === 0 ? '<b>Comece aqui</b>' : ""}</div><strong>${esc(questionLabel(q))}</strong><p>${esc(topicLabel(q))}</p></div><button type="button" class="review-task-button" data-review-question="${Number(q.id)}">${compact ? "Abrir" : "Revisar agora"}</button></article>`;
+    const schedule=scheduledStatus(q.id);\n    return `<article class="review-task ${compact ? "is-later" : ""}"><div class="review-task-number">${index + 1}</div><div class="review-task-copy"><div class="review-task-tags"><span style="--subject:${visual.color}">${esc(visual.icon)} ${esc(subject)}</span>${!compact && index === 0 ? '<b>Comece aqui</b>' : ""}</div><strong>${esc(questionLabel(q))}</strong><p>${esc(topicLabel(q))}</p>${schedule ? `<small class="review-due-label">Próxima revisão: ${esc(schedule.due.split("-").reverse().join("/"))}</small>` : ""}<div class="review-feedback"><button type="button" data-review-feedback="${Number(q.id)}" data-mastered="1">Entendi ✓</button><button type="button" data-review-feedback="${Number(q.id)}" data-mastered="0">Ainda tenho dúvida</button></div></div><button type="button" class="review-task-button" data-review-question="${Number(q.id)}">${compact ? "Abrir" : "Revisar agora"}</button></article>`;
   }
 
   function renderPlus() {
@@ -183,27 +205,29 @@
     const later = data.wrong.slice(3,8);
     const priority = data.priority;
     const visual = subjectVisual(priority?.name || "Matemática");
-    const minutes = Math.max(4, today.length * 3);
+    const minutes = today.length * 3;
     const reason = priority
       ? `Você errou ${priority.wrong} de ${priority.total} questão${priority.total === 1 ? "" : "ões"} nessa matéria, por isso ela aparece primeiro.`
       : "A prioridade será definida conforme você responder mais questões.";
 
     root.innerHTML = `<div class="plus-review-page">
       <section class="review-hero">
-        <div class="review-hero-copy"><small>★ M.E.N.T.E Plus</small><h2>Seu plano de revisão de hoje</h2><p>Em vez de mostrar um monte de dados, o sistema separou somente o que você precisa fazer agora.</p><div class="review-hero-actions"><button type="button" class="review-primary" data-review-question="${Number(today[0].question.id)}">Começar revisão</button><a class="review-secondary is-on-dark" href="#review-performance">Ver diagnóstico</a></div></div>
+        <div class="review-hero-copy"><small>★ M.E.N.T.E Plus</small><h2>Seu plano de revisão de hoje</h2><p>Em vez de mostrar um monte de dados, o sistema separou somente o que você precisa fazer agora.</p><div class="review-hero-actions"><button type="button" class="review-primary" data-review-question="${Number(today[0]?.question.id || 0)}" ${today.length ? "" : "disabled"}>${today.length ? "Começar revisão" : "Tudo em dia"}</button><a class="review-secondary is-on-dark" href="#review-performance">Ver diagnóstico</a></div></div>
         <aside class="review-session-card"><small>Sessão sugerida</small><strong>${today.length} questão${today.length === 1 ? "" : "ões"}</strong><span>aprox. ${minutes} min</span><div class="review-session-line"></div><p>${data.wrong.length} erro${data.wrong.length === 1 ? "" : "s"} no histórico atual</p></aside>
       </section>
 
+      <section class="review-spaced"><div><small>Exclusivo Plus · Memória ativa</small><h3>Revisão espaçada</h3><p>Após revisar, marque “Entendi” para voltar à questão em 1, 3, 7, 14 e 30 dias. Se ainda tiver dúvida, ela retorna amanhã. O calendário fica salvo neste navegador.</p></div><div class="review-spaced-metrics"><strong>${pending.length}</strong><span>para revisar</span><strong>${future.length}</strong><span>agendadas</span></div></section>
       <section class="review-how"><article><span>1</span><div><strong>Veja o foco</strong><p>Entenda qual matéria está puxando seu desempenho para baixo.</p></div></article><article><span>2</span><div><strong>Revise 3 erros</strong><p>Uma sessão curta evita que a lista vire algo cansativo.</p></div></article><article><span>3</span><div><strong>Pratique de novo</strong><p>Depois, volte às questões ou ao simulado para confirmar o aprendizado.</p></div></article></section>
 
       <section class="review-priority-card">
         <div class="review-priority-icon" style="--subject:${visual.color}">${esc(visual.icon)}</div><div><small>Prioridade agora</small><h3>${esc(priority?.name || "Matéria prioritária")}</h3><p>${esc(reason)}</p></div><div class="review-priority-metric"><strong>${priority ? `${priority.accuracy}%` : "—"}</strong><span>de acertos nessa matéria</span></div>
       </section>
 
-      <section class="review-section review-today"><div class="review-section-head"><div><small>Faça agora</small><h3>Sua sessão de hoje</h3><p>Comece pelo primeiro item. Os erros da matéria prioritária ficam no topo.</p></div><span class="review-count">${today.length}/${data.wrong.length}</span></div><div class="review-task-list">${today.map((item,index) => reviewItem(item,index)).join("")}</div></section>
+      <section class="review-section review-today"><div class="review-section-head"><div><small>Faça agora</small><h3>Sua sessão de hoje</h3><p>Comece pelo primeiro item. Os erros da matéria prioritária ficam no topo.</p></div><span class="review-count">${today.length}/${data.wrong.length}</span></div><div class="review-task-list">${today.length ? today.map((item,index) => reviewItem(item,index)).join("") : '<p class="review-empty-due">Tudo em dia! Suas próximas revisões já estão agendadas.</p>'}</div></section>
 
       ${later.length ? `<section class="review-section is-secondary"><div class="review-section-head"><div><small>Depois</small><h3>Próximas revisões</h3><p>Não precisa fazer tudo agora. Estes itens ficam guardados para a próxima sessão.</p></div></div><div class="review-task-list is-compact">${later.map((item,index) => reviewItem(item,index,true)).join("")}</div></section>` : ""}
 
+      ${future.length ? `<section class="review-section is-secondary"><div class="review-section-head"><div><small>Memória ativa</small><h3>Agendadas para depois</h3><p>Estas questões voltarão nas datas planejadas.</p></div></div><div class="review-task-list is-compact">${future.slice(0,8).map((item,index)=>reviewItem(item,index,true)).join("")}</div></section>` : ""}
       <div id="review-performance">${renderPerformance(data)}</div>
 
       <section class="review-next-step"><div><small>Depois da revisão</small><strong>Confirme se o conteúdo ficou claro</strong><p>Faça novas questões da matéria prioritária ou abra o roteiro para continuar estudando com sequência.</p></div><div><a class="review-primary" href="questoes.html">Praticar questões</a><a class="review-secondary" href="roteiro.html">Ir para o roteiro</a></div></section>
@@ -247,6 +271,9 @@
   }
 
   function bindReviewButtons() {
+    document.querySelectorAll("[data-review-feedback]").forEach(button => {
+      button.addEventListener("click", () => updateReviewSchedule(Number(button.dataset.reviewFeedback), button.dataset.mastered==="1"));
+    });
     document.querySelectorAll("[data-review-question]").forEach((button) => {
       if (button.dataset.ready === "1") return;
       button.dataset.ready = "1";
