@@ -193,7 +193,8 @@
     const q = item.question;
     const subject = q.category || q.subject || "Matemática";
     const visual = subjectVisual(subject);
-    const schedule=scheduledStatus(q.id);\n    return `<article class="review-task ${compact ? "is-later" : ""}"><div class="review-task-number">${index + 1}</div><div class="review-task-copy"><div class="review-task-tags"><span style="--subject:${visual.color}">${esc(visual.icon)} ${esc(subject)}</span>${!compact && index === 0 ? '<b>Comece aqui</b>' : ""}</div><strong>${esc(questionLabel(q))}</strong><p>${esc(topicLabel(q))}</p>${schedule ? `<small class="review-due-label">Próxima revisão: ${esc(schedule.due.split("-").reverse().join("/"))}</small>` : ""}<div class="review-feedback"><button type="button" data-review-feedback="${Number(q.id)}" data-mastered="1">Entendi ✓</button><button type="button" data-review-feedback="${Number(q.id)}" data-mastered="0">Ainda tenho dúvida</button></div></div><button type="button" class="review-task-button" data-review-question="${Number(q.id)}">${compact ? "Abrir" : "Revisar agora"}</button></article>`;
+    const schedule=scheduledStatus(q.id);
+    return `<article class="review-task ${compact ? "is-later" : ""}"><div class="review-task-number">${index + 1}</div><div class="review-task-copy"><div class="review-task-tags"><span style="--subject:${visual.color}">${esc(visual.icon)} ${esc(subject)}</span>${!compact && index === 0 ? '<b>Comece aqui</b>' : ""}</div><strong>${esc(questionLabel(q))}</strong><p>${esc(topicLabel(q))}</p>${schedule ? `<small class="review-due-label">Próxima revisão: ${esc(schedule.due.split("-").reverse().join("/"))}</small>` : ""}<div class="review-feedback"><button type="button" data-review-feedback="${Number(q.id)}" data-mastered="1">Entendi ✓</button><button type="button" data-review-feedback="${Number(q.id)}" data-mastered="0">Ainda tenho dúvida</button></div></div><button type="button" class="review-task-button" data-review-question="${Number(q.id)}">${compact ? "Abrir" : "Revisar agora"}</button></article>`;
   }
 
   function renderPlus() {
@@ -201,8 +202,10 @@
     if (!data.total) { renderNoHistory(); return; }
     if (!data.wrong.length) { renderAllClear(data); return; }
 
-    const today = data.wrong.slice(0,3);
-    const later = data.wrong.slice(3,8);
+    const pending = data.wrong.filter(item => { const s=scheduledStatus(item.question.id); return !s || s.due<=dayISO(); });
+    const future = data.wrong.filter(item => { const s=scheduledStatus(item.question.id); return s && s.due>dayISO(); });
+    const today = pending.slice(0,3);
+    const later = pending.slice(3,8);
     const priority = data.priority;
     const visual = subjectVisual(priority?.name || "Matemática");
     const minutes = today.length * 3;
