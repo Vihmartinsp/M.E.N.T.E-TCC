@@ -79,6 +79,11 @@
     style.id = "mente-plus-access-styles";
     style.textContent = `
       .plus-nav-badge{margin-left:auto;padding:2px 6px;border-radius:999px;background:linear-gradient(135deg,#F7B32B,#F2C94C);color:#3f2c00;font-size:9px;font-weight:900}
+      /* A regra global .sidebar__link span limita ícones a 18px; o texto da revisão precisa de largura própria. */
+      .sidebar__nav .sidebar__link.review-smart-link{display:grid!important;grid-template-columns:18px minmax(0,1fr) max-content!important;align-items:center!important;column-gap:8px!important;min-height:42px!important;height:42px!important;padding:0 10px!important;margin:3px 0!important;overflow:hidden!important}
+      .sidebar__nav .sidebar__link.review-smart-link .review-nav-icon{width:18px!important;min-width:18px!important;display:block!important;font-size:17px!important;text-align:center!important;line-height:1!important}
+      .sidebar__nav .sidebar__link.review-smart-link .review-nav-label{display:block!important;width:auto!important;min-width:0!important;max-width:none!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;font-size:12px!important;line-height:1.25!important;letter-spacing:-.25px!important;text-align:left!important;font-weight:600!important;color:inherit!important}
+      .sidebar__nav .sidebar__link.review-smart-link .plus-nav-badge{display:inline-flex!important;position:static!important;float:none!important;transform:none!important;align-items:center!important;justify-content:center!important;width:auto!important;min-width:0!important;height:auto!important;flex:none!important;grid-column:3!important;margin:0!important;padding:3px 6px!important;font-size:8px!important;line-height:1!important;white-space:nowrap!important}
       .mente-plan-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border:1px solid #d9e2ef;border-radius:999px;background:#fff;color:#51617c;font-size:11px;font-weight:800;text-decoration:none;white-space:nowrap}
       .mente-plan-chip.is-plus{border-color:#ecd47c;background:#fff9dc;color:#725300}.mente-plan-chip.is-preview{border-style:dashed}
       .mente-admin-plan-switch{display:flex;align-items:center;gap:6px;padding:4px 6px 4px 9px;border:1px solid #e4d7ff;border-radius:12px;background:#faf8ff;color:#5b3fb7;font-size:10px;font-weight:900;white-space:nowrap}
@@ -130,10 +135,28 @@
     badge.textContent = state.active ? "ATIVO" : "PLUS";
 
     let review = nav.querySelector('a[href*="revisao-plus.html"]');
-    if (state.active && !review) {
-      review = document.createElement("a"); review.className = "sidebar__link"; review.href = "revisao-plus.html"; review.innerHTML = '<span>✦</span><span>Revisão Inteligente</span><b class="plus-nav-badge">PLUS</b>';
-      plus.insertAdjacentElement("afterend", review);
-    } else if (!state.active && review) review.remove();
+    if (state.active) {
+      if (!review) {
+        review = document.createElement("a");
+        review.href = "revisao-plus.html";
+        plus.insertAdjacentElement("afterend", review);
+      }
+      review.classList.add("sidebar__link", "review-smart-link");
+      review.setAttribute("aria-label", "Revisão Inteligente Plus");
+      review.title = "Revisão Inteligente";
+      if (!review.querySelector(".review-nav-label") || !review.querySelector(".review-nav-icon")) {
+        review.innerHTML = '<span class="review-nav-icon" aria-hidden="true">✦</span><span class="review-nav-label">Revisão Inteligente</span><b class="plus-nav-badge">PLUS</b>';
+      }
+      let reviewBadge = review.querySelector(".plus-nav-badge");
+      if (!reviewBadge) {
+        reviewBadge = document.createElement("b");
+        reviewBadge.className = "plus-nav-badge";
+        review.appendChild(reviewBadge);
+      }
+      reviewBadge.textContent = "PLUS";
+    } else if (review) {
+      review.remove();
+    }
   }
 
   function ensureAdminSwitcher() {
