@@ -249,7 +249,7 @@
     if (state.loading) { renderLoading(); return; }
     if (state.error && !state.remoteAnswers) { renderError(); return; }
     if (!window.MENTE_PLUS?.isActive?.()) { renderLocked(); return; }
-    renderPlus();
+    try { renderPlus(); } catch (error) { console.error("[M.E.N.T.E Plus] Falha ao montar revisão:",error); renderError(); }
   }
 
   async function openReview(questionId, button) {
