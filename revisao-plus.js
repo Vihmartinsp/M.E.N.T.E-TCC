@@ -36,7 +36,73 @@
     const stage=mastered ? Math.min(Number(old.stage || 0)+1,steps.length) : 0;
     map[String(id)]={stage, due:nextDate(mastered ? steps[stage-1] : 1), updated:dayISO()};
     if (!saveSchedule(map)) { alert("Não foi possível salvar a agenda neste navegador."); return; }
+    registerSprintFeedback(id, mastered);
     render();
+  }
+
+  // Sessão curta persistida por usuário. Continua após abrir uma questão e voltar.
+  const SPRINT_DURATION_MS = 5 * 60 * 1000;
+  function sprintKey() { return "mente-plus-sprint-v1:" + (state.user?.id || "visitante"); }
+  function sprintSession() {
+    const saved = readJson(sprintKey(), null);
+    return saved && Number.isFinite(saved.endsAt) && Array.isArray(saved.questionIds)
+      && Array.isArray(saved.completedIds) ? saved : null;
+  }
+  function saveSprint(session) {
+    try { localStorage.setItem(sprintKey(), JSON.stringify(session)); return true; }
+    catch { return false; }
+  }
+  function sprintSeconds(session) { return Math.max(0, Math.ceil((session.endsAt - Date.now()) / 1000)); }
+  function sprintClock(seconds) { return String(Math.floor(seconds / 60)).padStart(2, "0") + ":" + String(seconds % 60).padStart(2, "0"); }
+  function sprintFinished(session) {
+    return sprintSeconds(session) === 0 || session.completedIds.length >= session.questionIds.length;
+  }
+  function startSprint() {
+    const data = buildData();
+    const candidates = data.wrong.filter((item) => {
+      const schedule = scheduledStatus(item.question.id);
+      return !schedule || schedule.due <= dayISO();
+    }).slice(0, 3);
+    if (!candidates.length) return;
+    const now = Date.now();
+    const session = {
+      startedAt: now,
+      endsAt: now + SPRINT_DURATION_MS,
+      questionIds: candidates.map((item) => String(item.question.id)),
+      completedIds: [],
+      results: {}
+    };
+    if (!saveSprint(session)) { alert("Não foi possível salvar a sessão de 5 minutos neste navegador."); return; }
+    render();
+    root.querySelector(".review-sprint")?.scrollIntoView({ behavior:"smooth", block:"center" });
+  }
+  function registerSprintFeedback(questionId, mastered) {
+    const session = sprintSession();
+    const id = String(questionId);
+    if (!session || sprintFinished(session) || !session.questionIds.includes(id) || session.completedIds.includes(id)) return;
+    session.completedIds.push(id);
+    session.results[id] = mastered ? "entendi" : "duvida";
+    saveSprint(session);
+  }
+  function renderSprint(data, pending) {
+    const session = sprintSession();
+    const finished = session && sprintFinished(session);
+    const completed = session?.completedIds?.length || 0;
+    const total = session?.questionIds?.length || 0;
+    const understood = session ? Object.values(session.results || {}).filter((result) => result === "entendi").length : 0;
+    const pendingSession = session
+      ? session.questionIds.filter((id) => !session.completedIds.includes(id)).map((id) =>
+          data.wrong.find((item) => String(item.question.id) === id)).filter(Boolean)
+      : [];
+    const summary = session
+      ? `<div class="review-sprint-stats"><strong>${completed}/${total}</strong><span>questões revisadas</span><strong ${!finished ? 'data-sprint-timer' : ''}>${sprintClock(sprintSeconds(session))}</strong><span>${finished ? "tempo encerrado" : "restantes"}</span></div>`
+      : `<div class="review-sprint-stats"><strong>05:00</strong><span>de duração</span><strong>${Math.min(3,pending.length)}</strong><span>questões no máximo</span></div>`;
+    const actions = !session
+      ? `<button type="button" class="review-primary" data-sprint-start ${pending.length ? "" : "disabled"}>${pending.length ? "Iniciar desafio" : "Revisão em dia"}</button>`
+      : finished
+        ? `<p class="review-sprint-result">Você revisou ${completed} de ${total} questões e marcou ${understood} como compreendidas. Continue a revisão espaçada para consolidar o conteúdo.</p><button type="button" class="review-primary" data-sprint-start ${pending.length ? "" : "disabled"}>Nova sessão</button>`
+        : `<p class="review-sprint-hint">Resolva as questões e marque “Entendi” ou “Ainda tenho dúvida” para registrar seu avanço. O cronômetro continua se você abrir uma questão e voltar.</p><button type="button" class="review-secondary" data-sprint-end>Encerrar agora</button>`;
+    return `<section class="review-sprint" id="review-sprint"><div class="review-sprint-top"><div><small>EXCLUSIVO PLUS · DESAFIO RÁPIDO</small><h3>Modo 5 Minutos</h3><p>${session ? finished ? "Sua sessão foi encerrada. Veja como você se saiu." : "Sessão iniciada! Pratique seus erros mais importantes antes do tempo acabar." : "Uma revisão curta, com até três questões do seu histórico, cronômetro e resultado ao final."}</p></div>${summary}</div><div class="review-sprint-actions">${actions}</div>${session && !finished && pendingSession.length ? `<div class="review-sprint-tasks">${pendingSession.map((item,i) => reviewItem(item,i,true)).join("")}</div>` : ""}</section>`;
   }
 
   function readJson(key, fallback) {
@@ -219,6 +285,7 @@
         <aside class="review-session-card"><small>Sessão sugerida</small><strong>${today.length} questão${today.length === 1 ? "" : "ões"}</strong><span>aprox. ${minutes} min</span><div class="review-session-line"></div><p>${data.wrong.length} erro${data.wrong.length === 1 ? "" : "s"} no histórico atual</p></aside>
       </section>
 
+      ${renderSprint(data, pending)}
       <section class="review-spaced"><div><small>Exclusivo Plus · Memória ativa</small><h3>Revisão espaçada</h3><p>Após revisar, marque “Entendi” para voltar à questão em 1, 3, 7, 14 e 30 dias. Se ainda tiver dúvida, ela retorna amanhã. O calendário fica salvo neste navegador.</p></div><div class="review-spaced-metrics"><strong>${pending.length}</strong><span>para revisar</span><strong>${future.length}</strong><span>agendadas</span></div></section>
       <section class="review-how"><article><span>1</span><div><strong>Veja o foco</strong><p>Entenda qual matéria está puxando seu desempenho para baixo.</p></div></article><article><span>2</span><div><strong>Revise 3 erros</strong><p>Uma sessão curta evita que a lista vire algo cansativo.</p></div></article><article><span>3</span><div><strong>Pratique de novo</strong><p>Depois, volte às questões ou ao simulado para confirmar o aprendizado.</p></div></article></section>
 
@@ -274,6 +341,13 @@
   }
 
   function bindReviewButtons() {
+    root.querySelectorAll("[data-sprint-start]").forEach((button) => button.addEventListener("click", startSprint));
+    root.querySelector("[data-sprint-end]")?.addEventListener("click", () => {
+      const session = sprintSession();
+      if (!session) return;
+      session.endsAt = Date.now();
+      if (saveSprint(session)) render();
+    });
     document.querySelectorAll("[data-review-feedback]").forEach(button => {
       button.addEventListener("click", () => updateReviewSchedule(Number(button.dataset.reviewFeedback), button.dataset.mastered==="1"));
     });
@@ -334,6 +408,15 @@
 
   renderLoading();
   loadData();
+  setInterval(() => {
+    const clock = root.querySelector("[data-sprint-timer]");
+    if (!clock) return;
+    const session = sprintSession();
+    if (!session) return;
+    const seconds = sprintSeconds(session);
+    if (seconds === 0) { render(); return; }
+    clock.textContent = sprintClock(seconds);
+  }, 1000);
   window.addEventListener("mente:plan-updated", render);
   window.addEventListener("mente:points-updated", () => setTimeout(loadData, 150));
 })();
