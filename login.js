@@ -23,6 +23,38 @@ async function getSupabaseClient(timeoutMs = 5000) {
   });
 }
 
+function registrationPasswordIssue(password) {
+  const symbols = "!@#$%^&*()_+-=[]{};:'\"\\|<>?,./`~";
+  const missing = [];
+  if (password.length < 6) return "A senha precisa ter pelo menos 6 caracteres.";
+  if (!/[a-z]/.test(password)) missing.push("uma letra minúscula");
+  if (!/[A-Z]/.test(password)) missing.push("uma letra maiúscula");
+  if (!/[0-9]/.test(password)) missing.push("um número");
+  if (![...password].some((character) => symbols.includes(character))) missing.push("um símbolo (ex.: @, # ou !)");
+  return missing.length ? `A senha precisa ter: ${missing.join(", ")}.` : "";
+}
+
+function registrationErrorMessage(error) {
+  const code = String(error?.code || "").toLowerCase();
+  const message = String(error?.message || "").toLowerCase();
+  if (error?.status === 429 || code.includes("rate_limit") || message.includes("rate limit") || message.includes("too many requests")) {
+    return "Muitas tentativas de cadastro. Aguarde alguns minutos antes de tentar novamente.";
+  }
+  if (code === "weak_password" || message.includes("password should contain") || message.includes("password is too weak")) {
+    return "Sua senha não atende aos requisitos. Use letras maiúsculas e minúsculas, número e símbolo.";
+  }
+  if (code === "user_already_exists" || message.includes("already registered")) {
+    return "Este e-mail já possui uma conta. Tente entrar na aba Entrar.";
+  }
+  if (code === "email_address_invalid" || message.includes("invalid email")) {
+    return "O e-mail informado não foi aceito. Verifique o endereço e tente novamente.";
+  }
+  if (message.includes("failed to fetch") || message.includes("network")) {
+    return "Não foi possível conectar ao servidor. Verifique sua internet e tente novamente.";
+  }
+  return "Não foi possível criar sua conta. Tente novamente em instantes.";
+}
+
 function showStatus(target, message, type = "error") {
   const status = target.matches?.(".access-form")
     ? target.querySelector(".access-form__status")
@@ -132,6 +164,12 @@ if (registerForm) {
     const email = String(data.get("email") || "").trim();
     const password = String(data.get("password") || "");
 
+    const passwordIssue = registrationPasswordIssue(password);
+    if (passwordIssue) {
+      showStatus(registerForm, passwordIssue, "error");
+      return;
+    }
+
     try {
       submitButton.disabled = true;
       showStatus(registerForm, "Criando sua conta...", "info");
@@ -160,11 +198,8 @@ if (registerForm) {
       );
       registerForm.reset();
     } catch (error) {
-      let message = "Não foi possível criar sua conta. Tente novamente.";
-      if (error?.message?.toLowerCase().includes("already registered")) {
-        message = "Este e-mail já possui uma conta.";
-      }
-      showStatus(registerForm, message, "error");
+      console.warn("[M.E.N.T.E cadastro]", error?.code || error?.message || "Erro desconhecido");
+      showStatus(registerForm, registrationErrorMessage(error), "error");
     } finally {
       submitButton.disabled = false;
     }
