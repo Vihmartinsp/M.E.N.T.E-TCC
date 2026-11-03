@@ -162,7 +162,7 @@
       patch.rewarded = true;
     }
     progress = writeProgress(task, patch);
-    showToast(`✅ Missão concluída: ${task.title}${task.points ? ` · +${task.points} pontos` : ""}`);
+    showToast(`[[mente-icon:check]] Missão concluída: ${task.title}${task.points ? ` · +${task.points} pontos` : ""}`);
     return progress;
   }
 
@@ -290,7 +290,7 @@
         source: "supabase"
       });
       if (Number.isFinite(Number(row.points_total))) updatePoints(row.points_total);
-      if (completedNow && !wasCompleted) showToast(`✅ Missão concluída: ${task.title} · +${Number(row.points_awarded) || task.points || 0} pontos`);
+      if (completedNow && !wasCompleted) showToast(`[[mente-icon:check]] Missão concluída: ${task.title} · +${Number(row.points_awarded) || task.points || 0} pontos`);
     } catch (error) {
       console.warn("[M.E.N.T.E] Falha ao sincronizar missão:", error);
     }

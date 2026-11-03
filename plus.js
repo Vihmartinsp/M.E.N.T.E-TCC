@@ -48,7 +48,7 @@
       <section class="plus-hero"><div>
         <p class="plus-eyebrow">Mais personalização, análise e revisão</p><h2>M.E.N.T.E <span>Plus</span></h2>
         <p>O plano convencional mantém as funções educacionais essenciais. O Plus acrescenta recursos avançados de personalização, análise e estudo sem transformar o ranking em vantagem paga.</p>
-        ${staff ? '<div class="plus-admin-preview">👑 <strong>Modo administrador:</strong> este aviso e o seletor “Visualizar” aparecem apenas para contas administrativas. Use o topo para comparar Convencional e Plus sem alterar o plano real.</div>' : ''}
+        ${staff ? '<div class="plus-admin-preview">[[mente-icon:crown]] <strong>Modo administrador:</strong> este aviso e o seletor “Visualizar” aparecem apenas para contas administrativas. Use o topo para comparar Convencional e Plus sem alterar o plano real.</div>' : ''}
         <div class="plus-hero__actions">
           ${active ? '<a class="plus-primary" href="revisao-plus.html">Abrir Revisão Inteligente →</a>' : `<button class="plus-primary" id="plus-trial" type="button" ${staff || state.actualActive || state.trialUsed ? "disabled" : ""}>${staff ? "Prévia disponível no topo" : state.trialUsed ? "Teste já utilizado" : "Experimentar Plus por 7 dias"}</button>`}
           <a class="plus-secondary" href="jogos.html">Ver Jogos</a><a class="plus-secondary" href="ranking.html">Ver Ranking</a>
@@ -61,28 +61,28 @@
 
       <section class="plus-section"><div class="plus-section-head"><div><h3>Ganhe Plus pelo seu esforço</h3><p>Como os jogos agora também rendem pontos, os marcos ficaram mais altos. A sequência de dias continua obrigatória, então não basta repetir partidas.</p></div></div>
         <div class="plus-pillars">
-          <article class="plus-pillar"><span>🔥</span><h4>7 dias + 500 pontos</h4><p>Conquiste <strong>3 dias de Plus</strong> ao manter sua primeira sequência de uma semana.</p></article>
-          <article class="plus-pillar"><span>⭐</span><h4>14 dias + 1.200 pontos</h4><p>Conquiste <strong>mais 7 dias de Plus</strong> por consistência real nos estudos.</p></article>
-          <article class="plus-pillar"><span>🏆</span><h4>30 dias + 2.500 pontos</h4><p>Conquiste <strong>mais 15 dias de Plus</strong> ao atingir o maior marco de mérito.</p></article>
-          <article class="plus-pillar"><span>✨</span><h4>Recompensa automática</h4><p>Ao atingir os dois requisitos, o acesso é liberado automaticamente e os dias são adicionados ao seu plano.</p></article>
+          <article class="plus-pillar"><span>[[mente-icon:flame]]</span><h4>7 dias + 500 pontos</h4><p>Conquiste <strong>3 dias de Plus</strong> ao manter sua primeira sequência de uma semana.</p></article>
+          <article class="plus-pillar"><span>[[mente-icon:star]]</span><h4>14 dias + 1.200 pontos</h4><p>Conquiste <strong>mais 7 dias de Plus</strong> por consistência real nos estudos.</p></article>
+          <article class="plus-pillar"><span>[[mente-icon:trophy]]</span><h4>30 dias + 2.500 pontos</h4><p>Conquiste <strong>mais 15 dias de Plus</strong> ao atingir o maior marco de mérito.</p></article>
+          <article class="plus-pillar"><span>[[mente-icon:award]]</span><h4>Recompensa automática</h4><p>Ao atingir os dois requisitos, o acesso é liberado automaticamente e os dias são adicionados ao seu plano.</p></article>
         </div>
         <div id="plus-merit-progress" style="margin-top:18px"><p style="color:#64748b">Carregando seu progresso de mérito...</p></div>
       </section>
 
       <section class="plus-section"><div class="plus-section-head"><div><h3>Novidades Plus</h3><p>Recursos novos que já conversam com Jogos e Ranking.</p></div></div><div class="plus-pillars">
-        <article class="plus-pillar"><span>🎯</span><h4>Modo Foco nos jogos</h4><p>Escolha entre Porcentagem, Equações, Geometria, Estatística ou modo misto e ative a dificuldade Expert. A recompensa diária continua igual para todos.</p></article>
-        <article class="plus-pillar"><span>🗂️</span><h4>Histórico de partidas</h4><p>Veja suas últimas partidas, acertos, pontos recebidos e horários para acompanhar sua regularidade.</p></article>
-        <article class="plus-pillar"><span>📈</span><h4>Análise do ranking</h4><p>Descubra quanto XP falta para alcançar a posição acima e qual é sua próxima meta de nível.</p></article>
-        <article class="plus-pillar"><span>🧠</span><h4>Revisão Inteligente</h4><p>Erros registrados continuam sendo organizados automaticamente para priorizar os conteúdos mais frágeis.</p></article>
+        <article class="plus-pillar"><span>[[mente-icon:target]]</span><h4>Modo Foco nos jogos</h4><p>Escolha entre Porcentagem, Equações, Geometria, Estatística ou modo misto e ative a dificuldade Expert. A recompensa diária continua igual para todos.</p></article>
+        <article class="plus-pillar"><span>[[mente-icon:folder]]</span><h4>Histórico de partidas</h4><p>Veja suas últimas partidas, acertos, pontos recebidos e horários para acompanhar sua regularidade.</p></article>
+        <article class="plus-pillar"><span>[[mente-icon:line-chart]]</span><h4>Análise do ranking</h4><p>Descubra quanto XP falta para alcançar a posição acima e qual é sua próxima meta de nível.</p></article>
+        <article class="plus-pillar"><span>[[mente-icon:brain]]</span><h4>Revisão Inteligente</h4><p>Erros registrados continuam sendo organizados automaticamente para priorizar os conteúdos mais frágeis.</p></article>
       </div></section>
 
       <section class="plus-section"><div class="plus-section-head"><div><h3>Comparação de recursos</h3><p>As diferenças abaixo já estão aplicadas nesta versão do site.</p></div></div><div class="plus-compare"><table><thead><tr><th>Recurso</th><th>Convencional</th><th>M.E.N.T.E Plus</th></tr></thead><tbody>${rows.map(([label,free,plus]) => `<tr><td>${label}</td><td class="${free ? "plus-check" : "plus-muted"}">${free ? "✓" : "—"}</td><td class="${plus ? "plus-star" : "plus-muted"}">${plus ? "★" : "—"}</td></tr>`).join("")}</tbody></table></div></section>
 
       <section class="plus-section"><div class="plus-section-head"><div><h3>O que muda na prática?</h3><p>O Plus melhora a experiência sem bloquear o conteúdo educacional principal.</p></div></div><div class="plus-pillars">
-        <article class="plus-pillar"><span>🎨</span><h4>Avatar personalizável</h4><p>Todo aluno monta seu personagem. O Plus libera estilos extras de cabelo, cores, roupas, acessórios, fundos e molduras.</p></article>
-        <article class="plus-pillar"><span>🧪</span><h4>Simulado</h4><p>Formatos prontos são gratuitos; quantidade e tempo personalizados são liberados no Plus.</p></article>
-        <article class="plus-pillar"><span>🎮</span><h4>Jogos</h4><p>Todos podem jogar e ganhar pontos dentro do mesmo limite diário. O Plus libera filtros de tema, dificuldade e histórico.</p></article>
-        <article class="plus-pillar"><span>📊</span><h4>Diagnóstico e ranking</h4><p>O Plus mostra leituras extras do desempenho e metas mais específicas, sem alterar a pontuação do ranking.</p></article>
+        <article class="plus-pillar"><span>[[mente-icon:palette]]</span><h4>Avatar personalizável</h4><p>Todo aluno monta seu personagem. O Plus libera estilos extras de cabelo, cores, roupas, acessórios, fundos e molduras.</p></article>
+        <article class="plus-pillar"><span>[[mente-icon:flask]]</span><h4>Simulado</h4><p>Formatos prontos são gratuitos; quantidade e tempo personalizados são liberados no Plus.</p></article>
+        <article class="plus-pillar"><span>[[mente-icon:gamepad]]</span><h4>Jogos</h4><p>Todos podem jogar e ganhar pontos dentro do mesmo limite diário. O Plus libera filtros de tema, dificuldade e histórico.</p></article>
+        <article class="plus-pillar"><span>[[mente-icon:bar-chart]]</span><h4>Diagnóstico e ranking</h4><p>O Plus mostra leituras extras do desempenho e metas mais específicas, sem alterar a pontuação do ranking.</p></article>
       </div></section>
     </div>`;
 

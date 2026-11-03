@@ -56,9 +56,9 @@
     const date = formatDate(row.plus_expira_em);
     const origin = row.plus_origem;
     if (origin === "teste") {
-      banner.innerHTML = `⏳ <strong>Seu teste Plus está em andamento.</strong> Você pode usar os recursos premium até ${esc(date)}. Continue estudando: conquistas por mérito podem acrescentar novos dias ao seu acesso.`;
+      banner.innerHTML = `[[mente-icon:hourglass]] <strong>Seu teste Plus está em andamento.</strong> Você pode usar os recursos premium até ${esc(date)}. Continue estudando: conquistas por mérito podem acrescentar novos dias ao seu acesso.`;
     } else if (origin === "merito") {
-      banner.innerHTML = `🏆 <strong>Seu M.E.N.T.E Plus foi conquistado por mérito.</strong> O acesso está liberado até ${esc(date)}.`;
+      banner.innerHTML = `[[mente-icon:trophy]] <strong>Seu M.E.N.T.E Plus foi conquistado por mérito.</strong> O acesso está liberado até ${esc(date)}.`;
     } else {
       banner.innerHTML = `★ <strong>M.E.N.T.E Plus ativo.</strong> Seu acesso premium está liberado até ${esc(date)}.`;
     }
@@ -80,7 +80,7 @@
     </div>`;
 
     if (!next) {
-      root.innerHTML = `${current}<div class="plus-merit-done">🏆 Você já conquistou todos os marcos de mérito disponíveis. Continue estudando para manter sua evolução.</div>`;
+      root.innerHTML = `${current}<div class="plus-merit-done">[[mente-icon:trophy]] Você já conquistou todos os marcos de mérito disponíveis. Continue estudando para manter sua evolução.</div>`;
       return;
     }
 
@@ -89,8 +89,8 @@
     root.innerHTML = `${current}<div class="plus-merit-next">
       <div class="plus-merit-next__head"><strong>Próxima recompensa: +${next.reward} dias de Plus</strong><span>${esc(next.label)}</span></div>
       <div class="plus-merit-bars">
-        <div class="plus-merit-bar"><label><span>🔥 Sequência de estudo</span><b>${streak}/${next.streak} dias</b></label><div class="plus-merit-track"><span style="width:${streakPct}%"></span></div></div>
-        <div class="plus-merit-bar"><label><span>⭐ Pontos acumulados</span><b>${points}/${next.points}</b></label><div class="plus-merit-track"><span style="width:${pointsPct}%"></span></div></div>
+        <div class="plus-merit-bar"><label><span>[[mente-icon:flame]] Sequência de estudo</span><b>${streak}/${next.streak} dias</b></label><div class="plus-merit-track"><span style="width:${streakPct}%"></span></div></div>
+        <div class="plus-merit-bar"><label><span>[[mente-icon:star]] Pontos acumulados</span><b>${points}/${next.points}</b></label><div class="plus-merit-track"><span style="width:${pointsPct}%"></span></div></div>
       </div>
     </div>`;
   }
@@ -105,10 +105,10 @@
     modal.id = "plus-merit-modal";
     modal.className = "plus-merit-modal";
     modal.innerHTML = `<div class="plus-merit-modal__card" role="dialog" aria-modal="true" aria-labelledby="plus-merit-title">
-      <div class="plus-merit-modal__icon">🏆</div>
+      <div class="plus-merit-modal__icon">[[mente-icon:trophy]]</div>
       <h2 id="plus-merit-title">Você ganhou M.E.N.T.E Plus!</h2>
       <p>${esc(row.plus_merito_mensagem)}</p>
-      <div class="plus-merit-modal__stats"><span>🔥 ${Number(row.sequencia || 0)} dias</span><span>⭐ ${Number(row.pontos || 0)} pontos</span><span>★ Mérito ${Number(row.plus_merito_nivel || 0)}/3</span></div>
+      <div class="plus-merit-modal__stats"><span>[[mente-icon:flame]] ${Number(row.sequencia || 0)} dias</span><span>[[mente-icon:star]] ${Number(row.pontos || 0)} pontos</span><span>★ Mérito ${Number(row.plus_merito_nivel || 0)}/3</span></div>
       <div class="plus-merit-modal__actions"><button type="button" data-merit-close>Continuar estudando</button><a href="plus.html" data-merit-go>Ver meu Plus →</a></div>
     </div>`;
     document.body.appendChild(modal);

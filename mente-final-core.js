@@ -15,7 +15,7 @@
     "Gráficos e Tabelas":"graficos-tabelas",
   };
   const icon = {
-    "Geometria":"📐","Funções":"ƒ","Estatística e Probabilidade":"📊","Matemática Financeira":"💰","Grandezas e Medidas":"⚖️","Gráficos e Tabelas":"📈"
+    "Geometria":"[[mente-icon:ruler]]","Funções":"ƒ","Estatística e Probabilidade":"[[mente-icon:bar-chart]]","Matemática Financeira":"[[mente-icon:coins]]","Grandezas e Medidas":"[[mente-icon:ruler]]","Gráficos e Tabelas":"[[mente-icon:line-chart]]"
   };
   const esc = (v) => String(v ?? "").replace(/[&<>"']/g,(c)=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
   const letter = (i) => String.fromCharCode(65 + i);
@@ -128,11 +128,11 @@
         <p class="question-statement">${esc(q.statement)}</p>
         ${visualFor(q)}
         <div class="mente-reading" aria-label="Leitura guiada M.E.N.T.E">
-          <div class="mente-reading__item mente-reading__item--objective"><strong>🎯 Objetivo</strong><span>${esc(q.objective)}</span></div>
-          <div class="mente-reading__item mente-reading__item--data"><strong>🔎 Dados importantes</strong><span>${esc(q.data)}</span></div>
-          <div class="mente-reading__item mente-reading__item--clue"><strong>💡 Pista</strong><span>${esc(q.clue)}</span></div>
-          <div class="mente-reading__item mente-reading__item--trap"><strong>⚠️ Armadilha</strong><span>${esc(q.trap)}</span></div>
-          <div class="mente-reading__item mente-reading__item--strategy"><strong>🧠 Estratégia</strong><span>${esc(q.strategy)}</span></div>
+          <div class="mente-reading__item mente-reading__item--objective"><strong>[[mente-icon:target]] Objetivo</strong><span>${esc(q.objective)}</span></div>
+          <div class="mente-reading__item mente-reading__item--data"><strong>[[mente-icon:search]] Dados importantes</strong><span>${esc(q.data)}</span></div>
+          <div class="mente-reading__item mente-reading__item--clue"><strong>[[mente-icon:lightbulb]] Pista</strong><span>${esc(q.clue)}</span></div>
+          <div class="mente-reading__item mente-reading__item--trap"><strong>[[mente-icon:alert]] Armadilha</strong><span>${esc(q.trap)}</span></div>
+          <div class="mente-reading__item mente-reading__item--strategy"><strong>[[mente-icon:brain]] Estratégia</strong><span>${esc(q.strategy)}</span></div>
         </div>
         <fieldset class="mente-answer-options" ${previous?"disabled":""}><legend>Escolha uma alternativa</legend>${q.options.map((opt,i)=>`<label><input type="radio" name="${name}" value="${i}" ${previous?.selected===i?"checked":""}><b>${letter(i)}</b><span>${esc(opt)}</span></label>`).join("")}</fieldset>
         <button class="portal-button" id="mente-final-answer" ${previous?"disabled":""}>${previous?"Questão já respondida":"Responder e ver a explicação"}</button>
@@ -144,9 +144,9 @@
     const show=(ans)=>{
       if(!feedback) return;
       if(ans.correct){
-        feedback.innerHTML=`<div class="mente-feedback__box mente-feedback__box--correct"><h3>✅ Você acertou!</h3><h4>Por que a alternativa está correta?</h4><p>${esc(q.correctExplanation)}</p><h4>✏️ Resolução</h4><p>${esc(q.resolution)}</p><div class="mente-feedback__tip"><strong>💡 Dica M.E.N.T.E:</strong> ${esc(q.tip)}</div></div>`;
+        feedback.innerHTML=`<div class="mente-feedback__box mente-feedback__box--correct"><h3>[[mente-icon:check]] Você acertou!</h3><h4>Por que a alternativa está correta?</h4><p>${esc(q.correctExplanation)}</p><h4>[[mente-icon:pencil]] Resolução</h4><p>${esc(q.resolution)}</p><div class="mente-feedback__tip"><strong>[[mente-icon:lightbulb]] Dica M.E.N.T.E:</strong> ${esc(q.tip)}</div></div>`;
       }else{
-        feedback.innerHTML=`<div class="mente-feedback__box mente-feedback__box--wrong"><h3>Vamos transformar esse erro em aprendizado</h3><h4>🧠 O que provavelmente aconteceu</h4><div class="mente-feedback__wrong-choice"><strong>Você marcou ${letter(ans.selected)}.</strong> ${esc(wrongFor(q,ans.selected))}</div><h4>🔎 Onde está a pista no enunciado?</h4><p>${esc(q.clue)}</p><h4>🧩 Como organizar o problema</h4><p>${esc(q.understand)} ${esc(q.perceive)}</p><h4>⚠️ Onde está a armadilha?</h4><p>${esc(q.trapDetail)}</p><h4>✏️ Como resolver</h4><p>${esc(q.setup)}</p><p>${esc(q.resolution)}</p><h4>✅ Por que a correta está certa?</h4><p>${esc(q.correctExplanation)}</p><div class="mente-feedback__tip"><strong>Como evitar esse erro:</strong> ${esc(q.tip)}</div></div>`;
+        feedback.innerHTML=`<div class="mente-feedback__box mente-feedback__box--wrong"><h3>Vamos transformar esse erro em aprendizado</h3><h4>[[mente-icon:brain]] O que provavelmente aconteceu</h4><div class="mente-feedback__wrong-choice"><strong>Você marcou ${letter(ans.selected)}.</strong> ${esc(wrongFor(q,ans.selected))}</div><h4>[[mente-icon:search]] Onde está a pista no enunciado?</h4><p>${esc(q.clue)}</p><h4>[[mente-icon:puzzle]] Como organizar o problema</h4><p>${esc(q.understand)} ${esc(q.perceive)}</p><h4>[[mente-icon:alert]] Onde está a armadilha?</h4><p>${esc(q.trapDetail)}</p><h4>[[mente-icon:pencil]] Como resolver</h4><p>${esc(q.setup)}</p><p>${esc(q.resolution)}</p><h4>[[mente-icon:check]] Por que a correta está certa?</h4><p>${esc(q.correctExplanation)}</p><div class="mente-feedback__tip"><strong>Como evitar esse erro:</strong> ${esc(q.tip)}</div></div>`;
       }
     };
     if(previous) show(previous);

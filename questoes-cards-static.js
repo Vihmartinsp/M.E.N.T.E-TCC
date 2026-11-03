@@ -95,7 +95,7 @@
     const study = document.createElement("a");
     study.className = "card-study-link";
     study.href = `explicacoes.html#${info.slug}`;
-    study.textContent = `📖 Revisar ${q.category}`;
+    study.textContent = `[[mente-icon:book]] Revisar ${q.category}`;
     const footer = card.querySelector(".question-card__footer");
     if (footer) footer.insertAdjacentElement("beforebegin", study);
     else card.appendChild(study);

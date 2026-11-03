@@ -166,7 +166,7 @@
     if (!isStaff()) { wrap?.remove(); return; }
     if (!wrap) {
       wrap = document.createElement("label"); wrap.className = "mente-admin-plan-switch";
-      wrap.innerHTML = '👑 Visualizar <select aria-label="Visualizar plano"><option value="real">Plano real</option><option value="convencional">Convencional</option><option value="plus">Plus</option></select>';
+      wrap.innerHTML = '[[mente-icon:crown]] Visualizar <select aria-label="Visualizar plano"><option value="real">Plano real</option><option value="convencional">Convencional</option><option value="plus">Plus</option></select>';
       actions.prepend(wrap);
       wrap.querySelector("select").addEventListener("change", (event) => {
         state.preview = event.target.value;

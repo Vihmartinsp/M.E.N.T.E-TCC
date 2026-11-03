@@ -88,10 +88,10 @@
       <section class="sim-setup" id="sim-setup">
         <div class="sim-section-head"><div><h3>Escolha seu simulado</h3><p>Você pode usar um formato pronto ou personalizar quantidade e tempo.</p></div></div>
         <div class="sim-presets" id="sim-presets">
-          <button class="sim-preset" type="button" data-count="5" data-minutes="15" data-label="Aquecimento"><small>5 questões</small><strong>⚡ Aquecimento</strong><span>15 min · ótimo para uma revisão rápida</span></button>
-          <button class="sim-preset is-active" type="button" data-count="10" data-minutes="30" data-label="Diagnóstico"><small>10 questões</small><strong>🎯 Diagnóstico</strong><span>30 min · mistura equilibrada de matérias</span></button>
-          <button class="sim-preset" type="button" data-count="15" data-minutes="45" data-label="Desafio"><small>15 questões</small><strong>🔥 Desafio</strong><span>45 min · exige mais resistência e atenção</span></button>
-          <button class="sim-preset" type="button" data-count="20" data-minutes="60" data-label="Completo"><small>20 questões</small><strong>🏁 Completo</strong><span>60 min · treino longo e variado</span></button>
+          <button class="sim-preset" type="button" data-count="5" data-minutes="15" data-label="Aquecimento"><small>5 questões</small><strong>[[mente-icon:zap]] Aquecimento</strong><span>15 min · ótimo para uma revisão rápida</span></button>
+          <button class="sim-preset is-active" type="button" data-count="10" data-minutes="30" data-label="Diagnóstico"><small>10 questões</small><strong>[[mente-icon:target]] Diagnóstico</strong><span>30 min · mistura equilibrada de matérias</span></button>
+          <button class="sim-preset" type="button" data-count="15" data-minutes="45" data-label="Desafio"><small>15 questões</small><strong>[[mente-icon:flame]] Desafio</strong><span>45 min · exige mais resistência e atenção</span></button>
+          <button class="sim-preset" type="button" data-count="20" data-minutes="60" data-label="Completo"><small>20 questões</small><strong>[[mente-icon:flag]] Completo</strong><span>60 min · treino longo e variado</span></button>
         </div>
         <div class="sim-custom">
           <label class="sim-field"><span>Quantidade de questões</span><select id="sim-count"><option value="5">5 questões</option><option value="10" selected>10 questões</option><option value="15">15 questões</option><option value="20">20 questões</option></select></label>
@@ -157,7 +157,7 @@
       <div class="sim-test__top">
         <div class="sim-progress-copy"><strong>${esc(session.label)} · questão ${session.current+1} de ${qs.length}</strong><small>${answered} respondida${answered===1?"":"s"}</small></div>
         <div class="sim-progress-track"><span style="width:${pct}%"></span></div>
-        <div class="sim-timer" id="sim-timer">⏱ <span>--:--</span></div>
+        <div class="sim-timer" id="sim-timer">[[mente-icon:clock]] <span>--:--</span></div>
       </div>
       <div class="sim-test__body">
         <article class="sim-question" style="--subject-color:${COLORS[q.category]}">

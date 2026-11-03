@@ -45,7 +45,7 @@
   timerBlock.innerHTML = `
     <div class="roadmap-timer-choice">
       <div class="roadmap-timer-choice__copy">
-        <strong>⏱️ Usar cronômetro no roteiro</strong>
+        <strong>[[mente-icon:clock]] Usar cronômetro no roteiro</strong>
         <small>Opcional. Se ativar, você controla o tempo com iniciar, pausar e reiniciar.</small>
       </div>
       <label class="roadmap-switch" aria-label="Ativar cronômetro do roteiro">
@@ -76,7 +76,7 @@
       widget.id = "roadmap-timer-widget";
       widget.innerHTML = `
         <div class="roadmap-timer-widget__clock">
-          <span class="roadmap-timer-widget__icon">⏱️</span>
+          <span class="roadmap-timer-widget__icon">[[mente-icon:clock]]</span>
           <div><small>Tempo do roteiro</small><strong id="roadmap-timer-display">00:00</strong></div>
         </div>
         <div class="roadmap-timer-widget__actions">

@@ -8,12 +8,12 @@
 
   const modules = window.MENTE_FINAL_MODULES || {};
   const subjects = [
-    { name: "Geometria", icon: "📐", color: "#FF7A00", slug: "geometria" },
+    { name: "Geometria", icon: "[[mente-icon:ruler]]", color: "#FF7A00", slug: "geometria" },
     { name: "Funções", icon: "ƒ", color: "#AB47BC", slug: "funcoes" },
-    { name: "Estatística e Probabilidade", icon: "📊", color: "#16803C", slug: "estatistica-probabilidade" },
-    { name: "Matemática Financeira", icon: "💰", color: "#D9A400", slug: "matematica-financeira" },
-    { name: "Grandezas e Medidas", icon: "📏", color: "#D70101", slug: "grandezas-medidas" },
-    { name: "Gráficos e Tabelas", icon: "📈", color: "#0284C7", slug: "graficos-tabelas" }
+    { name: "Estatística e Probabilidade", icon: "[[mente-icon:bar-chart]]", color: "#16803C", slug: "estatistica-probabilidade" },
+    { name: "Matemática Financeira", icon: "[[mente-icon:coins]]", color: "#D9A400", slug: "matematica-financeira" },
+    { name: "Grandezas e Medidas", icon: "[[mente-icon:ruler]]", color: "#D70101", slug: "grandezas-medidas" },
+    { name: "Gráficos e Tabelas", icon: "[[mente-icon:line-chart]]", color: "#0284C7", slug: "graficos-tabelas" }
   ];
 
   const STORAGE_PLAN = "mente-study-plan-v3";
@@ -110,14 +110,14 @@
         </div>
 
         <div class="roadmap-builder__block">
-          <p class="roadmap-builder__title">⏱️ Quanto tempo você tem?</p>
+          <p class="roadmap-builder__title">[[mente-icon:clock]] Quanto tempo você tem?</p>
           <div class="roadmap-choice-row" id="time-options">
             ${[20,40,60,90].map((m) => `<span class="roadmap-choice"><input type="radio" name="study-time" id="study-time-${m}" value="${m}" ${m===40?"checked":""}><label for="study-time-${m}">${m} min</label></span>`).join("")}
           </div>
         </div>
 
         <div class="roadmap-builder__block">
-          <p class="roadmap-builder__title">🧠 Qual é seu objetivo?</p>
+          <p class="roadmap-builder__title">[[mente-icon:brain]] Qual é seu objetivo?</p>
           <div class="roadmap-choice-row">
             <span class="roadmap-choice"><input type="radio" name="study-mode" id="mode-smart" value="smart" checked><label for="mode-smart">Reforçar dificuldades</label></span>
             <span class="roadmap-choice"><input type="radio" name="study-mode" id="mode-balanced" value="balanced"><label for="mode-balanced">Estudo equilibrado</label></span>
@@ -126,7 +126,7 @@
         </div>
 
         <div class="roadmap-builder__block">
-          <p class="roadmap-builder__title">📚 Quais matérias podem entrar no roteiro?</p>
+          <p class="roadmap-builder__title">[[mente-icon:book]] Quais matérias podem entrar no roteiro?</p>
           <div class="roadmap-subjects">
             ${subjects.map((s) => `<span class="roadmap-subject" style="--subject-color:${s.color}"><input type="checkbox" id="subject-${s.slug}" value="${s.name}" checked><label for="subject-${s.slug}"><span>${s.icon} ${s.name}</span><b>✓</b></label></span>`).join("")}
           </div>
@@ -152,9 +152,9 @@
           <div class="roadmap-progress__meta"><span id="progress-label">0 de 0 etapas</span><span id="progress-percent">0%</span></div>
           <div class="roadmap-progress__track"><span id="progress-bar"></span></div>
         </div>
-        <div class="roadmap-plan__notice">🔒 As etapas não podem mais ser marcadas manualmente. Elas são concluídas quando o requisito de tempo e, quando necessário, a atividade pedida forem cumpridos.</div>
+        <div class="roadmap-plan__notice">[[mente-icon:lock]] As etapas não podem mais ser marcadas manualmente. Elas são concluídas quando o requisito de tempo e, quando necessário, a atividade pedida forem cumpridos.</div>
         <div class="roadmap-timeline" id="roadmap-timeline"></div>
-        <div class="roadmap-plan__complete" id="plan-complete"><strong>🎉 Roteiro concluído!</strong><br>Você terminou o plano de hoje com atividade verificada. Se quiser continuar, monte outro roteiro.</div>
+        <div class="roadmap-plan__complete" id="plan-complete"><strong>[[mente-icon:award]] Roteiro concluído!</strong><br>Você terminou o plano de hoje com atividade verificada. Se quiser continuar, monte outro roteiro.</div>
       </section>
 
       <section class="roadmap-performance">
