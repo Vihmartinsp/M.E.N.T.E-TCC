@@ -6,19 +6,19 @@
   <meta name="description" content="Painel administrativo da plataforma M.E.N.T.E">
   <title>Painel Administrativo | M.E.N.T.E</title>
   <link rel="icon" href="./assets/favicon.ico?v=2" type="image/x-icon">
-  <link rel="stylesheet" href="theme-reset.css?v=2">
-  <link rel="stylesheet" href="admin.css?v=2">
+  <link rel="stylesheet" href="theme-reset.css?v=20261103b">
+  <link rel="stylesheet" href="admin.css?v=20261103b">
   <style>
     .admin-brand{min-height:62px;align-items:center!important;padding:10px 9px 20px!important}.admin-brand__solo{font-size:16px!important;letter-spacing:0!important;line-height:1.25}.admin-topbar{gap:14px}.admin-sync-status{display:inline-flex;align-items:center;gap:7px;margin-left:auto;margin-right:2px;padding:7px 10px;border:1px solid #dce6f3;border-radius:999px;background:#f7faff;color:#5f7188;font-size:10px;font-weight:800;white-space:nowrap}.admin-sync-status__dot{width:7px;height:7px;border-radius:50%;background:#2d7aeb;box-shadow:0 0 0 3px rgba(45,122,235,.1);animation:adminSyncPulse 1.35s ease-in-out infinite}.admin-sync-status[data-state="ok"]{color:#18724f;border-color:#cdebdc;background:#f4fbf7}.admin-sync-status[data-state="ok"] .admin-sync-status__dot{background:#22a06b;animation:none}.admin-sync-status[data-state="slow"]{color:#8b6500;border-color:#f0dfaa;background:#fffaf0}.admin-loading--compact{display:flex!important;min-height:0!important;align-items:center!important;justify-content:flex-start!important;gap:10px!important;margin:0 0 18px!important;padding:10px 13px!important;border:1px solid #e1e8f1!important;border-radius:11px!important;background:#fff!important;text-align:left!important}.admin-loading--compact[hidden]{display:none!important}.admin-spinner--small{width:20px!important;height:20px!important;border-width:3px!important;flex:none}.admin-loading--compact strong,.admin-loading--compact span{display:block}.admin-loading--compact strong{font-size:11px}.admin-loading--compact span{margin-top:2px;color:#8290a3;font-size:9px}#admin-denied{display:none!important}@keyframes adminSyncPulse{0%,100%{opacity:.38;transform:scale(.88)}50%{opacity:1;transform:scale(1.08)}}@media(max-width:780px){.admin-sync-status{display:none}}
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-  <script src="supabase-client.js?v=5" defer></script>
-  <script src="admin.js?v=3" defer></script>
-  <script src="admin-plus.js?v=2" defer></script>
-  <script src="admin-connection-watchdog.js?v=6" defer></script>
-  <script src="avatar-admin-bridge.js?v=6" defer></script>
-    <link rel="stylesheet" href="./mente-icons.css?v=1">
-    <script src="./mente-icons.js?v=1" defer></script>
+  <script src="supabase-client.js?v=20261103b" defer></script>
+  <script src="admin.js?v=20261103b" defer></script>
+  <script src="admin-plus.js?v=20261103b" defer></script>
+  <script src="admin-connection-watchdog.js?v=20261103b" defer></script>
+  <script src="avatar-admin-bridge.js?v=20261103b" defer></script>
+    <link rel="stylesheet" href="./mente-icons.css?v=4">
+    <script src="./mente-icons.js?v=4" defer></script>
   </head>
 <body class="admin-page">
   <aside class="admin-sidebar">
@@ -68,7 +68,7 @@
 
         <section class="admin-tab" data-tab-panel="team" hidden>
           <div class="admin-intro"><div><span class="admin-kicker">Permissões</span><h2>Equipe M.E.N.T.E</h2><p>Como Super Admin, você pode transformar contas em aluno ou administrador sem alterar o código.</p></div></div>
-          <article class="admin-panel"><div class="admin-panel__head"><div><span>Controle de acesso</span><h3>Funções da plataforma</h3></div></div><div class="role-explainer"><div><strong>👨‍🎓 Aluno</strong><span>Usa a plataforma e acompanha o próprio progresso.</span></div><div><strong>◆ Admin</strong><span>Gerencia questões e acompanha os dados da plataforma.</span></div><div><strong>👑 Super Admin</strong><span>Controle total, planos e gerenciamento da equipe.</span></div></div></article>
+          <article class="admin-panel"><div class="admin-panel__head"><div><span>Controle de acesso</span><h3>Funções da plataforma</h3></div></div><div class="role-explainer"><div><strong><svg class="mente-vector-icon" data-icon="graduation" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 10 10-6 10 6-10 6Z"/><path d="M6 13v4c4 4 8 4 12 0v-4M22 10v7"/></svg> Aluno</strong><span>Usa a plataforma e acompanha o próprio progresso.</span></div><div><strong>◆ Admin</strong><span>Gerencia questões e acompanha os dados da plataforma.</span></div><div><strong>👑 Super Admin</strong><span>Controle total, planos e gerenciamento da equipe.</span></div></div></article>
           <article class="admin-panel admin-table-panel"><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Pessoa</th><th>E-mail</th><th>Função atual</th><th>Alterar função</th></tr></thead><tbody id="team-table"></tbody></table></div></article>
         </section>
       </div>
