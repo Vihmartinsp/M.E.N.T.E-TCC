@@ -1,0 +1,25 @@
+/* M.E.N.T.E — sistema de ícones vetoriais institucionais.
+   Pictogramas monocromáticos, traço uniforme e cor herdada da interface. */
+.mente-ui-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.06em;
+  height: 1.06em;
+  margin-inline: .07em;
+  vertical-align: -.16em;
+  flex-shrink: 0;
+  color: inherit;
+  line-height: 1;
+  white-space: nowrap;
+}
+.mente-ui-icon > svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.mente-ui-icon:first-child { margin-left: 0; }
+.mente-ui-icon:last-child { margin-right: 0; }
+/* O texto da sobreposição de bloqueio antes era criado como emoji em CSS. */
+.question-card.is-guest-locked::after { content: "Crie sua conta para desbloquear" !important; }
