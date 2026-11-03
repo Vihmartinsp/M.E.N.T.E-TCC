@@ -172,6 +172,8 @@
     if (!hasEmoji(node.nodeValue || "")) return;
     const text = node.nodeValue || "";
     const parentTag = node.parentElement.tagName;
+    // matchAll herda lastIndex da expressão global; reinicie após hasEmoji().
+    emojiPattern.lastIndex = 0;
     const matches = Array.from(text.matchAll(emojiPattern));
     if (!matches.some(function (item) { return !unchanged.has(item[0]); })) return;
 
