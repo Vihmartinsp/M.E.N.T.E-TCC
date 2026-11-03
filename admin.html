@@ -29,7 +29,7 @@
       <button class="admin-nav__item" type="button" data-admin-tab="questions"><span>✎</span> Questões</button>
       <button class="admin-nav__item" type="button" data-admin-tab="team"><span>♚</span> Equipe</button>
     </nav>
-    <div class="admin-sidebar__bottom"><a href="./questoes.html">← Voltar à plataforma</a><button id="admin-logout" type="button">↪ Sair da conta</button></div>
+    <div class="admin-sidebar__bottom"><a href="./questoes.html">← Voltar à plataforma</a><button id="admin-logout" type="button"><svg class="mente-vector-icon" data-icon="logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 17l5-5-5-5M15 12H3"/><path d="M12 3h6a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3h-6"/></svg> Sair da conta</button></div>
   </aside>
 
   <div class="admin-shell">
@@ -68,7 +68,7 @@
 
         <section class="admin-tab" data-tab-panel="team" hidden>
           <div class="admin-intro"><div><span class="admin-kicker">Permissões</span><h2>Equipe M.E.N.T.E</h2><p>Como Super Admin, você pode transformar contas em aluno ou administrador sem alterar o código.</p></div></div>
-          <article class="admin-panel"><div class="admin-panel__head"><div><span>Controle de acesso</span><h3>Funções da plataforma</h3></div></div><div class="role-explainer"><div><strong><svg class="mente-vector-icon" data-icon="graduation" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 10 10-6 10 6-10 6Z"/><path d="M6 13v4c4 4 8 4 12 0v-4M22 10v7"/></svg> Aluno</strong><span>Usa a plataforma e acompanha o próprio progresso.</span></div><div><strong>◆ Admin</strong><span>Gerencia questões e acompanha os dados da plataforma.</span></div><div><strong>👑 Super Admin</strong><span>Controle total, planos e gerenciamento da equipe.</span></div></div></article>
+          <article class="admin-panel"><div class="admin-panel__head"><div><span>Controle de acesso</span><h3>Funções da plataforma</h3></div></div><div class="role-explainer"><div><strong><svg class="mente-vector-icon" data-icon="graduation" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 10 10-6 10 6-10 6Z"/><path d="M6 13v4c4 4 8 4 12 0v-4M22 10v7"/></svg> Aluno</strong><span>Usa a plataforma e acompanha o próprio progresso.</span></div><div><strong>◆ Admin</strong><span>Gerencia questões e acompanha os dados da plataforma.</span></div><div><strong><svg class="mente-vector-icon" data-icon="crown" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m2 8 4 4 6-8 6 8 4-4-2 12H4Z"/><path d="M4 17h16"/></svg> Super Admin</strong><span>Controle total, planos e gerenciamento da equipe.</span></div></div></article>
           <article class="admin-panel admin-table-panel"><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Pessoa</th><th>E-mail</th><th>Função atual</th><th>Alterar função</th></tr></thead><tbody id="team-table"></tbody></table></div></article>
         </section>
       </div>
