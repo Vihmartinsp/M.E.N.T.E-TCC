@@ -40,10 +40,10 @@
       { id:"deep", label:"Profunda", sample:"#56351F" }
     ],
     hair: [
-      { id:"short", label:"Curto", sample:"✂" },
+      { id:"short", label:"Curto", sample:"[[mente-icon:info]]" },
       { id:"bob", label:"Bob", sample:"◒" },
       { id:"waves", label:"Ondulado", sample:"≈" },
-      { id:"curls", label:"Cacheado", sample:"〰" },
+      { id:"curls", label:"Cacheado", sample:"[[mente-icon:info]]" },
       { id:"afro", label:"Afro", sample:"✺" },
       { id:"pony", label:"Rabo alto", sample:"◕", access:"plus" },
       { id:"bun", label:"Coque", sample:"●", access:"plus" },
@@ -299,7 +299,7 @@
     const selected = state.config[category] === item.id;
     const badge = item.access ? `<span class="mente-avatar-option__badge ${access.kind==="merit"?"is-merit":""}">${access.badge}</span>` : "";
     return `<button type="button" class="mente-avatar-option ${selected?"is-selected":""} ${access.unlocked?"":"is-locked"}" data-avatar-category="${category}" data-avatar-value="${item.id}" title="${escAttr(access.reason || item.label)}" aria-pressed="${selected}">
-      ${!access.unlocked?'<span class="mente-avatar-option__lock">🔒</span>':""}${badge}${sampleMarkup(category,item)}<strong>${item.label}</strong>
+      ${!access.unlocked?'<span class="mente-avatar-option__lock">[[mente-icon:lock]]</span>':""}${badge}${sampleMarkup(category,item)}<strong>${item.label}</strong>
     </button>`;
   }
 
@@ -309,15 +309,15 @@
       <aside class="mente-avatar-stage">
         <div class="mente-avatar-preview" data-avatar-preview>${renderSvg(state.config,{label:"Prévia do avatar"})}</div>
         <div class="mente-avatar-stage__copy"><strong>Seu personagem M.E.N.T.E</strong><span>Monte um avatar que combine com você. As mudanças aparecem ao vivo.</span></div>
-        <div class="mente-avatar-mini-status"><span class="mente-avatar-pill">⭐ ${state.metrics.points} pontos</span><span class="mente-avatar-pill is-merit">🔥 ${state.metrics.streak} dias</span>${isPlus()?'<span class="mente-avatar-pill is-plus">★ PLUS</span>':""}</div>
-        <div class="mente-avatar-stage__actions"><button type="button" data-avatar-random>🎲 Aleatório</button><button type="button" data-avatar-reset>↺ Padrão</button><button type="button" class="mente-avatar-save" data-avatar-save>Salvar avatar</button></div>
+        <div class="mente-avatar-mini-status"><span class="mente-avatar-pill">[[mente-icon:star]] ${state.metrics.points} pontos</span><span class="mente-avatar-pill is-merit">[[mente-icon:flame]] ${state.metrics.streak} dias</span>${isPlus()?'<span class="mente-avatar-pill is-plus">★ PLUS</span>':""}</div>
+        <div class="mente-avatar-stage__actions"><button type="button" data-avatar-random>[[mente-icon:dice]] Aleatório</button><button type="button" data-avatar-reset>↺ Padrão</button><button type="button" class="mente-avatar-save" data-avatar-save>Salvar avatar</button></div>
         <p class="mente-avatar-save-status" data-avatar-status aria-live="polite"></p>
       </aside>
       <section class="mente-avatar-workbench">
         <div class="mente-avatar-workbench__head"><div><strong>Personalize cada detalhe</strong><span>Itens com ★ Plus usam sua prévia administrativa quando você alterna o plano.</span></div></div>
         <div class="mente-avatar-tabs" role="tablist">${CATEGORIES.map((item)=>`<button type="button" class="mente-avatar-tab ${item.key===state.activeTab?"is-active":""}" data-avatar-tab="${item.key}">${item.icon} ${item.label}</button>`).join("")}</div>
         <div class="mente-avatar-category"><div class="mente-avatar-category__title"><span>${category.label}</span><small>${category.hint}</small></div><div class="mente-avatar-options">${OPTIONS[category.key].map((item)=>optionMarkup(category.key,item)).join("")}</div>
-        <div class="mente-avatar-lock-note"><span>🔓</span><span><b>Desbloqueios:</b> itens verdes são ganhos estudando (100 pontos, 7 dias de sequência ou nível 5). Itens roxos são exclusivos do Plus. Tons de pele nunca são bloqueados.</span></div></div>
+        <div class="mente-avatar-lock-note"><span>[[mente-icon:lock-open]]</span><span><b>Desbloqueios:</b> itens verdes são ganhos estudando (100 pontos, 7 dias de sequência ou nível 5). Itens roxos são exclusivos do Plus. Tons de pele nunca são bloqueados.</span></div></div>
       </section>
     </div>`;
   }
@@ -349,7 +349,7 @@
     const access = accessStatus(item);
     if (!access.unlocked) {
       if (item.access === "plus") window.MENTE_PLUS?.openUpgrade?.(`${item.label} no editor de avatar`);
-      else toast("Item por mérito", access.reason, "🏆");
+      else toast("Item por mérito", access.reason, "[[mente-icon:trophy]]");
       return;
     }
     state.config = { ...state.config, [category]:id };
@@ -396,7 +396,7 @@
         }
       }
       if (status) { status.textContent = online ? "Avatar salvo e sincronizado ✓" : "Avatar salvo neste dispositivo ✓"; status.dataset.state="success"; }
-      toast("Avatar atualizado!", online ? "Seu novo visual já está salvo no seu perfil." : "Seu novo visual foi salvo neste dispositivo.", "✨");
+      toast("Avatar atualizado!", online ? "Seu novo visual já está salvo no seu perfil." : "Seu novo visual foi salvo neste dispositivo.", "[[mente-icon:award]]");
       try { window.dispatchEvent(new CustomEvent("mente:avatar-updated",{detail:{config:{...config}}})); } catch {}
     } catch (error) {
       console.warn("[M.E.N.T.E Avatar] Falha ao sincronizar avatar:",error);

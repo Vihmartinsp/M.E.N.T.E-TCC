@@ -341,7 +341,7 @@
     const trap = specific.trap || guide.defaultTrap;
     const strategy = specific.strategy || guide.defaultStrategy;
     const tip = specific.tip || guide.defaultTip;
-    const resultTitle = info.correct ? "✅ Você acertou!" : "Vamos transformar esse erro em aprendizado";
+    const resultTitle = info.correct ? "[[mente-icon:check]] Você acertou!" : "Vamos transformar esse erro em aprendizado";
     const wrongText = info.correct
       ? `Você marcou ${info.userAnswer}, que é a alternativa correta. As demais opções não representam o resultado obtido quando os dados são organizados e o cálculo é feito até o final.`
       : info.userAnswer === "Não respondida"

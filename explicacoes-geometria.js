@@ -23,7 +23,7 @@
       </header>
 
       <article class="geometry-section geometry-accent">
-        <h3>📐 Geometria está em todo lugar</h3>
+        <h3>[[mente-icon:ruler]] Geometria está em todo lugar</h3>
         <p>Ela está em praticamente tudo ao nosso redor:</p>
         <ul>
           <li>uma caixa de sapato é um <strong>sólido geométrico</strong>;</li>
@@ -35,19 +35,19 @@
       </article>
 
       <article class="geometry-section" id="enem-geometria">
-        <h3>🎯 Como o ENEM cobra Geometria?</h3>
+        <h3>[[mente-icon:target]] Como o ENEM cobra Geometria?</h3>
         <p>O ENEM raramente apresenta apenas algo como “calcule a área deste retângulo”. Normalmente, a Geometria vem escondida em uma situação real.</p>
         <div class="geometry-grid">
-          <div class="geometry-mini-card"><h4>🏠 Parede</h4><p>Uma empresa deseja revestir uma parede. O problema pode exigir área, quantidade de material ou desperdício.</p></div>
-          <div class="geometry-mini-card"><h4>🛢️ Reservatório</h4><p>Um reservatório tem formato cilíndrico. A pergunta pode envolver volume, capacidade ou quantidade de líquido.</p></div>
-          <div class="geometry-mini-card"><h4>🌱 Praça</h4><p>Uma praça circular receberá grama. O aluno precisa identificar qual região deve ser medida.</p></div>
-          <div class="geometry-mini-card"><h4>📦 Objetos</h4><p>Caixas, embalagens e construções podem esconder retângulos, triângulos, círculos e sólidos.</p></div>
+          <div class="geometry-mini-card"><h4>[[mente-icon:home]] Parede</h4><p>Uma empresa deseja revestir uma parede. O problema pode exigir área, quantidade de material ou desperdício.</p></div>
+          <div class="geometry-mini-card"><h4>[[mente-icon:database]] Reservatório</h4><p>Um reservatório tem formato cilíndrico. A pergunta pode envolver volume, capacidade ou quantidade de líquido.</p></div>
+          <div class="geometry-mini-card"><h4>[[mente-icon:sprout]] Praça</h4><p>Uma praça circular receberá grama. O aluno precisa identificar qual região deve ser medida.</p></div>
+          <div class="geometry-mini-card"><h4>[[mente-icon:box]] Objetos</h4><p>Caixas, embalagens e construções podem esconder retângulos, triângulos, círculos e sólidos.</p></div>
         </div>
         <div class="geometry-question"><strong>Perceba uma coisa:</strong><br>1. O problema vem primeiro.<br>2. A figura geométrica aparece depois.<br><br>Por isso, a maior dificuldade dos alunos não está na conta, mas em descobrir <strong>qual figura apareceu, o que a questão quer encontrar e quais medidas realmente importam</strong>.</div>
       </article>
 
       <article class="geometry-section" id="segredo-geometria">
-        <h3>🔑 O segredo da Geometria</h3>
+        <h3>[[mente-icon:key]] O segredo da Geometria</h3>
         <p>Toda questão de Geometria pode ser pensada assim:</p>
         <div class="geometry-flow"><span>Situação</span><b>→</b><span>Figura</span><b>→</b><span>Fórmula</span><b>→</b><span>Resposta</span></div>
         <p>A maioria dos alunos tenta começar direto pela fórmula. O caminho mais seguro é fazer quatro perguntas antes de qualquer cálculo:</p>
@@ -61,7 +61,7 @@
       </article>
 
       <article class="geometry-section" id="figuras-geometria">
-        <h3>🔷 Figuras planas e figuras espaciais</h3>
+        <h3>[[mente-icon:gem]] Figuras planas e figuras espaciais</h3>
         <div class="geometry-grid">
           <div class="geometry-mini-card">
             <h4>Figuras planas (2 dimensões)</h4>
@@ -75,7 +75,7 @@
       </article>
 
       <article class="geometry-section" id="formulas-geometria">
-        <h3>🧠 As fórmulas mais importantes</h3>
+        <h3>[[mente-icon:brain]] As fórmulas mais importantes</h3>
         <p><strong>Não decore antes de entender.</strong> A fórmula fica muito mais fácil quando você entende o que ela está medindo.</p>
         <div class="formula-grid">
           <div class="formula-card">
@@ -107,7 +107,7 @@
       </article>
 
       <article class="geometry-section" id="enunciado-geometria">
-        <h3>🔎 O que destacar no enunciado?</h3>
+        <h3>[[mente-icon:search]] O que destacar no enunciado?</h3>
         <p>Antes de calcular, separe os elementos da questão. Isso ajuda a transformar um texto grande em informações úteis.</p>
         <div class="pedagogy-list">
           <div class="pedagogy-item pedagogy-item--data"><strong>Medidas e dados</strong><span>Exemplos: 5 metros, 20 cm, raio de 3 m, altura de 8 m.</span></div>
@@ -118,7 +118,7 @@
       </article>
 
       <article class="geometry-section" id="pensar-geometria">
-        <h3>🧭 Como pensar durante uma questão?</h3>
+        <h3>[[mente-icon:info]] Como pensar durante uma questão?</h3>
         <p>Sempre siga este caminho:</p>
         <ol class="geometry-checklist">
           <li><strong>O que estou vendo?</strong> Identifique a situação apresentada.</li>
@@ -131,7 +131,7 @@
       </article>
 
       <article class="geometry-summary">
-        <h3>✅ Resumo</h3>
+        <h3>[[mente-icon:check]] Resumo</h3>
         <p>A Geometria do ENEM não é uma prova de decorar fórmulas. <strong>Ela é uma prova de interpretação.</strong></p>
         <p>Quem aprende a:</p>
         <ol>

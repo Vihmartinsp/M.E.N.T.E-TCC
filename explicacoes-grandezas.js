@@ -15,7 +15,7 @@
   section.innerHTML = `
     <header class="measures-guide__hero">
       <p class="measures-guide__eyebrow">M.E.N.T.E · Matemática ENEM Traduzida e Explicada</p>
-      <h2>🔴 GRANDEZAS E MEDIDAS</h2>
+      <h2>[[mente-icon:info]] GRANDEZAS E MEDIDAS</h2>
       <p>Grandezas e Medidas aparecem em praticamente todas as áreas da Matemática. Uma grandeza é tudo aquilo que pode ser medido, como comprimento, massa, capacidade, área, volume e tempo.</p>
       <p>No ENEM, a dificuldade normalmente não está em uma conversão isolada. O desafio é perceber <strong>quando as unidades precisam ser compatibilizadas antes de fazer a conta.</strong></p>
       <nav class="measures-guide__toc" aria-label="Tópicos da explicação de Grandezas e Medidas">
@@ -98,11 +98,11 @@
         <table class="measures-question-table">
           <thead><tr><th>Nível</th><th>Ano</th><th>Questão</th><th>Conteúdo</th><th>Gabarito</th></tr></thead>
           <tbody>
-            <tr><td>⭐</td><td>2025</td><td>159</td><td>Capacidade e volume: cm³ e mL</td><td>D</td></tr>
-            <tr><td>⭐⭐</td><td>2025</td><td>179</td><td>Unidade derivada: cd/m²</td><td>A</td></tr>
-            <tr><td>⭐⭐⭐</td><td>2025</td><td>156</td><td>Escala e conversão de medidas</td><td>E</td></tr>
-            <tr><td>⭐⭐⭐⭐</td><td>2023</td><td>171</td><td>Conversão entre calendários</td><td>C</td></tr>
-            <tr><td>⭐⭐⭐⭐⭐</td><td>2024</td><td>151</td><td>Escala de área e conversão m²/cm²</td><td>E</td></tr>
+            <tr><td>[[mente-icon:star]]</td><td>2025</td><td>159</td><td>Capacidade e volume: cm³ e mL</td><td>D</td></tr>
+            <tr><td>[[mente-icon:star]][[mente-icon:star]]</td><td>2025</td><td>179</td><td>Unidade derivada: cd/m²</td><td>A</td></tr>
+            <tr><td>[[mente-icon:star]][[mente-icon:star]][[mente-icon:star]]</td><td>2025</td><td>156</td><td>Escala e conversão de medidas</td><td>E</td></tr>
+            <tr><td>[[mente-icon:star]][[mente-icon:star]][[mente-icon:star]][[mente-icon:star]]</td><td>2023</td><td>171</td><td>Conversão entre calendários</td><td>C</td></tr>
+            <tr><td>[[mente-icon:star]][[mente-icon:star]][[mente-icon:star]][[mente-icon:star]][[mente-icon:star]]</td><td>2024</td><td>151</td><td>Escala de área e conversão m²/cm²</td><td>E</td></tr>
           </tbody>
         </table>
       </div>
@@ -124,7 +124,7 @@
       link.removeAttribute("aria-disabled");
       link.removeAttribute("onclick");
       link.href = "#grandezas";
-      link.textContent = "⚖️ Grandezas e Medidas";
+      link.textContent = "[[mente-icon:ruler]] Grandezas e Medidas";
     }
   }
 

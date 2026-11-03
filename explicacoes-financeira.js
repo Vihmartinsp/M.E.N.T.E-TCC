@@ -15,7 +15,7 @@
   section.innerHTML = `
     <header class="finance-guide__hero">
       <p class="finance-guide__eyebrow">Explicação completa</p>
-      <h2>💰 MATEMÁTICA FINANCEIRA</h2>
+      <h2>[[mente-icon:coins]] MATEMÁTICA FINANCEIRA</h2>
       <p><strong>Matemática Financeira é a Matemática usada para tomar decisões envolvendo dinheiro.</strong> No ENEM, o mais importante é interpretar a situação financeira e decidir qual cálculo deve ser feito.</p>
       <nav class="finance-guide__toc" aria-label="Tópicos da explicação de Matemática Financeira">
         <a href="#o-que-e-financeira">O que é?</a>
@@ -39,10 +39,10 @@
       <p>Mas, na verdade, <strong>Matemática Financeira é apenas a Matemática usada para tomar decisões envolvendo dinheiro.</strong></p>
       <p>Ela está presente em praticamente todas as compras que fazemos.</p>
       <div class="finance-grid">
-        <div class="finance-mini-card"><h4>📱 Compra</h4><p>Um celular pode ser pago à vista ou parcelado.</p></div>
-        <div class="finance-mini-card"><h4>💵 Poupança</h4><p>Um dinheiro guardado na poupança rende juros.</p></div>
-        <div class="finance-mini-card"><h4>💳 Cartão</h4><p>O cartão de crédito cobra juros quando a fatura atrasa.</p></div>
-        <div class="finance-mini-card"><h4>🏦 Financiamento</h4><p>Um financiamento aumenta de valor ao longo do tempo.</p></div>
+        <div class="finance-mini-card"><h4>[[mente-icon:smartphone]] Compra</h4><p>Um celular pode ser pago à vista ou parcelado.</p></div>
+        <div class="finance-mini-card"><h4>[[mente-icon:wallet]] Poupança</h4><p>Um dinheiro guardado na poupança rende juros.</p></div>
+        <div class="finance-mini-card"><h4>[[mente-icon:credit-card]] Cartão</h4><p>O cartão de crédito cobra juros quando a fatura atrasa.</p></div>
+        <div class="finance-mini-card"><h4>[[mente-icon:bank]] Financiamento</h4><p>Um financiamento aumenta de valor ao longo do tempo.</p></div>
       </div>
       <div class="finance-callout">Por isso, o ENEM não quer saber apenas se você sabe fazer contas com porcentagens. Ele quer saber: <strong>você consegue interpretar a situação financeira e decidir qual cálculo deve ser feito?</strong></div>
     </article>
@@ -174,7 +174,7 @@
       financeLink.removeAttribute("aria-disabled");
       financeLink.removeAttribute("onclick");
       financeLink.href = "#financeira";
-      financeLink.textContent = "💰 Matemática Financeira";
+      financeLink.textContent = "[[mente-icon:coins]] Matemática Financeira";
     }
   }
 

@@ -15,7 +15,7 @@
   section.innerHTML = `
     <header class="statistics-guide__hero">
       <p class="statistics-guide__eyebrow">Explicação completa</p>
-      <h2>📊 ESTATÍSTICA E PROBABILIDADE</h2>
+      <h2>[[mente-icon:bar-chart]] ESTATÍSTICA E PROBABILIDADE</h2>
       <p><strong>Estatística serve para entender informações.</strong> <strong>Probabilidade serve para prever possibilidades.</strong> No ENEM, o mais importante é interpretar as informações antes de fazer contas.</p>
       <nav class="statistics-guide__toc" aria-label="Tópicos da explicação de Estatística e Probabilidade">
         <a href="#o-que-e-estatistica">O que é?</a>
@@ -42,10 +42,10 @@
       </ul>
       <p>Todos os dias usamos isso.</p>
       <div class="statistics-grid">
-        <div class="statistics-mini-card"><h4>🌦️ Previsão do tempo</h4><p>É uma situação do cotidiano em que usamos informações e possibilidades.</p></div>
-        <div class="statistics-mini-card"><h4>💰 Inflação</h4><p>É um exemplo de informação analisada por meio de dados.</p></div>
-        <div class="statistics-mini-card"><h4>⚽ Esportes</h4><p>A chance de um time vencer também envolve esse tipo de análise.</p></div>
-        <div class="statistics-mini-card"><h4>💉 Vacinas</h4><p>Pesquisas sobre vacinas utilizam Estatística.</p></div>
+        <div class="statistics-mini-card"><h4>[[mente-icon:sun-cloud]] Previsão do tempo</h4><p>É uma situação do cotidiano em que usamos informações e possibilidades.</p></div>
+        <div class="statistics-mini-card"><h4>[[mente-icon:coins]] Inflação</h4><p>É um exemplo de informação analisada por meio de dados.</p></div>
+        <div class="statistics-mini-card"><h4>[[mente-icon:activity]] Esportes</h4><p>A chance de um time vencer também envolve esse tipo de análise.</p></div>
+        <div class="statistics-mini-card"><h4>[[mente-icon:syringe]] Vacinas</h4><p>Pesquisas sobre vacinas utilizam Estatística.</p></div>
       </div>
       <div class="statistics-callout">Por isso, o ENEM quer saber se você consegue <strong>interpretar informações antes de fazer contas.</strong></div>
     </article>
@@ -173,7 +173,7 @@
       statLink.removeAttribute("aria-disabled");
       statLink.removeAttribute("onclick");
       statLink.href = "#estatistica";
-      statLink.textContent = "📊 Estatística e Probabilidade";
+      statLink.textContent = "[[mente-icon:bar-chart]] Estatística e Probabilidade";
     }
   }
 

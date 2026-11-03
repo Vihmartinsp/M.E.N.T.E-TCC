@@ -9,7 +9,7 @@
     <section class="charts-guide mente-charts-final" id="graficos-tabelas">
       <header class="charts-guide__hero">
         <p class="charts-guide__eyebrow">Explicação completa</p>
-        <h2>📈 ANÁLISE DE GRÁFICOS E TABELAS</h2>
+        <h2>[[mente-icon:line-chart]] ANÁLISE DE GRÁFICOS E TABELAS</h2>
         <p>Gráficos e tabelas não servem apenas para mostrar números. <strong>Eles organizam informações para que possamos tirar conclusões.</strong> No ENEM, o mais importante é interpretar corretamente aquilo que está sendo apresentado.</p>
         <nav class="charts-guide__toc" aria-label="Tópicos da explicação de Gráficos e Tabelas">
           <a href="#o-que-sao-graficos">O que é?</a>
@@ -32,8 +32,8 @@
         </ul>
         <p>Mas, na verdade, esse conteúdo é sobre <strong>interpretar informações</strong>.</p>
         <div class="charts-grid">
-          <div class="charts-mini-card"><h4>📊 Um gráfico</h4><p>Não existe apenas para mostrar números. Ele conta uma história.</p></div>
-          <div class="charts-mini-card"><h4>🧾 Uma tabela</h4><p>Organiza dados para que possamos comparar informações e tirar conclusões.</p></div>
+          <div class="charts-mini-card"><h4>[[mente-icon:bar-chart]] Um gráfico</h4><p>Não existe apenas para mostrar números. Ele conta uma história.</p></div>
+          <div class="charts-mini-card"><h4>[[mente-icon:file-text]] Uma tabela</h4><p>Organiza dados para que possamos comparar informações e tirar conclusões.</p></div>
         </div>
         <div class="charts-callout">O ENEM quer saber se você consegue <strong>interpretar as informações apresentadas e chegar à conclusão correta.</strong></div>
       </article>

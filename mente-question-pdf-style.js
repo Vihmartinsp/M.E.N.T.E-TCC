@@ -65,7 +65,7 @@
 
   function explanationHtml(question, answer) {
     const resultClass = answer?.correct ? "is-correct" : "is-wrong";
-    const resultTitle = answer?.correct ? "✅ Você acertou!" : "Vamos transformar esse erro em aprendizado";
+    const resultTitle = answer?.correct ? "[[mente-icon:check]] Você acertou!" : "Vamos transformar esse erro em aprendizado";
 
     return `
       <div class="mente-pdf-explanation ${resultClass}">

@@ -14,12 +14,12 @@
     subjects.className = "explanation-subjects";
     subjects.setAttribute("aria-label", "Escolher matéria para estudar");
     subjects.innerHTML = `
-      <a data-subject="geometry" href="#geometria">📐 Geometria</a>
+      <a data-subject="geometry" href="#geometria">[[mente-icon:ruler]] Geometria</a>
       <a data-subject="functions" href="#funcoes">ƒ Funções</a>
-      <a class="is-coming" href="#" aria-disabled="true" onclick="return false">📊 Estatística e Probabilidade · em breve</a>
-      <a class="is-coming" href="#" aria-disabled="true" onclick="return false">💰 Matemática Financeira · em breve</a>
-      <a class="is-coming" href="#" aria-disabled="true" onclick="return false">⚖️ Grandezas e Medidas · em breve</a>
-      <a class="is-coming" href="#" aria-disabled="true" onclick="return false">📈 Gráficos e Tabelas · em breve</a>`;
+      <a class="is-coming" href="#" aria-disabled="true" onclick="return false">[[mente-icon:bar-chart]] Estatística e Probabilidade · em breve</a>
+      <a class="is-coming" href="#" aria-disabled="true" onclick="return false">[[mente-icon:coins]] Matemática Financeira · em breve</a>
+      <a class="is-coming" href="#" aria-disabled="true" onclick="return false">[[mente-icon:ruler]] Grandezas e Medidas · em breve</a>
+      <a class="is-coming" href="#" aria-disabled="true" onclick="return false">[[mente-icon:line-chart]] Gráficos e Tabelas · em breve</a>`;
     main.insertBefore(subjects, geometry);
   }
 
@@ -42,19 +42,19 @@
     </header>
 
     <article class="functions-section functions-accent">
-      <h3>💡 O que são Funções?</h3>
+      <h3>[[mente-icon:lightbulb]] O que são Funções?</h3>
       <p>Uma função aparece quando duas informações estão relacionadas e uma delas depende da outra.</p>
       <div class="functions-grid">
-        <div class="functions-mini-card"><h4>💼 Trabalho</h4><p>Quanto mais horas você trabalha, maior pode ser o salário.</p></div>
-        <div class="functions-mini-card"><h4>🚗 Distância</h4><p>Quanto mais quilômetros um carro percorre, maior tende a ser o gasto de combustível.</p></div>
-        <div class="functions-mini-card"><h4>🛒 Compras</h4><p>Quanto maior a quantidade de produtos comprados, maior é o valor pago.</p></div>
-        <div class="functions-mini-card"><h4>🔗 Dependência</h4><p>Em todas essas situações existe uma informação que depende da outra.</p></div>
+        <div class="functions-mini-card"><h4>[[mente-icon:briefcase]] Trabalho</h4><p>Quanto mais horas você trabalha, maior pode ser o salário.</p></div>
+        <div class="functions-mini-card"><h4>[[mente-icon:car]] Distância</h4><p>Quanto mais quilômetros um carro percorre, maior tende a ser o gasto de combustível.</p></div>
+        <div class="functions-mini-card"><h4>[[mente-icon:shopping-cart]] Compras</h4><p>Quanto maior a quantidade de produtos comprados, maior é o valor pago.</p></div>
+        <div class="functions-mini-card"><h4>[[mente-icon:info]] Dependência</h4><p>Em todas essas situações existe uma informação que depende da outra.</p></div>
       </div>
       <div class="functions-callout">É exatamente isso que o ENEM quer que você enxergue. Não basta fazer contas: você precisa descobrir <strong>qual grandeza depende da outra</strong>.</div>
     </article>
 
     <article class="functions-section" id="enem-funcoes">
-      <h3>🎯 Como o ENEM cobra Funções?</h3>
+      <h3>[[mente-icon:target]] Como o ENEM cobra Funções?</h3>
       <p>No ENEM, quase nunca aparece uma questão dizendo simplesmente “resolva esta função”. Normalmente a função aparece escondida em uma situação do cotidiano.</p>
       <ul>
         <li>uma empresa cobra uma taxa fixa mais um valor por quilômetro;</li>
@@ -70,7 +70,7 @@
     </article>
 
     <article class="functions-section" id="segredo-funcoes">
-      <h3>🔑 O segredo das Funções</h3>
+      <h3>[[mente-icon:key]] O segredo das Funções</h3>
       <p>Toda questão de função pode ser pensada assim:</p>
       <div class="functions-flow"><span>Situação</span><b>→</b><span>Relação</span><b>→</b><span>Equação</span><b>→</b><span>Resposta</span></div>
       <p>Um erro comum é começar direto pela equação. Antes de qualquer cálculo, pergunte:</p>
@@ -83,7 +83,7 @@
     </article>
 
     <article class="functions-section" id="tipos-funcoes">
-      <h3>📚 Os principais tipos de função</h3>
+      <h3>[[mente-icon:book]] Os principais tipos de função</h3>
       <div class="function-formula-grid">
         <div class="function-formula-card">
           <h4>Função afim</h4>
@@ -112,7 +112,7 @@
     </article>
 
     <article class="functions-section" id="formulas-funcoes">
-      <h3>🧠 As fórmulas mais importantes</h3>
+      <h3>[[mente-icon:brain]] As fórmulas mais importantes</h3>
       <p><strong>Não decore antes de entender.</strong></p>
       <div class="function-formula-grid">
         <div class="function-formula-card">
@@ -133,7 +133,7 @@
     </article>
 
     <article class="functions-section" id="enunciado-funcoes">
-      <h3>🔎 O que destacar no enunciado?</h3>
+      <h3>[[mente-icon:search]] O que destacar no enunciado?</h3>
       <div class="pedagogy-list">
         <div class="pedagogy-item pedagogy-item--data"><strong>Dados importantes</strong><span>Valor inicial, taxa fixa, “a cada”, “por unidade”, tempo, quilômetros, litros, idade e preço.</span></div>
         <div class="pedagogy-item pedagogy-item--objective"><strong>Objetivo</strong><span>Procure comandos como “determine o valor”, “qual será”, “calcule”, “em que momento” e “quanto custará”.</span></div>
@@ -143,7 +143,7 @@
     </article>
 
     <article class="functions-section" id="pensar-funcoes">
-      <h3>🧭 Como pensar durante uma questão?</h3>
+      <h3>[[mente-icon:info]] Como pensar durante uma questão?</h3>
       <p>Sempre faça este caminho:</p>
       <ol class="functions-checklist">
         <li><strong>Qual situação está sendo apresentada?</strong> Entenda o contexto antes da conta.</li>
@@ -156,7 +156,7 @@
     </article>
 
     <article class="functions-summary">
-      <h3>✅ Resumo</h3>
+      <h3>[[mente-icon:check]] Resumo</h3>
       <p>As questões de Funções do ENEM <strong>não avaliam apenas se você sabe substituir valores em uma fórmula</strong>.</p>
       <p>Elas querem verificar se você consegue:</p>
       <ul>
