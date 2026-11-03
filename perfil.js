@@ -13,35 +13,35 @@
   const OLD_PROFILE_PREFIX = "mente-profile-v1:";
 
   const subjects = [
-    { name: "Geometria", icon: "📐", color: "#FF7A00" },
+    { name: "Geometria", icon: "[[mente-icon:ruler]]", color: "#FF7A00" },
     { name: "Funções", icon: "ƒ", color: "#AB47BC" },
-    { name: "Estatística e Probabilidade", icon: "📊", color: "#16803C" },
-    { name: "Matemática Financeira", icon: "💰", color: "#D9A400" },
-    { name: "Grandezas e Medidas", icon: "📏", color: "#D70101" },
-    { name: "Gráficos e Tabelas", icon: "📈", color: "#0284C7" }
+    { name: "Estatística e Probabilidade", icon: "[[mente-icon:bar-chart]]", color: "#16803C" },
+    { name: "Matemática Financeira", icon: "[[mente-icon:coins]]", color: "#D9A400" },
+    { name: "Grandezas e Medidas", icon: "[[mente-icon:ruler]]", color: "#D70101" },
+    { name: "Gráficos e Tabelas", icon: "[[mente-icon:line-chart]]", color: "#0284C7" }
   ];
 
   const AVATARS = [
-    { id: "brain", emoji: "🧠", label: "Mente", a: "#2E78EF", b: "#173E78" },
-    { id: "rocket", emoji: "🚀", label: "Foguete", a: "#7C3AED", b: "#4F46E5" },
-    { id: "graduate", emoji: "🎓", label: "Formando", a: "#0F766E", b: "#16835B" },
-    { id: "owl", emoji: "🦉", label: "Coruja", a: "#B45309", b: "#F59E0B" },
-    { id: "star", emoji: "⭐", label: "Estrela", a: "#C2410C", b: "#F7B32B" },
-    { id: "target", emoji: "🎯", label: "Na mira", a: "#BE185D", b: "#DB2777" },
-    { id: "chart", emoji: "📈", label: "Evolução", a: "#0284C7", b: "#315B9D" },
-    { id: "geometry", emoji: "📐", label: "Geometria", a: "#FF7A00", b: "#D95D00" },
-    { id: "calculator", emoji: "🧮", label: "Calculadora", a: "#9D4EDD", b: "#6F2FCF" },
-    { id: "lightning", emoji: "⚡", label: "Raio", a: "#F59E0B", b: "#D97706" },
-    { id: "diamond", emoji: "💎", label: "Diamante", a: "#0891B2", b: "#2563EB" },
-    { id: "crown", emoji: "👑", label: "Coroa", a: "#946C00", b: "#F2C94C" }
+    { id: "brain", emoji: "[[mente-icon:brain]]", label: "Mente", a: "#2E78EF", b: "#173E78" },
+    { id: "rocket", emoji: "[[mente-icon:zap]]", label: "Foguete", a: "#7C3AED", b: "#4F46E5" },
+    { id: "graduate", emoji: "[[mente-icon:graduation]]", label: "Formando", a: "#0F766E", b: "#16835B" },
+    { id: "owl", emoji: "[[mente-icon:bird]]", label: "Coruja", a: "#B45309", b: "#F59E0B" },
+    { id: "star", emoji: "[[mente-icon:star]]", label: "Estrela", a: "#C2410C", b: "#F7B32B" },
+    { id: "target", emoji: "[[mente-icon:target]]", label: "Na mira", a: "#BE185D", b: "#DB2777" },
+    { id: "chart", emoji: "[[mente-icon:line-chart]]", label: "Evolução", a: "#0284C7", b: "#315B9D" },
+    { id: "geometry", emoji: "[[mente-icon:ruler]]", label: "Geometria", a: "#FF7A00", b: "#D95D00" },
+    { id: "calculator", emoji: "[[mente-icon:calculator]]", label: "Calculadora", a: "#9D4EDD", b: "#6F2FCF" },
+    { id: "lightning", emoji: "[[mente-icon:zap]]", label: "Raio", a: "#F59E0B", b: "#D97706" },
+    { id: "diamond", emoji: "[[mente-icon:gem]]", label: "Diamante", a: "#0891B2", b: "#2563EB" },
+    { id: "crown", emoji: "[[mente-icon:crown]]", label: "Coroa", a: "#946C00", b: "#F2C94C" }
   ];
 
   const FALLBACK_MEDALS = [
-    { id: 1, nome: "Primeiro Acerto", descricao: "Acertou sua primeira questão.", icone: "🎯", requisito_tipo: "primeiro_acerto", requisito_valor: 1 },
-    { id: 2, nome: "Embalado", descricao: "Alcançou 10 respostas corretas.", icone: "🔥", requisito_tipo: "acertos", requisito_valor: 10 },
-    { id: 3, nome: "Mestre do ENEM", descricao: "Alcançou 50 respostas corretas.", icone: "🏆", requisito_tipo: "acertos", requisito_valor: 50 },
-    { id: 4, nome: "100 XP", descricao: "Conquistou 100 pontos de experiência.", icone: "⭐", requisito_tipo: "xp", requisito_valor: 100 },
-    { id: 5, nome: "500 XP", descricao: "Conquistou 500 pontos de experiência.", icone: "💎", requisito_tipo: "xp", requisito_valor: 500 }
+    { id: 1, nome: "Primeiro Acerto", descricao: "Acertou sua primeira questão.", icone: "[[mente-icon:target]]", requisito_tipo: "primeiro_acerto", requisito_valor: 1 },
+    { id: 2, nome: "Embalado", descricao: "Alcançou 10 respostas corretas.", icone: "[[mente-icon:flame]]", requisito_tipo: "acertos", requisito_valor: 10 },
+    { id: 3, nome: "Mestre do ENEM", descricao: "Alcançou 50 respostas corretas.", icone: "[[mente-icon:trophy]]", requisito_tipo: "acertos", requisito_valor: 50 },
+    { id: 4, nome: "100 XP", descricao: "Conquistou 100 pontos de experiência.", icone: "[[mente-icon:star]]", requisito_tipo: "xp", requisito_valor: 100 },
+    { id: 5, nome: "500 XP", descricao: "Conquistou 500 pontos de experiência.", icone: "[[mente-icon:gem]]", requisito_tipo: "xp", requisito_valor: 500 }
   ];
 
   const modules = window.MENTE_FINAL_MODULES || {};
@@ -245,7 +245,7 @@
     return medals.map((medal) => {
       const progress = medalProgress(medal, snapshot);
       return `<article class="profile-medal ${progress.unlocked ? "is-unlocked" : "is-locked"}">
-        <div class="profile-medal__seal"><span>${progress.unlocked ? esc(medal.icone || "🏅") : "🔒"}</span></div>
+        <div class="profile-medal__seal"><span>${progress.unlocked ? esc(medal.icone || "[[mente-icon:medal]]") : "[[mente-icon:lock]]"}</span></div>
         <div class="profile-medal__body">
           <div class="profile-medal__top"><strong>${esc(medal.nome)}</strong><span>${progress.unlocked ? "Conquistado" : `${progress.pct}%`}</span></div>
           <p>${esc(medal.descricao)}</p>
@@ -258,7 +258,7 @@
 
   function connectionCard() {
     if (remote.connected) {
-      return `<div class="profile-sync__icon">☁</div><strong>Perfil sincronizado</strong><p>Seu nível, XP, pontos, sequência, respostas e emblemas são carregados do Supabase M.E.N.T.E 2.</p><small>Sincronização online ativa</small>`;
+      return `<div class="profile-sync__icon">[[mente-icon:cloud]]</div><strong>Perfil sincronizado</strong><p>Seu nível, XP, pontos, sequência, respostas e emblemas são carregados do Supabase M.E.N.T.E 2.</p><small>Sincronização online ativa</small>`;
     }
     return `<div class="profile-sync__icon">◌</div><strong>Modo local</strong><p>O perfil continua funcionando neste dispositivo. Assim que o banco responder, os dados online são carregados automaticamente.</p><small>Dados locais disponíveis</small>`;
   }
@@ -304,9 +304,9 @@
               <p class="profile-email">${esc(user.email || "E-mail não informado")}</p>
               ${profile.bio ? `<p class="profile-bio">“${esc(profile.bio)}”</p>` : ""}
               <div class="profile-tags">
-                <span class="profile-tag">🎓 ${esc(gradeLabel(profile.grade))}</span>
-                ${profile.focus ? `<span class="profile-tag">🎯 Foco: ${esc(profile.focus)}</span>` : `<span class="profile-tag">🧭 Foco automático</span>`}
-                <span class="profile-tag">🔥 ${snapshot.streak} ${snapshot.streak === 1 ? "dia" : "dias"}</span>
+                <span class="profile-tag">[[mente-icon:graduation]] ${esc(gradeLabel(profile.grade))}</span>
+                ${profile.focus ? `<span class="profile-tag">[[mente-icon:target]] Foco: ${esc(profile.focus)}</span>` : `<span class="profile-tag">[[mente-icon:info]] Foco automático</span>`}
+                <span class="profile-tag">[[mente-icon:flame]] ${snapshot.streak} ${snapshot.streak === 1 ? "dia" : "dias"}</span>
               </div>
             </div>
             <button class="profile-edit-button" type="button" id="profile-edit">✦ Personalizar perfil</button>
@@ -317,7 +317,7 @@
             <div class="profile-level-card__title">${esc(levelTitle(snapshot.level))}</div>
             <div class="profile-level-track"><span style="width:${xpPct}%"></span></div>
             <div class="profile-level-card__foot"><span>${xpIntoLevel}/100 XP</span><span>Próximo nível →</span></div>
-            <div class="profile-level-perks"><span>🪙 ${snapshot.coins} moedas</span><span>🏅 ${unlockedCount} emblemas</span></div>
+            <div class="profile-level-perks"><span>[[mente-icon:info]] ${snapshot.coins} moedas</span><span>[[mente-icon:medal]] ${unlockedCount} emblemas</span></div>
           </aside>
         </section>
 
@@ -375,22 +375,22 @@
         </section>
 
         <section class="profile-summary" aria-label="Resumo do perfil">
-          <article class="profile-stat"><div class="profile-stat__icon">⭐</div><strong>${snapshot.points}</strong><span>pontos acumulados</span></article>
-          <article class="profile-stat"><div class="profile-stat__icon">⚡</div><strong>${snapshot.xp}</strong><span>XP total</span></article>
+          <article class="profile-stat"><div class="profile-stat__icon">[[mente-icon:star]]</div><strong>${snapshot.points}</strong><span>pontos acumulados</span></article>
+          <article class="profile-stat"><div class="profile-stat__icon">[[mente-icon:zap]]</div><strong>${snapshot.xp}</strong><span>XP total</span></article>
           <article class="profile-stat"><div class="profile-stat__icon">✓</div><strong>${snapshot.total}</strong><span>questões respondidas</span></article>
-          <article class="profile-stat"><div class="profile-stat__icon">🎯</div><strong>${snapshot.total ? `${snapshot.accuracy}%` : "—"}</strong><span>taxa geral de acertos</span></article>
-          <article class="profile-stat"><div class="profile-stat__icon">🔥</div><strong>${snapshot.streak}</strong><span>${snapshot.streak === 1 ? "dia de sequência" : "dias de sequência"}</span></article>
+          <article class="profile-stat"><div class="profile-stat__icon">[[mente-icon:target]]</div><strong>${snapshot.total ? `${snapshot.accuracy}%` : "—"}</strong><span>taxa geral de acertos</span></article>
+          <article class="profile-stat"><div class="profile-stat__icon">[[mente-icon:flame]]</div><strong>${snapshot.streak}</strong><span>${snapshot.streak === 1 ? "dia de sequência" : "dias de sequência"}</span></article>
         </section>
 
         <section class="profile-showcase">
           <article class="profile-panel profile-medals-panel">
-            <div class="profile-panel__head"><div><h3>🏅 Mural de emblemas</h3><p>Conquistas oficiais do M.E.N.T.E, com progresso até o próximo desbloqueio.</p></div><span class="profile-panel__link">${unlockedCount}/${(remote.medals || FALLBACK_MEDALS).length} conquistados</span></div>
+            <div class="profile-panel__head"><div><h3>[[mente-icon:medal]] Mural de emblemas</h3><p>Conquistas oficiais do M.E.N.T.E, com progresso até o próximo desbloqueio.</p></div><span class="profile-panel__link">${unlockedCount}/${(remote.medals || FALLBACK_MEDALS).length} conquistados</span></div>
             <div class="profile-medal-grid">${renderMedals(snapshot)}</div>
           </article>
           <aside class="profile-next-achievement">
             <span class="profile-next-achievement__spark">✦</span>
             <small>Próxima conquista</small>
-            ${next ? `<strong>${esc(next.medal.icone || "🏅")} ${esc(next.medal.nome)}</strong><p>${esc(next.medal.descricao)}</p><div class="profile-next-track"><span style="width:${next.progress.pct}%"></span></div><b>${next.progress.pct}% concluído</b>` : `<strong>🏆 Coleção completa!</strong><p>Você desbloqueou todos os emblemas disponíveis até agora.</p><b>Continue estudando — novos emblemas podem chegar.</b>`}
+            ${next ? `<strong>${esc(next.medal.icone || "[[mente-icon:medal]]")} ${esc(next.medal.nome)}</strong><p>${esc(next.medal.descricao)}</p><div class="profile-next-track"><span style="width:${next.progress.pct}%"></span></div><b>${next.progress.pct}% concluído</b>` : `<strong>[[mente-icon:trophy]] Coleção completa!</strong><p>Você desbloqueou todos os emblemas disponíveis até agora.</p><b>Continue estudando — novos emblemas podem chegar.</b>`}
           </aside>
         </section>
 
@@ -405,7 +405,7 @@
 
             <article class="profile-panel">
               <div class="profile-panel__head"><div><h3>Atividade recente</h3><p>Suas últimas questões registradas.</p></div></div>
-              ${recent.length ? `<div class="activity-list">${recent.map(({ question, answer }) => `<div class="activity-item"><div class="activity-item__icon">${answer.correct ? "✅" : "↻"}</div><div><strong>${esc(question.category)} · Questão ${esc(question.examNumber || question.id)}</strong><span>${answer.correct ? "Resposta correta" : "Questão respondida · vale revisar"}</span></div><time>${formatDate(answer.answeredAt)}</time></div>`).join("")}</div>` : `<div class="profile-empty">Quando você responder questões, suas atividades mais recentes vão aparecer aqui.<br><a class="profile-panel__link" href="questoes.html">Resolver uma questão →</a></div>`}
+              ${recent.length ? `<div class="activity-list">${recent.map(({ question, answer }) => `<div class="activity-item"><div class="activity-item__icon">${answer.correct ? "[[mente-icon:check]]" : "↻"}</div><div><strong>${esc(question.category)} · Questão ${esc(question.examNumber || question.id)}</strong><span>${answer.correct ? "Resposta correta" : "Questão respondida · vale revisar"}</span></div><time>${formatDate(answer.answeredAt)}</time></div>`).join("")}</div>` : `<div class="profile-empty">Quando você responder questões, suas atividades mais recentes vão aparecer aqui.<br><a class="profile-panel__link" href="questoes.html">Resolver uma questão →</a></div>`}
             </article>
           </div>
 
@@ -413,15 +413,15 @@
             <article class="profile-goal">
               <div class="profile-goal__top"><strong>Meta desta semana</strong><span>${snapshot.weekly}/${profile.weeklyGoal} questões</span></div>
               <div class="profile-progress"><span style="width:${weeklyPct}%"></span></div>
-              <p>${snapshot.weekly >= profile.weeklyGoal ? "Meta cumprida 🎉 Você pode aumentar a meta no seu perfil quando quiser." : `Faltam ${Math.max(0, profile.weeklyGoal - snapshot.weekly)} questões para concluir sua meta semanal.`}</p>
+              <p>${snapshot.weekly >= profile.weeklyGoal ? "Meta cumprida [[mente-icon:award]] Você pode aumentar a meta no seu perfil quando quiser." : `Faltam ${Math.max(0, profile.weeklyGoal - snapshot.weekly)} questões para concluir sua meta semanal.`}</p>
             </article>
 
             <article class="profile-panel">
               <div class="profile-panel__head"><div><h3>Seu objetivo</h3><p>Preferências que orientam sua rotina no M.E.N.T.E.</p></div></div>
               <div class="activity-list">
-                <div class="activity-item"><div class="activity-item__icon">🎯</div><div><strong>Meta de acertos</strong><span>${profile.targetAccuracy}% de aproveitamento</span></div></div>
-                <div class="activity-item"><div class="activity-item__icon">📚</div><div><strong>Prioridade</strong><span>${esc(profile.focus || "Automática pelo desempenho")}</span></div></div>
-                <div class="activity-item"><div class="activity-item__icon">🏆</div><div><strong>Melhor matéria atual</strong><span>${strongest ? `${esc(strongest.name)} · ${strongest.accuracy}%` : "Responda questões para descobrir"}</span></div></div>
+                <div class="activity-item"><div class="activity-item__icon">[[mente-icon:target]]</div><div><strong>Meta de acertos</strong><span>${profile.targetAccuracy}% de aproveitamento</span></div></div>
+                <div class="activity-item"><div class="activity-item__icon">[[mente-icon:book]]</div><div><strong>Prioridade</strong><span>${esc(profile.focus || "Automática pelo desempenho")}</span></div></div>
+                <div class="activity-item"><div class="activity-item__icon">[[mente-icon:trophy]]</div><div><strong>Melhor matéria atual</strong><span>${strongest ? `${esc(strongest.name)} · ${strongest.accuracy}%` : "Responda questões para descobrir"}</span></div></div>
               </div>
             </article>
 

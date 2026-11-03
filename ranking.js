@@ -6,7 +6,7 @@
   if (!root) return;
 
   const state={client:null,user:null,rows:[],loading:false,error:null};
-  const PRESET_AVATARS={brain:"🧠",rocket:"🚀",graduate:"🎓",owl:"🦉",star:"⭐",target:"🎯",chart:"📈",geometry:"📐",calculator:"🧮",lightning:"⚡",diamond:"💎",crown:"👑"};
+  const PRESET_AVATARS={brain:"[[mente-icon:brain]]",rocket:"[[mente-icon:zap]]",graduate:"[[mente-icon:graduation]]",owl:"[[mente-icon:bird]]",star:"[[mente-icon:star]]",target:"[[mente-icon:target]]",chart:"[[mente-icon:line-chart]]",geometry:"[[mente-icon:ruler]]",calculator:"[[mente-icon:calculator]]",lightning:"[[mente-icon:zap]]",diamond:"[[mente-icon:gem]]",crown:"[[mente-icon:crown]]"};
   const esc=(value)=>String(value??"").replace(/[&<>"']/g,(c)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const isPlus=()=>Boolean(window.MENTE_PLUS?.isActive?.());
   const displayName=(row)=>{

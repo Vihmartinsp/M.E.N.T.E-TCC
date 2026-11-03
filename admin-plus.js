@@ -30,7 +30,7 @@
     const intro = team.querySelector(".admin-intro p");
     if (intro) intro.textContent = "Como Super Admin, você pode transformar contas em aluno ou administrador sem alterar o código.";
     const explainer = team.querySelector(".role-explainer");
-    if (explainer) explainer.innerHTML = '<div><strong>👨‍🎓 Aluno</strong><span>Usa a plataforma e acompanha o próprio progresso.</span></div><div><strong>◆ Admin</strong><span>Gerencia questões e acompanha os dados da plataforma.</span></div><div><strong>👑 Super Admin</strong><span>Controle total, planos e gerenciamento da equipe.</span></div>';
+    if (explainer) explainer.innerHTML = '<div><strong>[[mente-icon:graduation]] Aluno</strong><span>Usa a plataforma e acompanha o próprio progresso.</span></div><div><strong>◆ Admin</strong><span>Gerencia questões e acompanha os dados da plataforma.</span></div><div><strong>[[mente-icon:crown]] Super Admin</strong><span>Controle total, planos e gerenciamento da equipe.</span></div>';
   }
 
   function scheduleRoleCleanup() {
@@ -72,10 +72,10 @@
         <article class="admin-plus-card"><small>Plus por mérito</small><strong>${merit}</strong><span>alunos que já alcançaram um marco</span></article>
         <article class="admin-plus-card"><small>Expiram em até 7 dias</small><strong>${expiring}</strong><span>acessos próximos do fim</span></article>
       </div>
-      <div class="admin-plus-note">🏆 Mérito automático: 7 dias + 100 pontos = 3 dias Plus; 14 dias + 250 pontos = +7 dias; 30 dias + 500 pontos = +15 dias. As recompensas são liberadas pelo banco e não precisam de aprovação manual.</div>
+      <div class="admin-plus-note">[[mente-icon:trophy]] Mérito automático: 7 dias + 100 pontos = 3 dias Plus; 14 dias + 250 pontos = +7 dias; 30 dias + 500 pontos = +15 dias. As recompensas são liberadas pelo banco e não precisam de aprovação manual.</div>
       <article class="admin-panel admin-table-panel"><div class="admin-panel__head"><div><span>Controle de planos</span><h3>Usuários</h3></div><strong>${profiles.length} conta(s)</strong></div><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Pessoa</th><th>Plano</th><th>Origem</th><th>Mérito</th><th>Progresso</th><th>Expira em</th><th>Alterar plano</th></tr></thead><tbody>${profiles.map((p) => {
         const plusOn = activePlus(p);
-        return `<tr><td><div class="admin-person"><span class="admin-person__avatar">${esc((p.nome || p.email || "A").slice(0,1).toUpperCase())}</span><div><strong>${esc(p.nome || "Aluno")}</strong><span>${esc(p.email || "—")}</span></div></div></td><td><span class="admin-plan-chip ${plusOn ? "admin-plan-chip--plus" : "admin-plan-chip--free"}">${plusOn ? "★ Plus" : "Convencional"}</span></td><td><span class="admin-origin">${esc(originLabel(p))}</span></td><td>${Number(p.plus_merito_nivel || 0)}/3</td><td>🔥 ${Number(p.sequencia || 0)} dias · ⭐ ${Number(p.pontos || 0)} pts</td><td>${fmt(p.plus_expira_em)}</td><td>${currentRole === "super_admin" ? `<select class="admin-plan-select" data-plan-user="${p.id}"><option value="convencional" ${plusOn ? "" : "selected"}>Convencional</option><option value="plus30" ${plusOn ? "selected" : ""}>Plus · 30 dias</option><option value="plus90">Plus · 90 dias</option></select>` : "Somente Super Admin"}</td></tr>`;
+        return `<tr><td><div class="admin-person"><span class="admin-person__avatar">${esc((p.nome || p.email || "A").slice(0,1).toUpperCase())}</span><div><strong>${esc(p.nome || "Aluno")}</strong><span>${esc(p.email || "—")}</span></div></div></td><td><span class="admin-plan-chip ${plusOn ? "admin-plan-chip--plus" : "admin-plan-chip--free"}">${plusOn ? "★ Plus" : "Convencional"}</span></td><td><span class="admin-origin">${esc(originLabel(p))}</span></td><td>${Number(p.plus_merito_nivel || 0)}/3</td><td>[[mente-icon:flame]] ${Number(p.sequencia || 0)} dias · [[mente-icon:star]] ${Number(p.pontos || 0)} pts</td><td>${fmt(p.plus_expira_em)}</td><td>${currentRole === "super_admin" ? `<select class="admin-plan-select" data-plan-user="${p.id}"><option value="convencional" ${plusOn ? "" : "selected"}>Convencional</option><option value="plus30" ${plusOn ? "selected" : ""}>Plus · 30 dias</option><option value="plus90">Plus · 90 dias</option></select>` : "Somente Super Admin"}</td></tr>`;
       }).join("")}</tbody></table></div></article>`;
   }
 

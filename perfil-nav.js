@@ -4,7 +4,7 @@
   const USER_KEY = "mente-demo-user";
   const PROFILE_PREFIX = "mente-profile-v2:";
   const avatarEmoji = {
-    brain:"🧠",rocket:"🚀",graduate:"🎓",owl:"🦉",star:"⭐",target:"🎯",chart:"📈",geometry:"📐",calculator:"🧮",lightning:"⚡",diamond:"💎",crown:"👑"
+    brain:"[[mente-icon:brain]]",rocket:"[[mente-icon:zap]]",graduate:"[[mente-icon:graduation]]",owl:"[[mente-icon:bird]]",star:"[[mente-icon:star]]",target:"[[mente-icon:target]]",chart:"[[mente-icon:line-chart]]",geometry:"[[mente-icon:ruler]]",calculator:"[[mente-icon:calculator]]",lightning:"[[mente-icon:zap]]",diamond:"[[mente-icon:gem]]",crown:"[[mente-icon:crown]]"
   };
   const avatarGradient = {
     brain:["#2E78EF","#173E78"],rocket:["#7C3AED","#4F46E5"],graduate:["#0F766E","#16835B"],owl:["#B45309","#F59E0B"],star:["#C2410C","#F7B32B"],target:["#BE185D","#DB2777"],chart:["#0284C7","#315B9D"],geometry:["#FF7A00","#D95D00"],calculator:["#9D4EDD","#6F2FCF"],lightning:["#F59E0B","#D97706"],diamond:["#0891B2","#2563EB"],crown:["#946C00","#F2C94C"]

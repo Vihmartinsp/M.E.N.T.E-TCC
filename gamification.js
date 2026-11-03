@@ -27,7 +27,7 @@
       .mente-account-menu button{color:#b42318}
       .mente-streak{display:inline-flex;align-items:center;gap:5px;margin-left:8px;padding:6px 9px;border:1px solid #e8edf4;border-radius:999px;background:#fff;color:#4b5f7c;font-size:11px;font-weight:800;white-space:nowrap}
       .question-card.is-guest-locked{position:relative;overflow:hidden}
-      .question-card.is-guest-locked::after{content:"🔒 Crie sua conta para desbloquear";position:absolute;inset:auto 12px 12px 12px;padding:9px 11px;border-radius:9px;background:rgba(20,37,63,.94);color:#fff;font-size:11px;font-weight:800;text-align:center;pointer-events:none}
+      .question-card.is-guest-locked::after{content:"Crie sua conta para desbloquear";position:absolute;inset:auto 12px 12px 12px;padding:9px 11px;border-radius:9px;background:rgba(20,37,63,.94);color:#fff;font-size:11px;font-weight:800;text-align:center;pointer-events:none}
       .question-card.is-guest-locked .question-card__footer button{opacity:.35}
       .mente-review-state{display:inline-flex;align-items:center;gap:5px;margin:8px 0 0;padding:5px 8px;border-radius:999px;background:#fff7ed;color:#9a4b00;font-size:10px;font-weight:800}
       .mente-gate{max-width:650px;margin:42px auto;padding:34px;border:1px solid #dfe7f1;border-radius:22px;background:#fff;box-shadow:0 18px 44px rgba(31,50,80,.09);text-align:center}
@@ -67,7 +67,7 @@
       if (score) score.after(badge); else actions.prepend(badge);
     }
     const n = Math.max(0, Number(sequence) || 0);
-    badge.textContent = `🔥 ${n} ${n === 1 ? "dia" : "dias"}`;
+    badge.textContent = `[[mente-icon:flame]] ${n} ${n === 1 ? "dia" : "dias"}`;
     badge.title = "Sequência diária de acesso";
   }
 
@@ -91,7 +91,7 @@
     menu.hidden = true;
     menu.innerHTML = `
       <a href="./desempenho.html" role="menuitem"><span>◉</span> Acessar perfil</a>
-      <button type="button" data-mente-logout role="menuitem"><span>↪</span> Sair da conta</button>`;
+      <button type="button" data-mente-logout role="menuitem"><span>[[mente-icon:info]]</span> Sair da conta</button>`;
     button.parentElement?.appendChild(menu);
 
     button.addEventListener("click", (event) => {
@@ -172,9 +172,9 @@
     updatePoints(result.pontos_totais);
     updateStreak(result.sequencia_atual);
     if (result.status === "resgatado") {
-      toast(`🔥 Sequência de ${result.sequencia_atual} dia(s)! +${result.pontos_recebidos} pontos pelo acesso de hoje.`);
+      toast(`[[mente-icon:flame]] Sequência de ${result.sequencia_atual} dia(s)! +${result.pontos_recebidos} pontos pelo acesso de hoje.`);
     } else if (result.status === "conta_nova") {
-      toast("🌱 Conta criada! Você começa com 0 pontos. Volte amanhã para iniciar sua sequência diária.");
+      toast("[[mente-icon:sprout]] Conta criada! Você começa com 0 pontos. Volte amanhã para iniciar sua sequência diária.");
     }
   }
 
@@ -184,7 +184,7 @@
       modal = document.createElement("div");
       modal.id = "mente-guest-interest";
       modal.style.cssText = "position:fixed;inset:0;z-index:2200;background:rgba(15,28,48,.62);display:grid;place-items:center;padding:20px";
-      modal.innerHTML = `<div class="mente-gate" style="margin:0;max-width:540px"><div class="mente-gate__icon">🔒</div><h2>Desbloqueie a experiência completa</h2><p>Como visitante, você pode experimentar as questões de nível 1. Criando uma conta gratuita, você libera todos os níveis, ganha pontos, constrói sequência diária e acompanha seu progresso.</p><div class="mente-gate__actions"><a href="./login.html">Criar conta / Entrar</a><button class="secondary" type="button" data-close>Continuar explorando</button></div></div>`;
+      modal.innerHTML = `<div class="mente-gate" style="margin:0;max-width:540px"><div class="mente-gate__icon">[[mente-icon:lock]]</div><h2>Desbloqueie a experiência completa</h2><p>Como visitante, você pode experimentar as questões de nível 1. Criando uma conta gratuita, você libera todos os níveis, ganha pontos, constrói sequência diária e acompanha seu progresso.</p><div class="mente-gate__actions"><a href="./login.html">Criar conta / Entrar</a><button class="secondary" type="button" data-close>Continuar explorando</button></div></div>`;
       document.body.appendChild(modal);
       modal.querySelector("[data-close]").onclick = () => { modal.style.display = "none"; };
       modal.addEventListener("click", (e) => { if (e.target === modal) modal.style.display = "none"; });
@@ -209,7 +209,7 @@
         if (Number(q.stars || q.nivel || 1) > 1) {
           card.classList.add("is-guest-locked");
           button.dataset.guestLocked = "1";
-          button.innerHTML = "🔒 Desbloquear <span aria-hidden=\"true\">→</span>";
+          button.innerHTML = "[[mente-icon:lock]] Desbloquear <span aria-hidden=\"true\">→</span>";
         }
         return;
       }
@@ -218,10 +218,10 @@
         const state = document.createElement("span");
         state.className = "mente-review-state";
         if (unlockedReviewIds.has(id)) {
-          state.textContent = "🔓 Revisão desbloqueada";
+          state.textContent = "[[mente-icon:lock-open]] Revisão desbloqueada";
           button.innerHTML = "Revisar <span aria-hidden=\"true\">→</span>";
         } else {
-          state.textContent = `🔒 Revisar por ${REVIEW_COST} pts`;
+          state.textContent = `[[mente-icon:lock]] Revisar por ${REVIEW_COST} pts`;
           button.innerHTML = `Revisar · ${REVIEW_COST} pts <span aria-hidden=\"true\">→</span>`;
         }
         card.querySelector(".question-card__footer")?.before(state);
@@ -238,7 +238,7 @@
     if (!q) return;
 
     if (!currentUser && Number(q.stars || q.nivel || 1) > 1) {
-      root.innerHTML = `<section class="mente-gate"><div class="mente-gate__icon">🔒</div><h2>Esta questão é exclusiva para alunos cadastrados</h2><p>Você pode testar gratuitamente as questões de nível 1. Entre ou crie sua conta para liberar os níveis seguintes, pontuação, sequência diária e progresso salvo.</p><div class="mente-gate__actions"><a href="./login.html">Criar conta / Entrar</a><a class="secondary" href="./questoes.html">Voltar às questões</a></div></section>`;
+      root.innerHTML = `<section class="mente-gate"><div class="mente-gate__icon">[[mente-icon:lock]]</div><h2>Esta questão é exclusiva para alunos cadastrados</h2><p>Você pode testar gratuitamente as questões de nível 1. Entre ou crie sua conta para liberar os níveis seguintes, pontuação, sequência diária e progresso salvo.</p><div class="mente-gate__actions"><a href="./login.html">Criar conta / Entrar</a><a class="secondary" href="./questoes.html">Voltar às questões</a></div></section>`;
       return;
     }
 
@@ -249,7 +249,7 @@
     const justAnswered = answeredAt && Date.now() - answeredAt < 2 * 60 * 1000;
     if (justAnswered) return;
 
-    root.innerHTML = `<section class="mente-gate"><div class="mente-gate__icon">🔐</div><h2>Revisão bloqueada</h2><p>Você já resolveu esta questão. Use seus pontos para desbloquear a revisão e consultar novamente a resolução detalhada sempre que quiser.</p><span class="mente-gate__points">⭐ Você tem ${Number(currentProfile?.pontos || 0)} pontos · custo ${REVIEW_COST}</span><div class="mente-gate__actions"><button type="button" data-unlock-review="${id}">Desbloquear revisão por ${REVIEW_COST} pts</button><a class="secondary" href="./questoes.html">Voltar</a></div></section>`;
+    root.innerHTML = `<section class="mente-gate"><div class="mente-gate__icon">[[mente-icon:lock]]</div><h2>Revisão bloqueada</h2><p>Você já resolveu esta questão. Use seus pontos para desbloquear a revisão e consultar novamente a resolução detalhada sempre que quiser.</p><span class="mente-gate__points">[[mente-icon:star]] Você tem ${Number(currentProfile?.pontos || 0)} pontos · custo ${REVIEW_COST}</span><div class="mente-gate__actions"><button type="button" data-unlock-review="${id}">Desbloquear revisão por ${REVIEW_COST} pts</button><a class="secondary" href="./questoes.html">Voltar</a></div></section>`;
   }
 
   async function unlockReview(id, button) {
@@ -267,7 +267,7 @@
       unlockedReviewIds.add(Number(id));
       currentProfile.pontos = result.pontos_restantes;
       updatePoints(result.pontos_restantes);
-      toast(`🔓 Revisão desbloqueada! Restam ${result.pontos_restantes} pontos.`);
+      toast(`[[mente-icon:lock-open]] Revisão desbloqueada! Restam ${result.pontos_restantes} pontos.`);
       location.reload();
       return;
     }
@@ -292,7 +292,7 @@
       stats[3].querySelector("span") && (stats[3].querySelector("span").textContent = "dias na sequência diária");
     }
     const sync = document.querySelector(".profile-sync");
-    if (sync) sync.innerHTML = `<div class="profile-sync__icon">☁</div><strong>Sincronizado com o Supabase</strong><p>Seus pontos, respostas, sequência diária e progresso ficam vinculados à sua conta.</p><small>Salvamento online ativo</small>`;
+    if (sync) sync.innerHTML = `<div class="profile-sync__icon">[[mente-icon:cloud]]</div><strong>Sincronizado com o Supabase</strong><p>Seus pontos, respostas, sequência diária e progresso ficam vinculados à sua conta.</p><small>Salvamento online ativo</small>`;
   }
 
   document.addEventListener("click", async (event) => {

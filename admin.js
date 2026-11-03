@@ -133,7 +133,7 @@
     const name = profile?.nome || state.user?.user_metadata?.name || state.user?.email?.split("@")[0] || "Admin";
     document.querySelector("#admin-name").textContent = name;
     document.querySelector("#admin-avatar").textContent = initials(name);
-    document.querySelector("#admin-role-label").textContent = state.role === "super_admin" ? "👑 Super Admin M.E.N.T.E" : roleNames[state.role] || "Equipe M.E.N.T.E";
+    document.querySelector("#admin-role-label").textContent = state.role === "super_admin" ? "[[mente-icon:crown]] Super Admin M.E.N.T.E" : roleNames[state.role] || "Equipe M.E.N.T.E";
   }
 
   function renderSummary() {
@@ -145,11 +145,11 @@
     const activeToday = students.filter((profile) => isToday(profile.ultimo_acesso)).length;
     const points = students.reduce((sum, profile) => sum + Number(profile.pontos || 0), 0);
     const cards = [
-      ["👨‍🎓", students.length, "alunos cadastrados"],
+      ["[[mente-icon:graduation]]", students.length, "alunos cadastrados"],
       ["✓", totalResponses, "respostas registradas"],
-      ["🎯", `${accuracy}%`, "taxa geral de acertos"],
+      ["[[mente-icon:target]]", `${accuracy}%`, "taxa geral de acertos"],
       ["●", activeToday, "alunos ativos hoje"],
-      ["⭐", points, "pontos em circulação"],
+      ["[[mente-icon:star]]", points, "pontos em circulação"],
     ];
     document.querySelector("#admin-summary").innerHTML = cards.map(([icon, value, label]) => `<article class="admin-stat"><div class="admin-stat__icon">${icon}</div><strong>${esc(value)}</strong><span>${esc(label)}</span></article>`).join("");
   }
@@ -242,7 +242,7 @@
     const ranking = [...students].sort((a, b) => Number(b.xp || 0) - Number(a.xp || 0)).slice(0, 5);
     const streaks = [...students].sort((a, b) => Number(b.sequencia || 0) - Number(a.sequencia || 0)).slice(0, 5);
     document.querySelector("#admin-ranking").innerHTML = ranking.length ? `<div class="admin-rank-list">${ranking.map((row, index) => `<div class="admin-rank-row"><span class="admin-rank-row__pos">${index + 1}</span><div><strong>${esc(row.nome || row.email || "Aluno")}</strong><span>${row.responses} questões · ${row.accuracy}% acertos</span></div><em>${Number(row.xp || 0)} XP</em></div>`).join("")}</div>` : '<div class="admin-empty">Ainda não há alunos no ranking.</div>';
-    document.querySelector("#admin-streaks").innerHTML = streaks.length ? `<div class="admin-streak-list">${streaks.map((row) => `<div class="admin-streak-row"><span class="admin-rank-row__pos">🔥</span><div><strong>${esc(row.nome || row.email || "Aluno")}</strong><span>${Number(row.pontos || 0)} pontos disponíveis</span></div><em>${Number(row.sequencia || 0)} dia(s)</em></div>`).join("")}</div>` : '<div class="admin-empty">As sequências dos alunos aparecerão aqui.</div>';
+    document.querySelector("#admin-streaks").innerHTML = streaks.length ? `<div class="admin-streak-list">${streaks.map((row) => `<div class="admin-streak-row"><span class="admin-rank-row__pos">[[mente-icon:flame]]</span><div><strong>${esc(row.nome || row.email || "Aluno")}</strong><span>${Number(row.pontos || 0)} pontos disponíveis</span></div><em>${Number(row.sequencia || 0)} dia(s)</em></div>`).join("")}</div>` : '<div class="admin-empty">As sequências dos alunos aparecerão aqui.</div>';
   }
 
   function roleBadge(role) {
@@ -253,7 +253,7 @@
     const q = filter.trim().toLowerCase();
     const rows = studentSnapshots().filter((item) => (item.role === "aluno" || state.role === "super_admin") && (!q || `${item.nome || ""} ${item.email || ""}`.toLowerCase().includes(q)));
     const body = document.querySelector("#students-table");
-    body.innerHTML = rows.length ? rows.map((row) => `<tr><td><div class="admin-person"><span class="admin-person__avatar">${esc(initials(row.nome || row.email))}</span><div><strong>${esc(row.nome || "Aluno")}</strong><span>${esc(row.email || "E-mail não informado")}</span></div></div></td><td>${roleBadge(row.role)}</td><td>${row.responses}</td><td>${row.correct}</td><td>${row.responses ? `${row.accuracy}%` : "—"}</td><td>${Number(row.xp || 0)}</td><td>${Number(row.pontos || 0)}</td><td>🔥 ${Number(row.sequencia || 0)}</td><td>${formatDate(row.ultimo_acesso)}</td></tr>`).join("") : '<tr><td colspan="9"><div class="admin-empty">Nenhuma conta encontrada.</div></td></tr>';
+    body.innerHTML = rows.length ? rows.map((row) => `<tr><td><div class="admin-person"><span class="admin-person__avatar">${esc(initials(row.nome || row.email))}</span><div><strong>${esc(row.nome || "Aluno")}</strong><span>${esc(row.email || "E-mail não informado")}</span></div></div></td><td>${roleBadge(row.role)}</td><td>${row.responses}</td><td>${row.correct}</td><td>${row.responses ? `${row.accuracy}%` : "—"}</td><td>${Number(row.xp || 0)}</td><td>${Number(row.pontos || 0)}</td><td>[[mente-icon:flame]] ${Number(row.sequencia || 0)}</td><td>${formatDate(row.ultimo_acesso)}</td></tr>`).join("") : '<tr><td colspan="9"><div class="admin-empty">Nenhuma conta encontrada.</div></td></tr>';
   }
 
   function renderQuestions(filter = "") {
@@ -281,7 +281,7 @@
       const isSelf = profile.id === state.user.id;
       const locked = !canManage || isSelf || role === "super_admin";
       const options = ["aluno", "professor", "admin"];
-      return `<tr><td><div class="admin-person"><span class="admin-person__avatar">${esc(initials(profile.nome || profile.email))}</span><div><strong>${esc(profile.nome || "Usuário")}</strong><span>${isSelf ? "Sua conta" : "Conta cadastrada"}</span></div></div></td><td>${esc(profile.email || "—")}</td><td>${roleBadge(role)}</td><td>${locked ? (isSelf ? '<span class="admin-role admin-role--super_admin">👑 Protegido</span>' : roleBadge(role)) : `<select class="admin-role-select" data-role-user="${profile.id}">${options.map((option) => `<option value="${option}" ${role === option ? "selected" : ""}>${esc(roleNames[option])}</option>`).join("")}</select>`}</td></tr>`;
+      return `<tr><td><div class="admin-person"><span class="admin-person__avatar">${esc(initials(profile.nome || profile.email))}</span><div><strong>${esc(profile.nome || "Usuário")}</strong><span>${isSelf ? "Sua conta" : "Conta cadastrada"}</span></div></div></td><td>${esc(profile.email || "—")}</td><td>${roleBadge(role)}</td><td>${locked ? (isSelf ? '<span class="admin-role admin-role--super_admin">[[mente-icon:crown]] Protegido</span>' : roleBadge(role)) : `<select class="admin-role-select" data-role-user="${profile.id}">${options.map((option) => `<option value="${option}" ${role === option ? "selected" : ""}>${esc(roleNames[option])}</option>`).join("")}</select>`}</td></tr>`;
     }).join("");
   }
 

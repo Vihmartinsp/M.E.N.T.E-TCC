@@ -36,7 +36,7 @@
         const streak = document.querySelector(".mente-streak");
         if (streak) {
           const n = Math.max(0, Number(profile.sequencia) || 0);
-          streak.textContent = `🔥 ${n} ${n === 1 ? "dia" : "dias"}`;
+          streak.textContent = `[[mente-icon:flame]] ${n} ${n === 1 ? "dia" : "dias"}`;
         }
       }
 

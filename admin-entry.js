@@ -38,7 +38,7 @@
   function decorateStaff(role) {
     if (!STAFF_ROLES.has(role)) return;
     const isSuper = role === "super_admin";
-    const roleText = isSuper ? "👑 Super Admin" : "◆ Administrador(a)";
+    const roleText = isSuper ? "[[mente-icon:crown]] Super Admin" : "◆ Administrador(a)";
     const titleText = isSuper ? "Super Admin M.E.N.T.E" : "Administrador(a) M.E.N.T.E";
 
     const copy = document.querySelector(".user-menu__copy");
@@ -56,7 +56,7 @@
       link.setAttribute("role", "menuitem");
       link.dataset.adminEntry = "1";
       link.innerHTML = isSuper
-        ? '<span>👑</span> Painel administrativo'
+        ? '<span>[[mente-icon:crown]]</span> Painel administrativo'
         : '<span>◆</span> Painel administrativo';
       const logout = menu.querySelector("[data-mente-logout]");
       if (logout) menu.insertBefore(link, logout); else menu.appendChild(link);
