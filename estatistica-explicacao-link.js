@@ -11,7 +11,7 @@
       const link = document.createElement("a");
       link.className = "statistics-study-link";
       link.href = href;
-      link.textContent = "📘 Revisar Estatística e Probabilidade";
+      link.textContent = "[[mente-icon:book]] Revisar Estatística e Probabilidade";
       link.setAttribute("aria-label", "Revisar Estatística e Probabilidade");
 
       const footer = card.querySelector(".question-card__footer");
@@ -34,7 +34,7 @@
     const link = document.createElement("a");
     link.className = "statistics-study-link";
     link.href = href;
-    link.textContent = "📘 Revisar Estatística e Probabilidade";
+    link.textContent = "[[mente-icon:book]] Revisar Estatística e Probabilidade";
     link.setAttribute("aria-label", "Revisar Estatística e Probabilidade");
 
     const meta = card.querySelector(".question-detail__meta");

@@ -11,7 +11,7 @@
       const link = document.createElement("a");
       link.className = "function-study-link";
       link.href = href;
-      link.textContent = "📘 Revisar Funções";
+      link.textContent = "[[mente-icon:book]] Revisar Funções";
       link.setAttribute("aria-label", "Revisar Funções");
 
       const footer = card.querySelector(".question-card__footer");
@@ -34,7 +34,7 @@
     const link = document.createElement("a");
     link.className = "function-study-link";
     link.href = href;
-    link.textContent = "📘 Revisar Funções";
+    link.textContent = "[[mente-icon:book]] Revisar Funções";
     link.setAttribute("aria-label", "Revisar Funções");
 
     const meta = card.querySelector(".question-detail__meta");

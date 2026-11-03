@@ -9,7 +9,7 @@
     "Funções": { icon:"ƒ", color:"#7C3AED" },
     "Estatística e Probabilidade": { icon:"Σ", color:"#16803C" },
     "Matemática Financeira": { icon:"%", color:"#B7791F" },
-    "Grandezas e Medidas": { icon:"↔", color:"#C2410C" },
+    "Grandezas e Medidas": { icon:"[[mente-icon:info]]", color:"#C2410C" },
     "Gráficos e Tabelas": { icon:"▥", color:"#0284C7" }
   };
 

@@ -9,7 +9,7 @@
     <section class="functions-guide mente-functions-final" id="funcoes">
       <header class="functions-guide__hero">
         <p class="functions-guide__eyebrow">Explicação completa</p>
-        <h2>🟣 FUNÇÕES</h2>
+        <h2>[[mente-icon:info]] FUNÇÕES</h2>
         <p>Uma função representa uma relação entre duas grandezas. Sempre que uma coisa muda e faz outra mudar também, existe uma função.</p>
         <nav class="functions-guide__toc" aria-label="Tópicos da explicação de Funções">
           <a href="#o-que-sao-funcoes">O que são Funções?</a>

@@ -31,7 +31,7 @@
 
   function normalizeVisibleCopy() {
     document.querySelectorAll('.plus-admin-preview').forEach((el) => {
-      const desired = '👑 Modo administrador: o seletor “Visualizar” aparece apenas para contas administrativas. Use o topo para comparar Convencional e Plus.';
+      const desired = '[[mente-icon:crown]] Modo administrador: o seletor “Visualizar” aparece apenas para contas administrativas. Use o topo para comparar Convencional e Plus.';
       if (el.textContent.trim() !== desired) el.textContent = desired;
     });
 

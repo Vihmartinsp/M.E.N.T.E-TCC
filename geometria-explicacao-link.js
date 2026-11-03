@@ -22,7 +22,7 @@
       const link = document.createElement("a");
       link.className = "geometry-study-link";
       link.href = href;
-      link.textContent = "📘 Revisar Geometria";
+      link.textContent = "[[mente-icon:book]] Revisar Geometria";
       link.setAttribute("aria-label", "Revisar Geometria");
 
       const footer = card.querySelector(".question-card__footer");
@@ -45,7 +45,7 @@
     const link = document.createElement("a");
     link.className = "geometry-study-link";
     link.href = href;
-    link.textContent = "📘 Revisar Geometria";
+    link.textContent = "[[mente-icon:book]] Revisar Geometria";
     link.setAttribute("aria-label", "Revisar Geometria");
 
     const meta = card.querySelector(".question-detail__meta");
