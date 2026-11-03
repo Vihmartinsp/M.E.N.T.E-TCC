@@ -1,7 +1,7 @@
 /* Explicação completa de Estatística e Probabilidade — somente na aba Explicações */
 .statistics-guide{display:grid;gap:22px;max-width:980px;margin:32px auto 0;scroll-margin-top:24px}
 .statistics-guide__hero{position:relative;overflow:hidden;padding:34px;border:1px solid #b9dfbf;border-radius:20px;background:linear-gradient(135deg,#eef9ef 0%,#ffffff 68%);box-shadow:0 16px 34px rgba(15,35,63,.07)}
-.statistics-guide__hero::after{content:"📊";position:absolute;right:28px;top:18px;font-size:76px;opacity:.12;transform:rotate(5deg)}
+.statistics-guide__hero::after{content:"";position:absolute;right:28px;top:18px;width:78px;height:78px;opacity:.20;transform:rotate(5deg);background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'%23173e78'%20stroke-width%3D'1.65'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'M4%2020V10M10%2020V4M16%2020v-8M22%2020v-6M2%2020h20'%2F%3E%3C%2Fsvg%3E");background-repeat:no-repeat;background-size:contain;pointer-events:none}
 .statistics-guide__eyebrow{margin:0 0 8px;color:#004A00;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
 .statistics-guide__hero h2{margin:0 0 10px;color:#16243a;font-size:clamp(28px,4vw,42px)}
 .statistics-guide__hero p{max-width:740px;margin:0;color:#526174;line-height:1.75}
