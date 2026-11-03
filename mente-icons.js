@@ -121,7 +121,7 @@
     "wallet":"Finanças","zap":"Desafio","info":"Informação","bird":"Coruja"
   };
 
-  const emojiPattern = /(?:[\u{1F1E6}-\u{1F1FF}]{2}|[0-9#*]\uFE0F?\u20E3|\p{Extended_Pictographic}[\uFE0E\uFE0F]?\p{Emoji_Modifier}?(?:\u200D\p{Extended_Pictographic}[\uFE0E\uFE0F]?\p{Emoji_Modifier}?)*)/gu;
+  const emojiPattern = /(?:\[\[mente-icon:[a-z-]+\]\]|[\u{1F1E6}-\u{1F1FF}]{2}|[0-9#*]\uFE0F?\u20E3|\p{Extended_Pictographic}[\uFE0E\uFE0F]?\p{Emoji_Modifier}?(?:\u200D\p{Extended_Pictographic}[\uFE0E\uFE0F]?\p{Emoji_Modifier}?)*)/gu;
   const unchanged = new Set(["©", "®", "™"]);
   const skipSelector = "script,style,noscript,textarea,pre,code,svg,math,canvas,[contenteditable],[data-mente-no-icons],.mente-ui-icon";
   const watchedAttributes = ["title","aria-label","placeholder","alt"];
@@ -132,6 +132,8 @@
   }
 
   function iconFor(token) {
+    const marker = token.match(/^\[\[mente-icon:([a-z-]+)\]\]$/);
+    if (marker) return shapes[marker[1]] ? marker[1] : "info";
     const n = normalize(token);
     if (/^[0-9#*]\u20E3$/.test(n)) return "info";
     if (/^[\u{1F1E6}-\u{1F1FF}]{2}$/u.test(n)) return "flag";
