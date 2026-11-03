@@ -23,3 +23,5 @@
 .mente-ui-icon:last-child { margin-right: 0; }
 /* O texto da sobreposição de bloqueio antes era criado como emoji em CSS. */
 .question-card.is-guest-locked::after { content: "Crie sua conta para desbloquear" !important; }
+
+.mente-vector-icon{display:inline-block;vertical-align:-.18em;width:1.15em;height:1.15em;color:inherit;flex-shrink:0}.objective-benefits__icon>.mente-vector-icon{width:32px;height:32px;stroke:#41679d;stroke-width:1.8}.main-objective h3 .mente-vector-icon{width:28px;height:28px;stroke:#41679d}.question-tip .mente-vector-icon{width:15px;height:15px}.prototype-note .mente-vector-icon{width:22px;height:22px}
