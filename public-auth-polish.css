@@ -6,3 +6,9 @@
 .login-main{min-height:calc(100vh - 136px)!important}
 @media(max-width:900px){.login-header{height:118px!important}.login-header .brand{width:270px!important;height:110px!important}.login-header .brand__logo{width:262px!important;height:110px!important;max-height:110px!important}.login-main{min-height:calc(100vh - 118px)!important}}
 @media(max-width:620px){.login-header{height:100px!important;min-height:100px!important;padding:4px 10px!important}.login-header .brand{width:190px!important;height:92px!important}.login-header .brand__logo{width:184px!important;height:92px!important;max-height:92px!important}.login-main{min-height:calc(100vh - 100px)!important}}
+
+/* Cadastro: instruções e mensagens com espaçamento adequado. */
+#register-form .access-form__password-rules { margin: 10px 0 0; color: #53647e; font-size: 12px; line-height: 1.5; }
+#register-form > button[type="submit"] { margin-top: 18px; }
+#register-form > .access-form__hint:not(.access-form__password-rules) { margin: 12px 0 10px; }
+#register-form > .access-form__status { margin-top: 12px; }
